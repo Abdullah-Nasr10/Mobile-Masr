@@ -1,69 +1,40 @@
 .footer {
-    background-color: #032541;
-    padding-block: 50px;
-    margin-top: 30px;
+  font-size: 1.7rem; 
+  color: var(--black-color);
 }
 
-
-.footer .footerLogo {
-    background: linear-gradient(90deg, #8FCDA1 20%, #21B9D6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-    font-weight: 700;
-    letter-spacing: 3px;
-    font-size: 35px;
+.footer h6 {
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
 }
 
-.footer span {
-    display: inline-block;
-    padding-inline: 3px;
+.footer a {
+  text-decoration: none;
+  color: var(--muted-text);
+  font-size: 1.4rem;
 }
 
-.footer .Circle {
-    /* display: inline-block; */
-    height: 25px;
-    border-radius: 25px;
-    background: linear-gradient(90deg, #8FCDA1, #21B9D6);
+.footer a:hover {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--black-color);
 }
 
-.footer .Circle.c1 {
-    width: 50px;
+.footer input {
+  border-radius: 0;
+  font-size: 1.4rem;
 }
 
-.footer .Circle.c2 {
-    width: 25px;
+.footer .btn {
+  border-radius: 0;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
-.footer .Circle.c3 {
-    width: 75px;
+.footer .social-icons a {
+  color: var(--white-color);
+  transition: color 0.3s ease;
+  background-color: var(--black-color);
+  border-radius: 0.5rem;
 }
 
-
-
-
-
-.footer .footerBox ul {
-    margin: 0;
-    padding: 0;
-
-
-    li {
-        margin-bottom: 4px;
-    }
-
-
-    li:hover {
-        color: #21B9D6;
-        cursor: pointer;
-    }
-
-}
-
-.footer .footBoxTitle {
-    color: #21B9D6;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 10px !important;
-}
