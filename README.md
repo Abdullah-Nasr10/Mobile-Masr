@@ -1,4 +1,4 @@
-# React Team Project 🚀
+# Final Project 🚀
 
 ## 👥 Team Members
 
@@ -22,8 +22,8 @@ The repo is organized so that each team member can contribute without conflicts.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/USERNAME/react-team-project.git
-   cd react-team-project
+   git clone https://github.com/Abdullah-Nasr10/Final-Project.git
+   cd Final-Project
    ```
 
 2. Install dependencies:
@@ -35,6 +35,7 @@ The repo is organized so that each team member can contribute without conflicts.
 3. Start the development server:
    ```bash
    npm start
+   npm run dev
    ```
 
 ---
@@ -97,7 +98,7 @@ git checkout -b abd-navbar
 - Use your **3-letter prefix** for any variable, function, or CSS class.
   - Example:
     - CSS: `.abd-navbar`, `.mos-footer`
-    - JS: `abd_handleLogin()`, `geh_isValid()`
+    - JS: `abd_handleLogin()`, `geh_isValid()`,`mosAddCounter`
 
 ---
 
