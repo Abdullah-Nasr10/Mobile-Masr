@@ -1,40 +1,40 @@
-.footer {
+.mos-footer {
   font-size: 1.7rem; 
   color: var(--black-color);
 }
 
-.footer h6 {
+.mos-footer h6 {
   margin-bottom: 1.5rem;
   font-size: 1.4rem;
 }
 
-.footer a {
+.mos-footer a {
   text-decoration: none;
   color: var(--muted-text);
   font-size: 1.4rem;
 }
 
-.footer a:hover {
+.mos-footer a:hover {
   text-decoration: none;
   cursor: pointer;
   color: var(--black-color);
 }
 
-.footer input {
+.mos-footer input {
   border-radius: 0;
   font-size: 1.4rem;
 }
 
-.footer .btn {
+.mos-footer .btn {
   border-radius: 0;
   font-weight: bold;
   font-size: 1.5rem;
 }
 
-.footer .social-icons a {
-  color: var(--white-color);
+.mos-footer .social-icons a {
+  color: var(--black-color);
   transition: color 0.3s ease;
-  background-color: var(--black-color);
+  /* background-color: var(--black-color); */
   border-radius: 0.5rem;
 }
 

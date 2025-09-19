@@ -3,7 +3,7 @@ import { FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="footer bg-light pt-5">
+    <footer className="mos-footer bg-light pt-5">
       <div className="container">
         <div className="row">
           
