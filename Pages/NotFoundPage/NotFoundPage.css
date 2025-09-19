@@ -1,0 +1,10 @@
+.pageNotFound {
+    flex-direction: column;
+    padding-block: 50px;
+
+    div {
+        font-size: 40px;
+        font-weight: 600;
+        color: #21B9D6;
+    }
+}
