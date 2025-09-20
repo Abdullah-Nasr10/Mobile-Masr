@@ -1,7 +1,10 @@
+import React from "react";
 import "./Home.css";
+import { products } from "../../components/ApiProducts/Apiproducts.js";
+import ProductsSlider from "../../components/ProductsSlider/ProductsSlider.jsx";
 
-function heb_CategoriesGrid() {
-  const items = [
+function Home() {
+    const items = [
     {
       id: 1,
       title: "Mobile Phone",
@@ -39,7 +42,11 @@ function heb_CategoriesGrid() {
       href: "https://example.com/laptop",
     },
   ];
+  const geh_newProducts = products.filter((p) => p.status === "New");
+  const geh_usedProducts = products.filter((p) => p.status === "Used");
+
   return (
+    <>
     <div>
       <div className="heb-categories-container">
         {items.map((it) => (
@@ -57,8 +64,14 @@ function heb_CategoriesGrid() {
           </a>
         ))}
       </div>
+    {/* ================================*/}
+    <div className="container mt-5">
+      <ProductsSlider title="All Products" products={products} />
+      <ProductsSlider title="New Products" products={geh_newProducts} />
+      <ProductsSlider title="Used Products" products={geh_usedProducts} />
     </div>
+ </>
   );
 }
 
-export default heb_CategoriesGrid;
+export default Home;
