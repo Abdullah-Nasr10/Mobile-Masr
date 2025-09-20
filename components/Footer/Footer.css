@@ -31,7 +31,7 @@
   font-size: 1.5rem;
 }
 
-.mos-footer .social-icons a {
+.mos-footer .mos-social-icons a {
   color: var(--black-color);
   transition: color 0.3s ease;
   /* background-color: var(--black-color); */

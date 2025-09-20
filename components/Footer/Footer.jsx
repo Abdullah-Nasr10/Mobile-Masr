@@ -93,7 +93,7 @@ function Footer() {
       <button className="btn btn-dark">→</button>
     </div>
   </div>
-  <div className="d-flex mt-3 social-icons">
+  <div className="d-flex mt-3 mos-social-icons">
     <a href="#" className="me-4"><FaFacebookF size="2.5rem" /></a>
     <a href="#" className="me-4"><FaWhatsapp size="2.5rem" /></a>
     <a href="#"><FaInstagram size="2.5rem" /></a>

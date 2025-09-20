@@ -2,6 +2,7 @@ import React from "react";
 import "./Home.css";
 import { products } from "../../components/ApiProducts/Apiproducts.js";
 import ProductsSlider from "../../components/ProductsSlider/ProductsSlider.jsx";
+import CustomerSectionhome from "../../components/CustomerSectionHome/CustomerSectionHome.jsx";
 
 function Home() {
   
@@ -13,6 +14,8 @@ function Home() {
       <ProductsSlider title="All Products" products={products} />
       <ProductsSlider title="New Products" products={geh_newProducts} />
       <ProductsSlider title="Used Products" products={geh_usedProducts} />
+
+      <CustomerSectionhome />
     </div>
   );
 }
