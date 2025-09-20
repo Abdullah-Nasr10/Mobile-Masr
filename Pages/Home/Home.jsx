@@ -4,7 +4,7 @@ import { products } from "../../components/ApiProducts/Apiproducts.js";
 import ProductsSlider from "../../components/ProductsSlider/ProductsSlider.jsx";
 
 function Home() {
-    const items = [
+  const items = [
     {
       id: 1,
       title: "Mobile Phone",
@@ -47,30 +47,31 @@ function Home() {
 
   return (
     <>
-    <div>
-      <div className="heb-categories-container">
-        {items.map((it) => (
-          <a
-            key={it.id}
-            href={it.href}
-            target="_blank"
-            rel="noreferrer"
-            className="heb-category-card"
-          >
-            <div className="heb-image-box">
-              <img src={it.img} alt={it.title} />
-            </div>
-            <span className="heb-title">{it.title}</span>
-          </a>
-        ))}
+      <div>
+        <div className="heb-categories-container">
+          {items.map((it) => (
+            <a
+              key={it.id}
+              href={it.href}
+              target="_blank"
+              rel="noreferrer"
+              className="heb-category-card"
+            >
+              <div className="heb-image-box">
+                <img src={it.img} alt={it.title} />
+              </div>
+              <span className="heb-title">{it.title}</span>
+            </a>
+          ))}
+        </div>
       </div>
-    {/* ================================*/}
-    <div className="container mt-5">
-      <ProductsSlider title="All Products" products={products} />
-      <ProductsSlider title="New Products" products={geh_newProducts} />
-      <ProductsSlider title="Used Products" products={geh_usedProducts} />
-    </div>
- </>
+      {/* ================================*/}
+      <div className="container mt-5">
+        <ProductsSlider title="All Products" products={products} />
+        <ProductsSlider title="New Products" products={geh_newProducts} />
+        <ProductsSlider title="Used Products" products={geh_usedProducts} />
+      </div>
+    </>
   );
 }
 
