@@ -4,6 +4,7 @@ import { products } from "../../components/ApiProducts/Apiproducts.js";
 import ProductsSlider from "../../components/ProductsSlider/ProductsSlider.jsx";
 
 function Home() {
+  
   const geh_newProducts = products.filter((p) => p.status === "New");
   const geh_usedProducts = products.filter((p) => p.status === "Used");
 
