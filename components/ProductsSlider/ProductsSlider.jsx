@@ -3,8 +3,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import Cart from "../../Pages/Cart/Cart.jsx";
+import {  Autoplay } from "swiper/modules";
+import Cart from "../Content/Card/Card.jsx";
 
 
 const ProductsSlider = ({ title, products }) => {
@@ -12,10 +12,10 @@ const ProductsSlider = ({ title, products }) => {
     <div className="mb-5">
       <h3 className="mb-3">{title}</h3>
       <Swiper
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={30}
+        modules={[Autoplay]}
+        spaceBetween={20}
         slidesPerView={4}
-        autoplay={{ delay: 2000 }}
+        autoplay={{ delay: 1000 }}
         loop={true}
       >
         {products.map((p, index) => (
