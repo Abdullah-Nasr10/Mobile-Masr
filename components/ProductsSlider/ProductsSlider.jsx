@@ -15,7 +15,7 @@ const ProductsSlider = ({ title, products }) => {
         modules={[Autoplay]}
         spaceBetween={20}
         slidesPerView={4}
-        autoplay={{ delay: 1000 }}
+        autoplay={{ delay: 2000 }}
         loop={true}
       >
         {products.map((p, index) => (
