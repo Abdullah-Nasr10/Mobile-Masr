@@ -11,7 +11,7 @@ export const products = [
     link: "#",
     warrantyText: "30-day warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+    
   },
   {
     name: "Samsung Galaxy S22",
@@ -25,7 +25,6 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
   },
     {
     name: "Google Pixel 6",
@@ -39,7 +38,6 @@ export const products = [
     link: "#",
     warrantyText: "30-day warranty",
     insuranceText: "No additional warranty available",
-    dualSimIcon: "bi bi-sim",
   },
   {
     name: "Xiaomi Redmi Note 11",
@@ -53,7 +51,7 @@ export const products = [
     link: "#",
     warrantyText: "6-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+
   },
   {
     name: "Huawei P30 Pro",
@@ -67,7 +65,7 @@ export const products = [
     link: "#",
     warrantyText: "30-day warranty",
     insuranceText: "No additional warranty available",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Oppo Reno 7",
@@ -81,7 +79,7 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
     {
     name: "Google Pixel 6",
@@ -95,7 +93,7 @@ export const products = [
     link: "#",
     warrantyText: "30-day warranty",
     insuranceText: "No additional warranty available",
-    dualSimIcon: "bi bi-sim",
+   
   },
     {
     name: "Samsung Galaxy S22",
@@ -109,7 +107,7 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Realme GT Master",
@@ -123,7 +121,7 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
     {
     name: "Google Pixel 6",
@@ -137,7 +135,7 @@ export const products = [
     link: "#",
     warrantyText: "30-day warranty",
     insuranceText: "No additional warranty available",
-    dualSimIcon: "bi bi-sim",
+   
   },
 
   {
@@ -152,7 +150,7 @@ export const products = [
     link: "#",
     warrantyText: "6-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Google Pixel 6",
@@ -166,7 +164,7 @@ export const products = [
     link: "#",
     warrantyText: "30-day warranty",
     insuranceText: "No additional warranty available",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "OnePlus 9",
@@ -180,7 +178,7 @@ export const products = [
     link: "#",
     warrantyText: "30-day warranty",
     insuranceText: "Optional 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Motorola Edge 30",
@@ -194,7 +192,7 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Nokia X30",
@@ -208,7 +206,7 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Vivo V23",
@@ -222,7 +220,7 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Tecno Camon 20",
@@ -236,7 +234,7 @@ export const products = [
     link: "#",
     warrantyText: "6-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Sony Xperia 10 IV",
@@ -250,7 +248,7 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Optional 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
   {
     name: "Asus Zenfone 9",
@@ -264,6 +262,6 @@ export const products = [
     link: "#",
     warrantyText: "12-month warranty",
     insuranceText: "Option to add 1-year warranty",
-    dualSimIcon: "bi bi-sim",
+   
   },
 ];
