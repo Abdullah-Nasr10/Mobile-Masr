@@ -2,7 +2,8 @@ import React from "react";
 import "./Home.css";
 import { products } from "../../components/ApiProducts/Apiproducts.js";
 import ProductsSlider from "../../components/ProductsSlider/ProductsSlider.jsx";
-
+import Swiper  from "../../components/SwiperHeader/Swiper.jsx";
+import Icon from "../../components/Icon/Icon.jsx";
 function Home() {
   const items = [
     {
@@ -47,6 +48,17 @@ function Home() {
 
   return (
     <>
+      {/* =================================================== */}
+     <div>
+      <Swiper  />
+    
+    </div>
+      {/*icon header  */}
+     <div>
+    <Icon></Icon>
+     </div>
+
+      {/* ================================================== */}
       <div>
         <div className="heb-categories-container">
           {items.map((it) => (
