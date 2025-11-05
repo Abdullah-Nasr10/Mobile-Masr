@@ -4,6 +4,8 @@ import { products } from "../../components/ApiProducts/Apiproducts.js";
 import ProductsSlider from "../../components/ProductsSlider/ProductsSlider.jsx";
 import Swiper  from "../../components/SwiperHeader/Swiper.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
+import MobileReviewsStatic from "../../components/MobileReviewsStatic.jsx";
+import KnowledgeBanners from "../../components/KnowledgeBanners.jsx";
 function Home() {
   const items = [
     {
@@ -83,6 +85,10 @@ function Home() {
         <ProductsSlider title="New Products" products={geh_newProducts} />
         <ProductsSlider title="Used Products" products={geh_usedProducts} />
       </div>
+       <div className="mt-10">
+        <MobileReviewsStatic />
+        </div>
+        <KnowledgeBanners />
     </>
   );
 }
