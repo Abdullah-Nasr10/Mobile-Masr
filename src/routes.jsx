@@ -1,45 +1,45 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "../components/Layout/Layout";
+import Layout from "./components/Layout/Layout";
 
 // ===== Pages =====
-import Home from "../Pages/Home/Home";
-import About from "../Pages/About/About";
-import Contact from "../Pages/Contact/Contact";
-// import FAQ from "../Pages/FAQ/FAQ";
+import Home from "./Pages/Home/Home";
+import About from "./Pages/About/About";
+import Contact from "./Pages/Contact/Contact";
+// import FAQ from "./Pages/FAQ/FAQ";
 // { path: "/faq", element: <FAQ /> },
 // -----------------------------------------
-import AllProducts from "../Pages/Products/AllProducts/AllProducts";
-import Category from "../Pages/Products/Category/Category";
-import Condition from "../Pages/Products/Condition/Condition";
-import ProductDetails from "../Pages/Products/ProductDetails/ProductDetails";
+import AllProducts from "./Pages/Products/AllProducts/AllProducts";
+import Category from "./Pages/Products/Category/Category";
+import Condition from "./Pages/Products/Condition/Condition";
+import ProductDetails from "./Pages/Products/ProductDetails/ProductDetails";
 // -----------------------------------------
 
-import Search from "../Pages/Search/Search";
+import Search from "./Pages/Search/Search";
 // -----------------------------------------
 
-import Login from "../Pages/Auth/Login/Login";
-import Register from "../Pages/Auth/Register/Register";
-import Profile from "../Pages/Profile/Profile";
-import Orders from "../Pages/Orders/Orders";
-import Wishlist from "../Pages/Wishlist/Wishlist";
+import Login from "./Pages/Auth/Login/Login";
+import Register from "./Pages/Auth/Register/Register";
+import Profile from "./Pages/Profile/Profile";
+import Orders from "./Pages/Orders/Orders";
+import Wishlist from "./Pages/Wishlist/Wishlist";
 // -----------------------------------------
 
-import Cart from "../Pages/Cart/Cart";
-import Checkout from "../Pages/Checkout/Checkout";
-import OrderSuccess from "../Pages/OrderSuccess/OrderSuccess";
+import Cart from "./Pages/Cart/Cart";
+import Checkout from "./Pages/Checkout/Checkout";
+import OrderSuccess from "./Pages/OrderSuccess/OrderSuccess";
 // -----------------------------------------
-import Dashboard from "../Pages/Seller/Dashboard/Dashboard";
-import AddProduct from "../Pages/Seller/AddProduct/AddProduct";
-import MyProducts from "../Pages/Seller/MyProducts/MyProducts";
-import Sales from "../Pages/Seller/Sales/Sales";
-// -----------------------------------------
-
-import AdminUsers from "../Pages/Admin/Users/Users";
-import AdminProducts from "../Pages/Admin/Products/Products";
-import AdminOrders from "../Pages/Admin/Orders/Orders";
+import Dashboard from "./Pages/Seller/Dashboard/Dashboard";
+import AddProduct from "./Pages/Seller/AddProduct/AddProduct";
+import MyProducts from "./Pages/Seller/MyProducts/MyProducts";
+import Sales from "./Pages/Seller/Sales/Sales";
 // -----------------------------------------
 
-import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
+import AdminUsers from "./Pages/Admin/Users/Users";
+import AdminProducts from "./Pages/Admin/Products/Products";
+import AdminOrders from "./Pages/Admin/Orders/Orders";
+// -----------------------------------------
+
+import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
 // -----------------------------------------
 
 // ===== Router Config =====
