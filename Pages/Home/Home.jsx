@@ -5,6 +5,10 @@ import ProductsSlider from "../../components/ProductsSlider/ProductsSlider.jsx";
 import Swiper from "../../components/SwiperHeader/Swiper.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
 import CategoriesContainer from "../CategoriesContainer/CategoriesContainer.jsx";
+import MobileReviewsStatic from "../../components/MobileReviewsStatic.jsx";
+import KnowledgeBanners from "../../components/KnowledgeBanners.jsx";
+
+
 function Home() {
   const geh_newProducts = products.filter((p) => p.status === "New");
   const geh_usedProducts = products.filter((p) => p.status === "Used");
@@ -22,6 +26,10 @@ function Home() {
         <ProductsSlider title="New Products" products={geh_newProducts} />
         <ProductsSlider title="Used Products" products={geh_usedProducts} />
       </div>
+       <div className="mt-10">
+        <MobileReviewsStatic />
+        </div>
+        <KnowledgeBanners />
     </>
   );
 }
