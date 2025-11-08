@@ -1,9 +1,18 @@
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import { Outlet } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchProductsData } from "../../store/slices/ProductSlice";
 
 // ============================================================
 function Layout() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(fetchProductsData());
+    }, 1000);
+  }, [dispatch]);
   return (
     <>
       <Navbar />

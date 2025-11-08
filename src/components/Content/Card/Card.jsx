@@ -11,10 +11,10 @@ export default function Cart({ product }) {
       <div className="geh-pc-top">
         <span
           className={`geh-status-badge ${
-            product.status === "New" ? "new" : "used"
+            product.condition === "new" ? "new" : "used"
           }`}
         >
-          {product.status}
+          {product.condition}
         </span>
 
         <div className="geh-pc-icons">
@@ -33,9 +33,9 @@ export default function Cart({ product }) {
 
       {/* image area */}
       <div className="geh-pc-image-wrap">
-        <a href={product.link} className="geh-pc-image-link">
+        <a href="#" className="geh-pc-image-link">
           <img
-            src={product.image}
+            src={product.images[0]}
             alt={product.name}
             className="geh-pc-image"
           />
@@ -44,31 +44,29 @@ export default function Cart({ product }) {
         {/* small overlay badges (battery, warranty, dual-sim) */}
         <div className="geh-pc-overlays">
           <span className="geh-small-badge battery">🔋very good </span>
-          <span className="geh-small-badge warranty">
-            {product.warrantyText}
-          </span>
+          <span className="geh-small-badge warranty">{product.guarantee}</span>
         </div>
 
         {/* insurance green stripe under image */}
         <div className="geh-pc-insurance">
           <FaShieldAlt color="#00A52E" size={13} />
-          <span>{product.insuranceText}</span>
+          {/* <span>{product.insuranceText}</span> */}
         </div>
       </div>
 
       {/* vendor, title, price */}
       <div className="geh-pc-body">
-        <a href={product.vendorLink} className="geh-pc-vendor">
-          {product.vendor}
+        <a href={product.vendor.name} className="geh-pc-vendor">
+          {product.vendor.name}
         </a>
-        <a href={product.link} className="geh-pc-title">
+        <a href="#" className="geh-pc-title">
           {product.name}
         </a>
 
         <div className="geh-pc-price-row">
-          <span className="geh-price-now">{product.priceNow}</span>
-          {product.priceOld && (
-            <span className="geh-price-old">{product.priceOld}</span>
+          <span className="geh-price-now">{product.priceAfterDiscount}</span>
+          {product.price && (
+            <span className="geh-price-old">{product.price}</span>
           )}
         </div>
 
