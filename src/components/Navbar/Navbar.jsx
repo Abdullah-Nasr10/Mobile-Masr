@@ -1,6 +1,6 @@
 import React from "react";
 import "./Navbar.css";
-import Logo from "../Content/Logo/Logo";
+import Logo from "../GlobalComponents/Logo/Logo";
 import { CiUser as UserIcon } from "react-icons/ci";
 import { CiHeart as FavoriteHeart } from "react-icons/ci";
 import { AiOutlineShoppingCart as Cart } from "react-icons/ai";
