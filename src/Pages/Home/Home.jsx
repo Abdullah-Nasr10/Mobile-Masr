@@ -8,9 +8,10 @@ import KnowledgeBanners from "../../components/KnowledgeBanners.jsx";
 import { useSelector } from "react-redux";
 
 function Home() {
-  const products = useSelector((store) => store.products.data);
-  const newProducts = products.filter((p) => p.condition === "new");
-  const usedProducts = products.filter((p) => p.condition === "used");
+  const allProducts = useSelector((store) => store.products.data);
+  const products = allProducts.filter((p) => p.category?.name != "Laptop");
+  const newProducts = allProducts.filter((p) => p.condition == "new");
+  const usedProducts = allProducts.filter((p) => p.condition == "used");
   console.log("Products from Redux Store:", products);
   return (
     <>
