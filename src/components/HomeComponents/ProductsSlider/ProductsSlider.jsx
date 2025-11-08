@@ -4,7 +4,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Autoplay } from "swiper/modules";
-import Cart from "../Content/Card/Card.jsx";
+import Cart from "../../GlobalComponents/Card/Card.jsx";
 
 const ProductsSlider = ({ title, products }) => {
   return (
