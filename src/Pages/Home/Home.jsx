@@ -1,18 +1,17 @@
-import React from "react";
 import "./Home.css";
-import { products } from "../../components/ApiProducts/Apiproducts.js";
 import ProductsSlider from "../../components/ProductsSlider/ProductsSlider.jsx";
 import Swiper from "../../components/SwiperHeader/Swiper.jsx";
 import Icon from "../../components/Icon/Icon.jsx";
 import CategoriesContainer from "../CategoriesContainer/CategoriesContainer.jsx";
 import MobileReviewsStatic from "../../components/MobileReviewsStatic.jsx";
 import KnowledgeBanners from "../../components/KnowledgeBanners.jsx";
-
+import { useSelector } from "react-redux";
 
 function Home() {
-  const geh_newProducts = products.filter((p) => p.status === "New");
-  const geh_usedProducts = products.filter((p) => p.status === "Used");
-
+  const products = useSelector((store) => store.products.data);
+  const newProducts = products.filter((p) => p.condition === "new");
+  const usedProducts = products.filter((p) => p.condition === "used");
+  console.log("Products from Redux Store:", products);
   return (
     <>
       {/*reh-header*/}
@@ -23,13 +22,13 @@ function Home() {
       {/*geh-Card*/}
       <div className="container mt-5">
         <ProductsSlider title="All Products" products={products} />
-        <ProductsSlider title="New Products" products={geh_newProducts} />
-        <ProductsSlider title="Used Products" products={geh_usedProducts} />
+        <ProductsSlider title="New Products" products={newProducts} />
+        <ProductsSlider title="Used Products" products={usedProducts} />
       </div>
-       <div className="mt-10">
+      <div className="mt-10">
         <MobileReviewsStatic />
-        </div>
-        <KnowledgeBanners />
+      </div>
+      <KnowledgeBanners />
     </>
   );
 }
