@@ -56,8 +56,8 @@ export default function Cart({ product }) {
 
       {/* vendor, title, price */}
       <div className="geh-pc-body">
-        <a href={product.vendor.name} className="geh-pc-vendor">
-          {product.vendor.name}
+        <a href={product.vendor?.name} className="geh-pc-vendor">
+          {product.vendor?.name}
         </a>
         <a href="#" className="geh-pc-title">
           {product.name}
