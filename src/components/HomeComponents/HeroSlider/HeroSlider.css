@@ -1,0 +1,38 @@
+.geh-hero-slider {
+  position: relative;
+  width: 100%;
+  padding: 1rem 10rem;
+  background-color: var(--body-bg);
+}
+
+.geh-slide {
+  width: 100%;
+  height: auto;
+}
+
+.geh-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* نقاط الانتقال  */
+.swiper-pagination-bullet {
+  background: var(--white-color);
+  opacity: 1;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--orange-color);
+}
+
+
+/* responsive */
+@media (max-width: 768px) {
+  .geh-slide {
+    height: 250px;
+  }
+}

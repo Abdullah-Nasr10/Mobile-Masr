@@ -1,0 +1,52 @@
+.geh-feature-bar {
+  display: block;
+  background-color: var(--white-color);
+  border: 1px solid var(--border-color);
+  margin: 1rem 10rem; 
+  padding: 1rem 0 ; 
+}
+
+.geh-feature-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; 
+  align-items: center;
+  color: #374151;
+  gap: 2rem; 
+  width: 100%; 
+}
+
+.geh-feature-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem; 
+  text-align: start;
+}
+
+.geh-feature-img {
+  width: 4rem; 
+  height: 4rem;
+  object-fit: contain;
+}
+
+.geh-flip {
+  transform: scaleX(-1);
+}
+
+.geh-feature-link p:first-child {
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 0.4rem 0;
+  
+}
+
+.geh-feature-link p:last-child {
+  font-size: 1.2rem;
+}
+
+.geh-divider {
+  display: block;
+  width: 1px;
+  height: 3rem; 
+  background-color: #d1d5db;
+}
