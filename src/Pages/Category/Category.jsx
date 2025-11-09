@@ -1,7 +1,7 @@
 import React from "react";
-import "./Category.css";
+
 function Category() {
-  return <div>Category</div>;
+  return <div className="container">Category Page</div>;
 }
 
 export default Category;
