@@ -1,4 +1,4 @@
-import Navbar from "../Navbar/Navbar";
+import Navbar from "../NavbarComponents/Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -16,7 +16,7 @@ function Layout() {
   return (
     <>
       <Navbar />
-      <div style={{ minHeight: "100vh" }}>
+      <div style={{ minHeight: "100vh", marginTop: "150px" }}>
         <Outlet />
       </div>
       <Footer />

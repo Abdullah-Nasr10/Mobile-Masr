@@ -1,0 +1,8 @@
+.abd-CategoryNavbar {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.abd-CategoryNavbar .active-link {
+    color: var(--orange-color);
+}

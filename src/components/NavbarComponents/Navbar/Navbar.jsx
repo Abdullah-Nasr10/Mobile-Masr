@@ -1,10 +1,11 @@
 import React from "react";
 import "./Navbar.css";
-import Logo from "../GlobalComponents/Logo/Logo";
+import Logo from "../../GlobalComponents/Logo/Logo";
 import { CiUser as UserIcon } from "react-icons/ci";
 import { CiHeart as FavoriteHeart } from "react-icons/ci";
 import { AiOutlineShoppingCart as Cart } from "react-icons/ai";
 import { Link, NavLink } from "react-router-dom";
+import CategoryNavbar from "../CategoryNavbar/CategoryNavbar";
 
 function Navbar() {
   return (
@@ -14,12 +15,12 @@ function Navbar() {
         <div className="row justify-content-between py-4 abd-HeaderTop">
           {/* -----------Logo--------------- */}
           <div className="col-2">
-            <NavLink>
+            <NavLink to="/">
               <Logo />
             </NavLink>
           </div>
           {/* --------------inputSearch--------------- */}
-          <div className="col-5 d-flex align-items-center">
+          <div className="col-6 d-flex align-items-center">
             <input
               type="search"
               name="search"
@@ -28,7 +29,7 @@ function Navbar() {
             />
           </div>
           {/* --------------HeaderACtions-------------- */}
-          <div className="col-4 row abd-HeaderActions">
+          <div className="col-3 row abd-HeaderActions">
             <div className="center col-4">Ar</div>
             <div className="center col-4">
               <div className="abd-signIn w-100 text-center">
@@ -49,28 +50,7 @@ function Navbar() {
           </div>
         </div>
         {/* ===================HeaderButtom-catigorisNav==================== */}
-        <div className="abd-catigorisNav">
-          <ul className="row justify-content-center py-4">
-            <li className="col-1">
-              <NavLink>Mobile</NavLink>
-            </li>
-            <li className="col-1">
-              <NavLink>Tablet</NavLink>
-            </li>
-            <li className="col-1">
-              <NavLink>Laptop</NavLink>
-            </li>
-            <li className="col-2">
-              <NavLink>Smart Watches</NavLink>
-            </li>
-            <li className="col-2">
-              <NavLink>Wireless Earbuds</NavLink>
-            </li>
-            <li className="col-2">
-              <NavLink>Game Consoles</NavLink>
-            </li>
-          </ul>
-        </div>
+        <CategoryNavbar />
       </div>
     </nav>
   );

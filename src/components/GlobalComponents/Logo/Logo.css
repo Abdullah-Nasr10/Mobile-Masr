@@ -1,0 +1,31 @@
+.abd-Logo {
+    font-size: 3.5rem;
+    letter-spacing: 0.3rem;
+    font-family: "Merienda", cursive;
+    font-weight: bolder;
+    position: relative;
+
+    span {
+        font-family: "Merienda", cursive;
+        color: var(--white-color);
+    }
+}
+
+.abd-Logo::before {
+    content: "";
+    position: absolute;
+    background-color: var(--orange-color);
+    width: 5rem;
+    height: 100%;
+    clip-path: polygon(5% 0%, 90% 15%, 90% 80%, 5% 90%);
+    right: 0;
+    top: 0;
+    z-index: -1;
+
+}
+
+.abd-LogoIcon {
+    margin-right: -0.7rem;
+    font-size: 6rem;
+    color: var(--blue-color);
+}
