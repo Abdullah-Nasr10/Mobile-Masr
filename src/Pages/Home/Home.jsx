@@ -1,8 +1,5 @@
 import "./Home.css";
 import ProductsSlider from "../../components/HomeComponents/ProductsSlider/ProductsSlider.jsx";
-import Swiper from "../../components/HomeComponents/SwiperHeader/Swiper.jsx";
-import Icon from "../../components/HomeComponents/Features/Features.jsx";
-import CategoriesContainer from "../../components/HomeComponents/CategoriesContainer/CategoriesContainer.jsx";
 import MobileReviewsStatic from "../../components/HomeComponents/SiteReviews/SiteReviews.jsx";
 import KnowledgeBanners from "../../components/HomeComponents/KnowledgeBanners/KnowledgeBanners.jsx";
 import { useSelector } from "react-redux";
@@ -20,11 +17,11 @@ function Home() {
   return (
     <>
       {/*geh-Header*/}
-      <HeroSlider/>
-      <FeatureBar/>
-      <CategorySlider/>
-      <BannerGrid/>
-      
+      <HeroSlider />
+      <FeatureBar />
+      <CategorySlider />
+      <BannerGrid />
+
       {/*geh-Card*/}
       <div className="container mt-5">
         <ProductsSlider title="All Products" products={products} />

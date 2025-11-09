@@ -16,7 +16,7 @@ function Layout() {
   return (
     <>
       <Navbar />
-      <div style={{ minHeight: "100vh", marginTop: "150px" }}>
+      <div style={{ minHeight: "100vh", marginTop: "140px" }}>
         <Outlet />
       </div>
       <Footer />
