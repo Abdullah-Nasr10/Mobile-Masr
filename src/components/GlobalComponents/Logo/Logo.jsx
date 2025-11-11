@@ -3,9 +3,9 @@ import { AiOutlineDingding } from "react-icons/ai";
 import "./Logo.css";
 function Logo() {
   return (
-    <div className="abd-Logo fw-bolder">
+    <div className="abd-Logo fw-bolder d-flex align-items-center">
       <AiOutlineDingding className="abd-LogoIcon" />
-      HGRA<span>M</span>
+      HGRA<span className="m-char">M</span>
     </div>
   );
 }

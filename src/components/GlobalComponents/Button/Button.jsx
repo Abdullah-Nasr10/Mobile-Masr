@@ -1,7 +1,12 @@
 import React from "react";
 import "./Button.css";
-function Button() {
-  return <div>Button</div>;
-}
+
+const Button = ({ btnTitle, btnColor }) => {
+  return (
+    <button className="button" style={{ "--button-color": btnColor }}>
+      {btnTitle}
+    </button>
+  );
+};
 
 export default Button;

@@ -14,6 +14,10 @@
     border-bottom: 0.2rem solid var(--border-color);
 }
 
+.abd-SearchBox {
+    width: 40%;
+}
+
 .abd-NavInputSerach {
     width: 100%;
     outline: none;
@@ -31,6 +35,8 @@
 
 .abd-HeaderActions .abd-signIn {
     border-inline: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
 }
 
 .abd-Favorite,
