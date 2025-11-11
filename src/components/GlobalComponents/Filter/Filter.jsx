@@ -268,23 +268,34 @@ const FilterSidebar = ({ onApply }) => {
                   onChange={(e) => handlePriceInput(1, e.target.value)}
                 />
               </div>
-              <div className="mos-double-range">
-                <input
-                  type="range"
-                  min={MIN_PRICE}
-                  max={MAX_PRICE}
-                  value={price[0]}
-                  onChange={(e) => handleRangeChange(0, e)}
-                />
-                <input
-                  type="range"
-                  min={MIN_PRICE}
-                  max={MAX_PRICE}
-                  value={price[1]}
-                  onChange={(e) => handleRangeChange(1, e)}
-                />
-                <div className="mos-double-range__track" />
-              </div>
+             <div className="mos-double-range">
+        <div
+          className="mos-double-range__track"
+          style={{
+            background: `linear-gradient(
+              to right,
+              #d1d5db ${((price[0] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%,
+              #16a34a ${((price[0] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%,
+              #16a34a ${((price[1] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%,
+              #d1d5db ${((price[1] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%
+            )`,
+          }}
+        />
+        <input
+          type="range"
+          min={MIN_PRICE}
+          max={MAX_PRICE}
+          value={price[0]}
+          onChange={(e) => handleRangeChange(0, e)}
+        />
+        <input
+          type="range"
+          min={MIN_PRICE}
+          max={MAX_PRICE}
+          value={price[1]}
+          onChange={(e) => handleRangeChange(1, e)}
+        />
+      </div>
             </div>
           )}
         </div>
