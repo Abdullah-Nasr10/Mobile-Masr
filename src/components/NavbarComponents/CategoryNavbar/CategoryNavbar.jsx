@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 function CategoryNavbar() {
   return (
     <div className="abd-CategoryNavbar">
-      <ul className="row justify-content-center py-4">
-        <li className="col-1">
+      <ul className="d-flex align-items-center justify-content-center gap-5 py-4">
+        <li>
           <NavLink
             to="/category/mobile"
             className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -12,7 +12,7 @@ function CategoryNavbar() {
             Mobile
           </NavLink>
         </li>
-        <li className="col-1">
+        <li>
           <NavLink
             to="/category/tablet"
             className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -20,7 +20,7 @@ function CategoryNavbar() {
             Tablet
           </NavLink>
         </li>
-        <li className="col-1">
+        <li>
           <NavLink
             to="/category/laptop"
             className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -28,7 +28,7 @@ function CategoryNavbar() {
             Laptop
           </NavLink>
         </li>
-        <li className="col-2">
+        <li>
           <NavLink
             to="/category/smart-watches"
             className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -36,7 +36,7 @@ function CategoryNavbar() {
             Smart Watches
           </NavLink>
         </li>
-        <li className="col-2">
+        <li>
           <NavLink
             to="/category/wireless-earbuds"
             className={({ isActive }) => (isActive ? "active-link" : "")}
@@ -44,7 +44,7 @@ function CategoryNavbar() {
             Wireless Earbuds
           </NavLink>
         </li>
-        <li className="col-2">
+        <li>
           <NavLink
             to="/category/game-consoles"
             className={({ isActive }) => (isActive ? "active-link" : "")}
