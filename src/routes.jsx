@@ -27,6 +27,8 @@ import Checkout from "./Pages/Checkout/Checkout";
 // -----------------------------------------
 
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
+import Account from "./Pages/Auth/Account/Account";
+import Categories from "./Pages/Categories/Categories";
 // -----------------------------------------
 
 // ===== Router Config =====
@@ -40,10 +42,12 @@ const router = createBrowserRouter([
       { path: "/contact", element: <Contact /> },
 
       { path: "category/:category", element: <Category /> },
+      { path: "/categories", element: <Categories /> },
       { path: "/products/:id", element: <ProductDetails /> },
 
       { path: "/search", element: <Search /> },
 
+      { path: "/account", element: <Account /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/profile", element: <Profile /> },

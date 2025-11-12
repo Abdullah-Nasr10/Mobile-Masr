@@ -7,6 +7,7 @@ import { AiOutlineShoppingCart as Cart } from "react-icons/ai";
 import { Link, NavLink } from "react-router-dom";
 import CategoryNavbar from "../CategoryNavbar/CategoryNavbar";
 import ToggleLanguage from "../ToggleLanguage/ToggleLanguage";
+import BottomNavbar from "../BottomNavbar/BottomNavbar";
 
 function Navbar() {
   return (
@@ -15,7 +16,7 @@ function Navbar() {
         {/* ====================HeaderTop====================== */}
         <div className="d-flex justify-content-between py-4 gap-4 abd-HeaderTop">
           {/* -----------Logo--------------- */}
-          <NavLink to="/">
+          <NavLink to="/" className="center">
             <Logo />
           </NavLink>
           {/* --------------inputSearch--------------- */}
@@ -31,9 +32,9 @@ function Navbar() {
           <div className="abd-HeaderActions d-inline-flex align-items-center gap-4">
             <ToggleLanguage />
             {/* ------------------- */}
-            <div className="center">
-              <div className="abd-signIn w-100 text-center">
-                <span className=" me-2">sign in</span>
+            <div className="center d-none d-md-flex">
+              <div className="abd-signIn text-center">
+                <span className=" me-2">Sign In</span>
                 <UserIcon />
               </div>
             </div>
@@ -43,7 +44,7 @@ function Navbar() {
                 <FavoriteHeart />
                 <div className="abd-FavCounter center">0</div>
               </div>
-              <div className="abd-Cart">
+              <div className="abd-Cart d-none d-md-inline-block">
                 <Cart />
                 <div className="abd-CartCounter center">100</div>
               </div>
@@ -53,6 +54,8 @@ function Navbar() {
         </div>
         {/* ===================HeaderButtom-catigorisNav==================== */}
         <CategoryNavbar />
+        {/* ============BottomNavbarInMobile=========== */}
+        <BottomNavbar />
       </div>
     </nav>
   );
