@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 function CategoryNavbar() {
   return (
     <div className="abd-CategoryNavbar">
-      <ul className="d-flex align-items-center justify-content-center gap-5 py-4">
+      <ul className="d-none d-md-flex align-items-center justify-content-center gap-5 py-4">
         <li>
           <NavLink
             to="/category/mobile"
