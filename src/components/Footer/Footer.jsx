@@ -3,11 +3,11 @@ import { FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="mos-footer bg-light pt-5">
+    <footer className="mos-footer bg-light pt-5 mt-5">
       <div className="container">
-        <div className="row">
+        <div className="row g-4">
           
-          <div className="col-md-2 mb-4">
+          <div className="col-12 col-sm-6 col-lg-2 mb-4">
             <h6 className="fw-bold">WHO ARE WE</h6>
             <ul className="list-unstyled">
               <li><a href="#">About MobileMasr</a></li>
@@ -21,8 +21,7 @@ function Footer() {
             </ul>
           </div>
 
-        
-          <div className="col-md-2 mb-4">
+          <div className="col-12 col-sm-6 col-lg-2 mb-4">
             <h6 className="fw-bold">WARRANTIES & RETURN POLICY</h6>
             <ul className="list-unstyled">
               <li><a href="#">Warranties & Return Policy</a></li>
@@ -34,7 +33,7 @@ function Footer() {
           </div>
 
        
-          <div className="col-md-3 mb-4">
+          <div className="col-12 col-sm-6 col-lg-2 mb-4">
             <h6 className="fw-bold">PAYMENT AND INSTALLMENT OPTIONS</h6>
             <ul className="list-unstyled">
               <li><a href="#">Pay in Installments with ValU</a></li>
@@ -47,15 +46,14 @@ function Footer() {
             </ul>
           </div>
 
-          <div className="col-md-2 mb-4">
+          <div className="col-12 col-sm-6 col-lg-2 mb-4">
             <h6 className="fw-bold">SELL WITH US</h6>
             <ul className="list-unstyled">
               <li><a href="#">Become and Authorized Vendor</a></li>
             </ul>
           </div>
 
-        
-          <div className="col-md-2 mb-4">
+          <div className="col-12 col-sm-6 col-lg-2 mb-4">
             <h6 className="fw-bold">USEFUL LINKS</h6>
             <ul className="list-unstyled">
               <li><a href="#">Guide</a></li>
@@ -68,46 +66,55 @@ function Footer() {
             </ul>
           </div>
 
-       
-          <div className="col-md-1 mb-4">
-            <h6 className="fw-bold">MOBILE APP</h6>
-            <div className="d-flex flex-column gap-2">
+       <div className="col-12 col-sm-6 col-lg-2 mb-4">
+        <h6 className="fw-bold">BUYING & SELLING</h6>
+            <ul className="list-unstyled">
+              <li><a href="#">How to buy from a private seller</a></li>
+              <li><a href="#">Steps to post an ad on the application</a></li>
+            </ul>
+            
+              <h6 className="fw-bold mt-4">MOBILE APP</h6>
+            <div className="d-flex flex-column gap-2 mos-app-badges">
               <img
                 src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-                style={{ width: "11rem", cursor:"pointer" }}
+                className="mos-app-badge"
               />
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                style={{ width: "11rem", cursor:"pointer" }}
+                className="mos-app-badge"
               />
+            </div>
+
+       </div>
+        </div>
+
+      
+        <div className="row mt-2">
+          <div className="col-12">
+              <div className="row align-items-center g-3">
+                <div className="col-12 col-md-4">
+                  <h6 className="fw-bold mb-0">SIGN UP & GET OFFERS AND UPDATES</h6>
+                </div>
+                <div className="col-12 col-md-7">
+                  <div className="input-group">
+                    <input type="email" className="form-control" />
+                    <button className="btn btn-dark">→</button>
+                  </div>
+                </div>
+              </div>
+              <div className="mos-social-icons mt-3">
+                <a href="#" className="me-3 me-md-4"><FaFacebookF className="mos-social-icon" /></a>
+                <a href="#" className="me-3 me-md-4"><FaWhatsapp className="mos-social-icon" /></a>
+                <a href="#"><FaInstagram className="mos-social-icon" /></a>
+           
             </div>
           </div>
         </div>
-
-      
-<div className="col mt-4">
-  <div className="d-flex align-items-center mb-3 gap-4">
-    <h6 className="fw-bold mb-0">SIGN UP & GET OFFERS AND UPDATES</h6>
-    <div className="d-flex">
-      <input type="email" className="form-control p-3" />
-      <button className="btn btn-dark">→</button>
-    </div>
-  </div>
-  <div className="d-flex mt-3 social-icons">
-    <a href="#" className="me-4"><FaFacebookF size="2.5rem" /></a>
-    <a href="#" className="me-4"><FaWhatsapp size="2.5rem" /></a>
-    <a href="#"><FaInstagram size="2.5rem" /></a>
-  </div>
-
-</div>
-
-
       </div>
         
-        <div className=" text center mt-5 text-muted bg-white p-4">
-          ©2025 MobiTech Integrated Solutions. All Rights Reserved
-        </div>
-      
+      <div className="text-center mt-5 text-muted bg-white p-3 p-md-4 mos-copyright">
+        ©2025 MobiTech Integrated Solutions. All Rights Reserved For hgRAM
+      </div>
     </footer>
   );
 }
