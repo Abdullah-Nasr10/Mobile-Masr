@@ -76,7 +76,7 @@
 .mos-filter-group__body.is-list {
   max-height: 150px;
   overflow-y: auto;
-  scrollbar-width: thin;
+  /* scrollbar-width: thin; */
 }
 .mos-filter-group__body.is-list::-webkit-scrollbar {
   width: 10px;
