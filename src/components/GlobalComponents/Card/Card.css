@@ -1,5 +1,5 @@
 .abd-Product-Card {
-  width: 30rem;
+  max-width: 40rem;
   /* height: 35rem; */
   border: 1px solid var(--border-color);
   border-radius: 2rem;

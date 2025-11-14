@@ -10,10 +10,10 @@ import CategorySlider from "../../components/HomeComponents/CategorySlider/Categ
 
 function Home() {
   const allProducts = useSelector((store) => store.products.data);
-  const products = allProducts.filter((p) => p.category?.name != "Laptop");
+  // const products = allProducts.filter((p) => p.category?.name != "Laptop");
   const newProducts = allProducts.filter((p) => p.condition == "new");
   const usedProducts = allProducts.filter((p) => p.condition == "used");
-  console.log("Products from Redux Store:", products);
+  console.log("Products from Redux Store:", allProducts);
   return (
     <>
       {/*geh-Header*/}
@@ -24,7 +24,7 @@ function Home() {
 
       {/*geh-Card*/}
       <div className="container mt-5">
-        <ProductsSlider title="All Products" products={products} />
+        <ProductsSlider title="All Products" products={allProducts} />
         <ProductsSlider title="New Products" products={newProducts} />
         <ProductsSlider title="Used Products" products={usedProducts} />
       </div>
