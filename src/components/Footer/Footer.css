@@ -86,9 +86,9 @@
 }
 
 
-@media (max-width: 767px) {
+@media (max-width: 766px) {
   .mos-footer {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   
   .mos-footer h6 {
@@ -112,6 +112,7 @@
 
   .mos-footer .mos-social-icon {
     font-size: 2rem;
+    margin-bottom: 1rem;
   }
 
   .mos-footer .mos-app-badge {

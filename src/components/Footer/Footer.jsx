@@ -3,9 +3,9 @@ import { FaFacebookF, FaWhatsapp, FaInstagram } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="mos-footer bg-light pt-5 mt-5">
-      <div className="container">
-        <div className="row g-4">
+    <footer className="mos-footer bg-light pt-5 mt-5 pb-5 pb-md-0">
+      <div className="container text-center text-sm-start">
+        <div className="row g-4 ">
           
           <div className="col-12 col-sm-6 col-lg-2 mb-4">
             <h6 className="fw-bold">WHO ARE WE</h6>
@@ -87,7 +87,6 @@ function Footer() {
 
        </div>
         </div>
-
       
         <div className="row mt-2">
           <div className="col-12">
@@ -102,7 +101,7 @@ function Footer() {
                   </div>
                 </div>
               </div>
-              <div className="mos-social-icons mt-3">
+              <div className="mos-social-icons mt-2 mt-sm-3">
                 <a href="#" className="me-3 me-md-4"><FaFacebookF className="mos-social-icon" /></a>
                 <a href="#" className="me-3 me-md-4"><FaWhatsapp className="mos-social-icon" /></a>
                 <a href="#"><FaInstagram className="mos-social-icon" /></a>
