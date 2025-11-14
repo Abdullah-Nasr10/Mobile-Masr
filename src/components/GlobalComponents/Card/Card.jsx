@@ -1,80 +1,114 @@
-import React, { useState } from "react";
-import { FaHeart, FaRegHeart, FaShareAlt, FaShieldAlt } from "react-icons/fa";
-import "./Card.css";
+// import React, { useState } from "react";
+import { FaFacebook, FaHeart, FaShareAlt, FaWhatsapp } from "react-icons/fa";
+import { MdOutlineBatteryChargingFull as BatteryIcon } from "react-icons/md";
+import { TbBuildingStore } from "react-icons/tb";
 
-export default function Cart({ product }) {
-  const [fav, setFav] = useState(false);
+import "./Card.css";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import Button from "../Button/Button";
+
+export default function Card({ product }) {
+  const [isFav, setIsFav] = useState(false);
+  const [showShareOptions, setShowShareOptions] = useState(false);
+  const simText = product.simCard || "";
+  const simCount = /2[-\s]?sim/i.test(simText) ? "2" : "";
 
   return (
-    <div className="geh-product-card card">
-      {/* top row: status badge + icons */}
-      <div className="geh-pc-top">
-        <span
-          className={`geh-status-badge ${
-            product.condition === "new" ? "new" : "used"
-          }`}
-        >
-          {product.condition}
-        </span>
-
-        <div className="geh-pc-icons">
-          <button className="geh-icon-btn share" aria-label="share">
-            <FaShareAlt />
-          </button>
-          <button
-            className="geh-icon-btn fav"
-            aria-label="favorite"
-            onClick={() => setFav(!fav)}
-          >
-            {fav ? <FaHeart className="geh-fav-on" /> : <FaRegHeart />}
-          </button>
-        </div>
+    <div className="abd-Product-Card">
+      {/* ===========Product-Condition=========== */}
+      <div
+        className={`abd-Product-Type ${
+          product.condition == "new" ? "bg-warning" : "bg-primary"
+        }`}
+      >
+        {product.condition}
       </div>
 
-      {/* image area */}
-      <div className="geh-pc-image-wrap">
-        <a href="#" className="geh-pc-image-link">
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            className="geh-pc-image"
+      {/* =============Card-Icons-Start ============ */}
+      <div className="abd-Card-Icons d-flex fs-2">
+        {/* ============Share-Icon =========== */}
+        <div className="abd-Card-Icon position-relative ">
+          <FaShareAlt
+            className="abd-Icon-Share"
+            onClick={() => setShowShareOptions(!showShareOptions)}
           />
-        </a>
-
-        {/* small overlay badges (battery, warranty, dual-sim) */}
-        <div className="geh-pc-overlays">
-          <span className="geh-small-badge battery">🔋very good </span>
-          <span className="geh-small-badge warranty">{product.guarantee}</span>
+          <div
+            className={`abd-shareOptions d-flex flex-column gap-2 shadow position-absolute top-100 p-3  ${
+              showShareOptions ? "d-block" : "d-none"
+            }`}
+          >
+            <FaWhatsapp className="whatsapp-Icon" />
+            <FaFacebook className="facebook-Icon" />
+          </div>
         </div>
-
-        {/* insurance green stripe under image */}
-        <div className="geh-pc-insurance">
-          <FaShieldAlt color="#00A52E" size={13} />
-          {/* <span>{product.insuranceText}</span> */}
+        {/* ============Heart-Icon =========== */}
+        <div className="abd-Card-Icon">
+          <FaHeart
+            className={`abd-Icon-Favorite ${isFav ? "text-danger" : ""}`}
+            onClick={() => setIsFav(!isFav)}
+          />
         </div>
       </div>
+      {/* =============Card-Icons-End ============ */}
 
-      {/* vendor, title, price */}
-      <div className="geh-pc-body">
-        <a href={product.vendor?.name} className="geh-pc-vendor">
-          {product.vendor?.name}
-        </a>
-        <a href="#" className="geh-pc-title">
-          {product.name}
-        </a>
+      {/* ==========  Product-Image-Container-start  =========== */}
+      <div className="abd-Card-Image-Container center b">
+        {/* ----------- Product Image ----------- */}
+        <img
+          src={product.images[0]}
+          alt={product.name}
+          className="abd-Product-Image"
+        />
+        {/* ----------- Product Guarantee ----------- */}
+        <div className="abd-Product-Guarantee center">{product.guarantee}</div>
+        {/* ----------- Product Sim Count ----------- */}
+        {simCount && <div className="abd-simCount">{simCount}</div>}
+        {/* ----------- Product Battery Status ----------- */}
+        {product.batteryStatus && (
+          <div className="abd-BatteryStatus">
+            <BatteryIcon size={18} /> {product.batteryStatus}
+          </div>
+        )}
+      </div>
+      {/* ==========  Product-Image-Container-end  ===========  */}
 
-        <div className="geh-pc-price-row">
-          <span className="geh-price-now">{product.priceAfterDiscount}</span>
-          {product.price && (
-            <span className="geh-price-old">{product.price}</span>
+      {/* ==========  Card-Details-start  =========== */}
+      <div className="abd-Card-Details p-3">
+        {/* ----------- Store Name -----------  */}
+        <NavLink
+          to={`/vendor/${product.vendor._id}`}
+          className="abd-storeName d-flex gap-2 fs-5 mb-2"
+        >
+          <TbBuildingStore size={15} />
+          <div>{product.vendor.name}</div>
+        </NavLink>
+        {/* ----------- Product Name -----------  */}
+        <h4 className="abd-Product-Title mb-3">{product.name}</h4>
+        {/* ----------- Product Price -----------  */}
+        <div className="abd-Price-Section d-flex align-items-center justify-content-between gap-3">
+          <div
+            className={`fw-bold ${
+              product.discount > 0 ? "text-danger" : "text-success"
+            }`}
+          >
+            {product.priceAfterDiscount} EGP
+          </div>
+          {product.discount > 0 && (
+            <div className="text-muted text-decoration-line-through">
+              {product.price} EGP
+            </div>
           )}
         </div>
-
-        {/*  Details button*/}
-        <div>
-          <button className="geh-pc-offer-btn">Offer Details</button>
-        </div>
+        {/* --------------Go to Product Details ----------- */}
+        <NavLink
+          to={`/products/${product._id}`}
+          className="abd-View-Details d-block mt-4 py-2"
+        >
+          <Button btnTitle="View Details" style={{ width: "300px" }} />
+        </NavLink>
       </div>
+      {/* ==========  Card-Details-end  ===========  */}
     </div>
   );
 }
