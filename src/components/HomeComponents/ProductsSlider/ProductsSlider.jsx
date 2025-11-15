@@ -21,7 +21,7 @@ const ProductsSlider = ({ title, products }) => {
         modules={[Autoplay]}
         spaceBetween={20}
         slidesPerView={4}
-        autoplay={{ delay: 2000, disableOnInteraction: false }}
+        autoplay={{ delay: 3000, disableOnInteraction: false }}
         loop={products.length > 4}
         breakpoints={{
           0: { slidesPerView: 1 },
