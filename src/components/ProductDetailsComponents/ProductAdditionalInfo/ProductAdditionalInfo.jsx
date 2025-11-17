@@ -31,18 +31,21 @@ function ProductAdditionalInfo({ product }) {
         title={"Guaranteed Sellers & Buyers"}
         description={"Secure Platform for your info and cards"}
       />
+      {product.condition.toLowerCase() == "used" && (
+        <>
+          <AdditionalInfoItem
+            icon={<BiLike size={40} />}
+            title={product?.guarantee || "Warranty"}
+            description={"Buy with warranty from Verified Stores"}
+          />
 
-      <AdditionalInfoItem
-        icon={<BiLike size={40} />}
-        title={product?.guarantee || "Warranty"}
-        description={"Buy with warranty from Verified Stores"}
-      />
-
-      <AdditionalInfoItem
-        icon={<BsClipboard2Pulse size={40} />}
-        title={"Diagnostic Tool Report"}
-        description={"Generate a diagnostic report for your device"}
-      />
+          <AdditionalInfoItem
+            icon={<BsClipboard2Pulse size={40} />}
+            title={"Diagnostic Tool Report"}
+            description={"Generate a diagnostic report for your device"}
+          />
+        </>
+      )}
     </>
   );
 }
