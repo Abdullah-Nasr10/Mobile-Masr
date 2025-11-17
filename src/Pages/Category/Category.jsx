@@ -8,7 +8,9 @@ import Card from "../../components/GlobalComponents/Card/Card";
 import BrandsCarousel from "../../components/Category/BrandsCarousel/BrandsCarousel";
 import PagePath from "../../components/GlobalComponents/PagePath/PagePath";
 import KnowledgeBanners from "../../components/HomeComponents/KnowledgeBanners/KnowledgeBanners";
-import { FaChevronDown } from "react-icons/fa";
+import Pagination from "../../components/GlobalComponents/Pagination/Pagination";
+import CategoryHeader from "../../components/Category/CategoryHeader/CategoryHeader";
+import MobileFilterSidebar from "../../components/Category/MobileFilterSidebar/MobileFilterSidebar";
 import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
 import "./Category.css";
 
@@ -21,8 +23,8 @@ function Category() {
   const isLoading = useSelector((store) => store.products.isLoading);
   
   const [sortBy, setSortBy] = useState("newest");
-  const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState(null);
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
   const [filters, setFilters] = useState({
     brands: [],
     priceRange: { min: 0, max: Infinity },
@@ -105,6 +107,22 @@ function Category() {
       return "";
     };
 
+    // Helper to normalize text (lowercase, remove extra spaces and dashes)
+    const normalizeText = (val) => {
+      return String(val || '').toLowerCase().replace(/[-\s]+/g, '').trim();
+    };
+
+    // Helper to normalize capacity values (remove spaces between number and unit)
+    const normalizeCapacity = (val) => {
+      return String(val).toLowerCase().replace(/\s+/g, '').trim();
+    };
+
+    // Helper to get array values or single value
+    const getValues = (val) => {
+      if (Array.isArray(val)) return val;
+      return [val];
+    };
+
     // Apply selected brand from carousel
     if (selectedBrand) {
       products = products.filter(p => {
@@ -132,48 +150,59 @@ function Category() {
     // Apply condition filter
     if (filters.condition) {
       products = products.filter(p => {
-        const cond = readAttr(p, ["condition", "type"]).toLowerCase();
-        return cond === String(filters.condition).toLowerCase();
+        const cond = normalizeText(readAttr(p, ["condition", "type"]));
+        return cond === normalizeText(filters.condition);
       });
     }
 
     // Apply Sim Card filter
     if (filters.simCard.length > 0) {
       products = products.filter(p => {
-        const simCard = readAttr(p, ["simCard", "sim", "sim_card"]).toLowerCase();
-        return filters.simCard.some(sim => simCard.includes(String(sim).toLowerCase()));
+        const simCardRaw = readAttr(p, ["simCard", "sim", "sim_card"]);
+        const simCardNormalized = normalizeText(simCardRaw);
+        const normalizedFilters = filters.simCard.map(normalizeText);
+        
+        // Exact match only
+        return normalizedFilters.includes(simCardNormalized);
       });
     }
 
     // Apply RAM filter
     if (filters.ram.length > 0) {
       products = products.filter(p => {
-        const ram = readAttr(p, ["ram", "memory", "ramMemory"]).toLowerCase();
-        return filters.ram.some(r => ram.includes(String(r).toLowerCase()));
+        const ramValues = getValues(p.ram || p.memory || p.ramMemory);
+        const normalizedRam = ramValues.map(normalizeCapacity);
+        const selectedRam = filters.ram.map(normalizeCapacity);
+        return normalizedRam.some(r => selectedRam.includes(r));
       });
     }
 
     // Apply Storage filter
     if (filters.storage.length > 0) {
       products = products.filter(p => {
-        const storage = readAttr(p, ["storage", "rom", "capacity"]).toLowerCase();
-        return filters.storage.some(s => storage.includes(String(s).toLowerCase()));
+        const storageValues = getValues(p.storage || p.rom || p.capacity);
+        const normalizedStorage = storageValues.map(normalizeCapacity);
+        const selectedStorage = filters.storage.map(normalizeCapacity);
+        return normalizedStorage.some(s => selectedStorage.includes(s));
       });
     }
 
     // Apply SSD filter
     if (filters.ssd.length > 0) {
       products = products.filter(p => {
-        const ssd = readAttr(p, ["ssd", "storage"]).toLowerCase();
-        return filters.ssd.some(s => ssd.includes(String(s).toLowerCase()));
+        const ssdValues = getValues(p.ssd || (p.category?.name?.toLowerCase().includes('laptop') ? p.storage : null));
+        const normalizedSsd = ssdValues.filter(Boolean).map(normalizeCapacity);
+        const selectedSsd = filters.ssd.map(normalizeCapacity);
+        return normalizedSsd.some(s => selectedSsd.includes(s));
       });
     }
 
     // Apply Color filter
     if (filters.color.length > 0) {
       products = products.filter(p => {
-        const color = readAttr(p, ["color", "colour"]).toLowerCase();
-        return filters.color.some(c => color.includes(String(c).toLowerCase()));
+        const productColor = normalizeText(p.color || p.colour || '');
+        const selectedColors = filters.color.map(normalizeText);
+        return selectedColors.includes(productColor);
       });
     }
 
@@ -209,7 +238,7 @@ function Category() {
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
 
   const buildUrlParams = (page = currentPage) => {
     const params = {};
@@ -270,7 +299,6 @@ function Category() {
 
   const handlePageChange = (pageNumber) => {
     setSearchParams(buildUrlParams(pageNumber));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
   const handleBrandSelect = (brandId) => {
@@ -315,7 +343,6 @@ function Category() {
 
   const handleSortChange = (sortOption) => {
     setSortBy(sortOption);
-    setShowSortDropdown(false);
     setTimeout(() => {
       setSearchParams(buildUrlParams(1));
     }, 0);
@@ -353,8 +380,8 @@ function Category() {
 
       <div className="container py-4">
         <div className="row">
-          {/* Filter Sidebar */}
-          <div className="col-lg-3 col-md-4 mb-4">
+          {/* Filter Sidebar - Desktop Only */}
+          <div className="col-lg-3 col-md-4 mb-4 d-none d-md-block">
             <FilterSidebar 
               category={category} 
               onApply={handleFilterApply}
@@ -366,144 +393,33 @@ function Category() {
           </div>
 
           {/* Products Grid */}
-          <div className="col-lg-9 col-md-8">
-            {/* Category Header with Sort */}
-            <div className="mos-category-header mb-4">
-              <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                <div>
-                  <h2 className="mos-category-title text-capitalize mb-0">
-                    {category?.replace(/-/g, " ")}
-                  </h2>
-                </div>
-                
-                {/* Sort Dropdown */}
-                <div className="position-relative">
-                  <button 
-                    className="btn btn-outline-secondary d-flex align-items-center gap-2 mos-sort-btn"
-                    onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  >
-                    <span>Sort by</span>
-                    <FaChevronDown className={`mos-sort-arrow ${showSortDropdown ? 'rotate' : ''}`} />
-                  </button>
-                  
-                  {showSortDropdown && (
-                    <div className="mos-sort-dropdown">
-                      <button 
-                        className={`mos-sort-option ${sortBy === 'newest' ? 'active' : ''}`}
-                        onClick={() => handleSortChange('newest')}
-                      >
-                        Newest Arrival
-                      </button>
-                      <button 
-                        className={`mos-sort-option ${sortBy === 'priceLowToHigh' ? 'active' : ''}`}
-                        onClick={() => handleSortChange('priceLowToHigh')}
-                      >
-                        Price Low To High
-                      </button>
-                      <button 
-                        className={`mos-sort-option ${sortBy === 'priceHighToLow' ? 'active' : ''}`}
-                        onClick={() => handleSortChange('priceHighToLow')}
-                      >
-                        Price High To Low
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+          <div className="col-lg-9 col-md-8 col-12">
+            {/* Category Header with Mobile Filter Button */}
+            <CategoryHeader
+              category={category}
+              sortBy={sortBy}
+              onSortChange={handleSortChange}
+              onMobileFilterClick={() => setShowMobileFilter(true)}
+            />
 
             {/* Products Grid */}
-            {isLoading ? (
-              <div className="text-center py-5">
-                <div className="spinner-border text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              </div>
-            ) : currentProducts.length > 0 ? (
+            { currentProducts.length > 0 ? (
               <>
-                <div className="row g-4">
+                <div className="row g-3 justify-content-center">
                   {currentProducts.map((product) => (
-                    <div key={product._id} className="col-lg-4 col-md-6 col-12">
+                    <div key={product._id} className="col-lg-4 col-sm-6 col-12" style={{ maxWidth: '350px' }}>
                       <Card product={product} />
                     </div>
                   ))}
                 </div>
 
-                {/* Pagination - Always show if products exist */}
-                {filteredProducts.length > 0 && (
-                  <div className="mos-pagination-wrapper mt-5">
-                    <nav className="d-flex justify-content-center mos-pagination">
-                      <ul className="pagination">
-                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                          <button 
-                            className="page-link page-nav" 
-                            onClick={() => handlePageChange(1)}
-                            disabled={currentPage === 1}
-                          >
-                            First Page
-                          </button>
-                        </li>
-                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                          <button 
-                            className="page-link page-nav" 
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          >
-                            Previous
-                          </button>
-                        </li>
-                        
-                        {[...Array(totalPages)].map((_, index) => {
-                          const pageNumber = index + 1;
-                          if (
-                            pageNumber === 1 ||
-                            pageNumber === totalPages ||
-                            (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
-                          ) {
-                            return (
-                              <li 
-                                key={pageNumber} 
-                                className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
-                              >
-                                <button 
-                                  className="page-link page-number" 
-                                  onClick={() => handlePageChange(pageNumber)}
-                                >
-                                  {pageNumber}
-                                </button>
-                              </li>
-                            );
-                          } else if (
-                            pageNumber === currentPage - 2 ||
-                            pageNumber === currentPage + 2
-                          ) {
-                            return <li key={pageNumber} className="page-item disabled"><span className="page-link page-ellipsis">...</span></li>;
-                          }
-                          return null;
-                        })}
-
-                        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                          <button 
-                            className="page-link page-nav" 
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          >
-                            Next
-                          </button>
-                        </li>
-                        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                          <button 
-                            className="page-link page-nav" 
-                            onClick={() => handlePageChange(totalPages)}
-                            disabled={currentPage === totalPages}
-                          >
-                            Last Page
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                )}
+                {/* Pagination Component */}
+                <Pagination 
+                  currentPage={currentPage}
+                  totalProducts={filteredProducts.length}
+                  productsPerPage={productsPerPage}
+                  onPageChange={handlePageChange}
+                />
               </>
             ) : (
               <div className="text-center py-5">
@@ -525,6 +441,20 @@ function Category() {
           </div>
         )}
       </div>
+
+      {/* Mobile Filter Sidebar */}
+      <MobileFilterSidebar
+        show={showMobileFilter}
+        onClose={() => setShowMobileFilter(false)}
+        sortBy={sortBy}
+        onSortChange={handleSortChange}
+        category={category}
+        onFilterApply={handleFilterApply}
+        availableProducts={filterProductsByCategory()}
+        selectedBrandFromCarousel={selectedBrand}
+        currentFilters={filters}
+        onClearAll={handleClearAll}
+      />
     </div>
   );
 }
