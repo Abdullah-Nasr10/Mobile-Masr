@@ -1,22 +1,24 @@
 import "./Loader.css";
-function Loader() {
-  return (
-    // <div className="loader-wrapper d-flex justify-content-center align-items-center">
-    //   <div className="spinner-border text-primary" role="status">
-    //     <span className="visually-hidden">Loading...</span>
-    //   </div>
-    // </div>
 
-    <div className="cssload-container">
-      <ul className="cssload-flex-container">
-        <li>
-          <span className="cssload-loading cssload-one"></span>
-          <span className="cssload-loading cssload-two"></span>
-          <span className="cssload-loading-center"></span>
-        </li>
-      </ul>
+const Loader = () => {
+  return (
+    <div
+      className="container d-flex justify-content-center align-items-center h-100"
+      style={{ minHeight: "80vh" }}
+    >
+      <div className="loader">
+        <div className="bar1" />
+        <div className="bar2" />
+        <div className="bar3" />
+        <div className="bar4" />
+        <div className="bar5" />
+        <div className="bar6" />
+        <div className="bar7" />
+        <div className="bar8" />
+        <div className="bar9" />
+      </div>
     </div>
   );
-}
+};
 
 export default Loader;
