@@ -6,7 +6,18 @@
   box-shadow: 0 6px 18px var(--shadow-color-2);
   padding: 16px;
   position: sticky;
-  top: 16px;
+  top: 20px; /* stick with slight offset from top */
+  align-self: flex-start; /* stay within parent container */
+  max-height: calc(100vh - 40px); /* leave space for top/bottom margins */
+  overflow-y: auto; /* scroll inside the filter when content exceeds */
+}
+
+@media (max-width: 991.98px) {
+  .mos-filter-panel {
+    position: static; /* normal flow on small screens */
+    max-height: none;
+    overflow-y: visible;
+  }
 }
 
 .mos-filter-panel__header {
@@ -107,6 +118,20 @@
   height: 16px;
   border-radius: 4px;
   cursor: pointer;
+}
+
+/* Color filter with circles */
+.mos-filter-check.mos-filter-color {
+  gap: 10px;
+}
+
+.mos-color-circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 

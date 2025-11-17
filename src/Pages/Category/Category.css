@@ -1,0 +1,198 @@
+.mos-category-page {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.mos-category-header {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.mos-category-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* Sort Dropdown */
+.mos-sort-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-color: #dee2e6;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.mos-sort-btn:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.mos-sort-arrow {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.mos-sort-arrow.rotate {
+  transform: rotate(180deg);
+}
+
+.mos-sort-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 200px;
+  overflow: hidden;
+}
+
+.mos-sort-option {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: #fff;
+  text-align: left;
+  font-size: 14px;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.mos-sort-option:last-child {
+  border-bottom: none;
+}
+
+.mos-sort-option:hover {
+  background: #f8f9fa;
+  color: #007bff;
+}
+
+.mos-sort-option.active {
+  background: #e7f3ff;
+  color: #007bff;
+  font-weight: 500;
+}
+
+/* Pagination */
+.mos-pagination-wrapper {
+  padding: 30px 0;
+}
+
+/* Modern pagination container */
+ /* .mos-pagination {
+  background: #f3f4f6;
+  border: 1px solid #eef0f2;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px #0000000f;
+  display: inline-flex;
+}  */
+
+.mos-pagination .pagination {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.mos-pagination .page-item {
+  list-style: none;
+}
+
+.mos-pagination .page-link {
+  padding: 10px 18px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  color: #495057;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.mos-pagination .page-link:hover:not(.disabled .page-link) {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.mos-pagination .page-item.active .page-link {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.mos-pagination .page-item.disabled .page-link {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #e9ecef;
+  color: #6c757d;
+  pointer-events: auto; /* keep visible and show not-allowed cursor */
+}
+
+.mos-pagination .page-item.disabled .page-link:hover {
+  background-color: #e9ecef;
+  color: #6c757d;
+  transform: none;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Innovative look: number circles and pill navs */
+.mos-pagination .page-link.page-number {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border-color: transparent;
+  background: #f3f6f9;
+}
+
+.mos-pagination .page-item.active .page-link.page-number {
+  background: #007bff;
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(0,123,255,0.35);
+}
+
+.mos-pagination .page-link.page-nav {
+  border-radius: 999px;
+  background: #fff;
+  border-color: #e7eaee;
+}
+
+.mos-pagination .page-ellipsis {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.mos-no-products-message {
+  padding: 50px 20px;
+}
+
+/* Responsive */
+@media (max-width: 766px) {
+  .mos-category-title {
+    font-size: 20px;
+  }
+
+  .mos-pagination .page-link {
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+

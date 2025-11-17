@@ -7,9 +7,14 @@ import HeroSlider from "../../components/HomeComponents/HeroSlider/HeroSlider.js
 import FeatureBar from "../../components/HomeComponents/FeatureBar/FeatureBar.jsx";
 import BannerGrid from "../../components/HomeComponents/BannerGrid/BannerGrid.jsx";
 import CategorySlider from "../../components/HomeComponents/CategorySlider/CategorySlider.jsx";
+import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
 
 function Home() {
   const allProducts = useSelector((store) => store.products.data);
+  const isLoading = useSelector((store) => store.products.isLoading);
+  if (isLoading) {
+    return <Loader />;
+  }
   // const products = allProducts.filter((p) => p.category?.name != "Laptop");
   const newProducts = allProducts.filter((p) => p.condition == "new");
   const usedProducts = allProducts.filter((p) => p.condition == "used");

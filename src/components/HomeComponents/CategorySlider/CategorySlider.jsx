@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import axios from "axios";
@@ -56,7 +57,7 @@ const CategorySlider = () => {
 
         {categories.map((cat, index) => (
           <SwiperSlide key={cat._id}>
-            <Link to={`category/${CatName[index]}`} className="geh-category-card">
+            <Link to={`/category/${CatName[index]}`} className="geh-category-card">
               <div className="geh-image-box">
                 <img src={cat.image} alt={cat.name} />
               </div>
