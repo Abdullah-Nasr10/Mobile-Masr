@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import axios from "axios";
@@ -36,12 +37,15 @@ const CategorySlider = () => {
       >
         {categories.map((cat) => (
           <SwiperSlide key={cat._id}>
-            <a href="#" className="geh-category-card">
+            <Link 
+              to={`/category/${cat.name.toLowerCase().replace(/\s+/g, '-')}`} 
+              className="geh-category-card"
+            >
               <div className="geh-image-box">
                 <img src={cat.image} alt={cat.name} />
               </div>
               <span className="geh-title">{cat.name}</span>
-            </a>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
