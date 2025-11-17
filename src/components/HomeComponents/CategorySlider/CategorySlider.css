@@ -53,4 +53,14 @@
 
 
 
+@media (max-width: 480px) {
+  .geh-image-box {
+    width: 100px;
+    height: 100px;
+  }
+  .geh-title {
+    font-size: 13px;
+  }
+  
+}
 
