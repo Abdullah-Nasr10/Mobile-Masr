@@ -1,17 +1,17 @@
 import React from "react";
 import "./Pagination.css";
 
-function Pagination({ 
-  currentPage, 
-  totalProducts, 
-  productsPerPage, 
-  onPageChange 
+function Pagination({
+  currentPage,
+  totalProducts,
+  productsPerPage,
+  onPageChange,
 }) {
   const totalPages = Math.ceil(totalProducts / productsPerPage);
 
   const handlePageChange = (pageNumber) => {
     onPageChange(pageNumber);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (totalProducts === 0) return null;
@@ -21,8 +21,8 @@ function Pagination({
       <nav className="d-flex justify-content-center mos-pagination">
         <ul className="pagination">
           <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button 
-              className="page-link page-nav page-first" 
+            <button
+              className="page-link page-nav page-first"
               onClick={() => handlePageChange(1)}
               disabled={currentPage === 1}
               aria-label="First Page"
@@ -32,8 +32,8 @@ function Pagination({
             </button>
           </li>
           <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-            <button 
-              className="page-link page-nav page-prev" 
+            <button
+              className="page-link page-nav page-prev"
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
               aria-label="Previous"
@@ -42,7 +42,7 @@ function Pagination({
               <span className="page-nav-icon">‹</span>
             </button>
           </li>
-          
+
           {[...Array(totalPages)].map((_, index) => {
             const pageNumber = index + 1;
             if (
@@ -51,12 +51,14 @@ function Pagination({
               (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
             ) {
               return (
-                <li 
-                  key={pageNumber} 
-                  className={`page-item ${currentPage === pageNumber ? "active" : ""}`}
+                <li
+                  key={pageNumber}
+                  className={`page-item ${
+                    currentPage === pageNumber ? "active" : ""
+                  }`}
                 >
-                  <button 
-                    className="page-link page-number" 
+                  <button
+                    className="page-link page-number"
                     onClick={() => handlePageChange(pageNumber)}
                   >
                     {pageNumber}
@@ -76,9 +78,13 @@ function Pagination({
             return null;
           })}
 
-          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button 
-              className="page-link page-nav page-next" 
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link page-nav page-next"
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
               aria-label="Next"
@@ -87,9 +93,13 @@ function Pagination({
               <span className="page-nav-icon">›</span>
             </button>
           </li>
-          <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-            <button 
-              className="page-link page-nav page-last" 
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              className="page-link page-nav page-last"
               onClick={() => handlePageChange(totalPages)}
               disabled={currentPage === totalPages}
               aria-label="Last Page"

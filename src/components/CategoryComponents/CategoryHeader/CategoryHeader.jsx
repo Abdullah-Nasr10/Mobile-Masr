@@ -3,7 +3,12 @@ import Sort from "../../GlobalComponents/Sort/Sort";
 import { FiSliders } from "react-icons/fi";
 import "./CategoryHeader.css";
 
-function CategoryHeader({ category, sortBy, onSortChange, onMobileFilterClick }) {
+function CategoryHeader({
+  category,
+  sortBy,
+  onSortChange,
+  onMobileFilterClick,
+}) {
   return (
     <>
       {/* Mobile Filter Button */}

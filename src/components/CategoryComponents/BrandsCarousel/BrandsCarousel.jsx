@@ -18,8 +18,10 @@ const BrandsCarousel = ({ category, onBrandClick, selectedBrand }) => {
     // Filter products by category
     const categoryProducts = allProducts.filter((product) => {
       const productCategory = product?.category?.name?.toLowerCase() || "";
-      return productCategory.includes(normalizedCategory) || 
-             normalizedCategory.includes(productCategory);
+      return (
+        productCategory.includes(normalizedCategory) ||
+        normalizedCategory.includes(productCategory)
+      );
     });
 
     // Extract unique brands
@@ -27,7 +29,7 @@ const BrandsCarousel = ({ category, onBrandClick, selectedBrand }) => {
     const brandMap = new Map();
 
     categoryProducts.forEach((product) => {
-      if (product.brand && typeof product.brand === 'object') {
+      if (product.brand && typeof product.brand === "object") {
         const brandId = product.brand._id;
         if (!brandMap.has(brandId)) {
           brandMap.set(brandId, product.brand);
@@ -60,12 +62,14 @@ const BrandsCarousel = ({ category, onBrandClick, selectedBrand }) => {
         >
           {brands.map((brand) => (
             <SwiperSlide key={brand._id}>
-              <div 
-                className={`mos-brand-card ${selectedBrand === brand._id ? 'active' : ''}`}
+              <div
+                className={`mos-brand-card ${
+                  selectedBrand === brand._id ? "active" : ""
+                }`}
                 onClick={() => onBrandClick(brand._id)}
               >
-                <img 
-                  src={brand.image} 
+                <img
+                  src={brand.image}
                   alt={brand.name}
                   className="mos-brand-image"
                 />

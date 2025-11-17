@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import "./Sort.css";
 
@@ -12,31 +12,37 @@ const Sort = ({ sortBy, onSortChange }) => {
 
   return (
     <div className="position-relative">
-      <button 
+      <button
         className="btn btn-outline-secondary d-flex align-items-center gap-2 mos-sort-btn"
         onClick={() => setShowDropdown(!showDropdown)}
       >
         <span>Sort by</span>
-        <FaChevronDown className={`mos-sort-arrow ${showDropdown ? 'rotate' : ''}`} />
+        <FaChevronDown
+          className={`mos-sort-arrow ${showDropdown ? "rotate" : ""}`}
+        />
       </button>
-      
+
       {showDropdown && (
         <div className="mos-sort-dropdown">
-          <button 
-            className={`mos-sort-option ${sortBy === 'newest' ? 'active' : ''}`}
-            onClick={() => handleSortSelect('newest')}
+          <button
+            className={`mos-sort-option ${sortBy === "newest" ? "active" : ""}`}
+            onClick={() => handleSortSelect("newest")}
           >
             Newest Arrival
           </button>
-          <button 
-            className={`mos-sort-option ${sortBy === 'priceLowToHigh' ? 'active' : ''}`}
-            onClick={() => handleSortSelect('priceLowToHigh')}
+          <button
+            className={`mos-sort-option ${
+              sortBy === "priceLowToHigh" ? "active" : ""
+            }`}
+            onClick={() => handleSortSelect("priceLowToHigh")}
           >
             Price Low To High
           </button>
-          <button 
-            className={`mos-sort-option ${sortBy === 'priceHighToLow' ? 'active' : ''}`}
-            onClick={() => handleSortSelect('priceHighToLow')}
+          <button
+            className={`mos-sort-option ${
+              sortBy === "priceHighToLow" ? "active" : ""
+            }`}
+            onClick={() => handleSortSelect("priceHighToLow")}
           >
             Price High To Low
           </button>
@@ -44,6 +50,6 @@ const Sort = ({ sortBy, onSortChange }) => {
       )}
     </div>
   );
-}
+};
 
 export default Sort;

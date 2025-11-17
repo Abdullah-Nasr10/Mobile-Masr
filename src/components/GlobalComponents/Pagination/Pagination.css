@@ -47,7 +47,8 @@
   opacity: 0.6;
   background-color: #e9ecef;
   color: #6c757d;
-  pointer-events: auto; /* keep visible and show not-allowed cursor */
+  pointer-events: auto;
+  /* keep visible and show not-allowed cursor */
 }
 
 .mos-pagination .page-item.disabled .page-link:hover {
@@ -73,7 +74,7 @@
 .mos-pagination .page-item.active .page-link.page-number {
   background: #007bff;
   color: #fff;
-  box-shadow: 0 6px 14px rgba(0,123,255,0.35);
+  box-shadow: 0 6px 14px rgba(0, 123, 255, 0.35);
 }
 
 .mos-pagination .page-link.page-nav {
@@ -100,22 +101,22 @@
   .mos-pagination .pagination {
     gap: 6px;
   }
-  
+
   .mos-pagination .page-link {
     padding: 8px 12px;
     font-size: 12px;
   }
-  
+
   /* Hide text, show icons only */
   .mos-pagination .page-nav-text {
     display: none;
   }
-  
+
   .mos-pagination .page-nav-icon {
     display: inline;
     font-size: 18px;
   }
-  
+
   .mos-pagination .page-link.page-nav {
     width: 36px;
     height: 36px;
@@ -123,7 +124,7 @@
     display: grid;
     place-items: center;
   }
-  
+
   .mos-pagination .page-link.page-number {
     width: 36px;
     height: 36px;
@@ -135,7 +136,7 @@
   .mos-pagination .page-nav-icon {
     display: none;
   }
-  
+
   .mos-pagination .page-nav-text {
     display: inline;
   }

@@ -6,15 +6,20 @@
   box-shadow: 0 6px 18px var(--shadow-color-2);
   padding: 16px;
   position: sticky;
-  top: 20px; /* stick with slight offset from top */
-  align-self: flex-start; /* stay within parent container */
-  max-height: calc(100vh - 40px); /* leave space for top/bottom margins */
-  overflow-y: auto; /* scroll inside the filter when content exceeds */
+  top: 20px;
+  /* stick with slight offset from top */
+  align-self: flex-start;
+  /* stay within parent container */
+  max-height: calc(100vh - 40px);
+  /* leave space for top/bottom margins */
+  overflow-y: auto;
+  /* scroll inside the filter when content exceeds */
 }
 
 @media (max-width: 991.98px) {
   .mos-filter-panel {
-    position: static; /* normal flow on small screens */
+    position: static;
+    /* normal flow on small screens */
     max-height: none;
     overflow-y: visible;
   }
@@ -40,6 +45,7 @@
 .mos-filter-group {
   border-bottom: 1px solid var(--container-bg);
 }
+
 .mos-filter-group:last-child {
   border-bottom: none;
 }
@@ -56,10 +62,12 @@
   color: var(--black-color);
   gap: 12px;
 }
+
 .mos-filter-group__title {
   flex: 1;
   text-align: left;
 }
+
 .mos-filter-group__arrow {
   display: flex;
   align-items: center;
@@ -84,24 +92,30 @@
 .mos-filter-group__body {
   padding: 6px 6px 12px 28px;
 }
+
 .mos-filter-group__body.is-list {
   max-height: 150px;
   overflow-y: auto;
   /* scrollbar-width: thin; */
 }
+
 .mos-filter-group__body.is-list::-webkit-scrollbar {
   width: 10px;
 }
+
 .mos-filter-group__body.is-list::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .mos-filter-group__body.is-list::-webkit-scrollbar-thumb {
   background: var(--muted-text-2);
   border-radius: 6px;
 }
+
 .mos-filter-group__body.is-list::-webkit-scrollbar-thumb:hover {
   background: var(--muted-text-2);
 }
+
 .mos-filter-group__body.no-scroll {
   overflow: visible;
 }
@@ -113,6 +127,7 @@
   padding: 4px 0;
   cursor: pointer;
 }
+
 .mos-filter-check input[type="checkbox"] {
   width: 16px;
   height: 16px;
@@ -141,12 +156,14 @@
   gap: 8px;
   margin-bottom: 6px;
 }
+
 .mos-price-inputs input {
   width: 100%;
   padding: 6px 8px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
 }
+
 .mos-price-dash {
   color: var(--muted-text-2);
 }
@@ -157,6 +174,7 @@
   display: grid;
   align-items: center;
 }
+
 .mos-double-range input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -168,7 +186,7 @@
 }
 
 .mos-double-range input[type="range"]::-webkit-slider-thumb {
--webkit-appearance: none;
+  -webkit-appearance: none;
   appearance: none;
   height: 16px;
   width: 16px;
@@ -181,7 +199,7 @@
 }
 
 .mos-double-range input[type="range"]::-moz-range-thumb {
-height: 16px;
+  height: 16px;
   width: 16px;
   border-radius: 50%;
   background-color: var(--green-color);
@@ -206,6 +224,7 @@ height: 16px;
   gap: 10px;
   margin-top: 14px;
 }
+
 .mos-btn-apply {
   background: var(--orange-color-2);
   color: var(--white-color);
@@ -214,6 +233,7 @@ height: 16px;
   border-radius: 10px;
   font-weight: 700;
 }
+
 .mos-btn-apply:hover {
   filter: brightness(0.95);
 }
@@ -229,6 +249,7 @@ height: 16px;
   border-radius: 10px;
   font-weight: 700;
 }
+
 .mos-btn-clear:hover {
   background: var(--cart-color);
 }
