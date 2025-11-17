@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   FiSliders,
   FiChevronDown,
@@ -32,6 +32,7 @@ const FILTER_GROUPS = {
   "Sim Card": ["1 sim", "2-sim", "1 sim + e sim"],
   Ram: ["3 GB", "4 GB", "6 GB", "8 GB", "12 GB", "16 GB", "36 GB", "64 GB"],
   Storage: ["32 GB", "64 GB", "128 GB", "256 GB", "512 GB", "1 TB"],
+  SSD : ["128 GB", "256 GB", "512 GB", "1 TB"],
   Color: [
     "Mystic Black",
     "Crystal Black",
@@ -133,16 +134,152 @@ const FILTER_GROUPS = {
 };
 
 // Price boundaries 
-const MIN_PRICE = 950;
+const MIN_PRICE = 1380;
 const MAX_PRICE = 199000;
 
-const FilterSidebar = ({ onApply }) => {
+const FilterSidebar = ({ onApply, category, availableProducts = [], selectedBrandFromCarousel = null, currentFilters = {}, onClearAll }) => {
   // Track opened accordion sections
   const [openKeys, setOpenKeys] = useState(() => new Set());
   // Track selected checkbox values per group
   const [selected, setSelected] = useState(() => ({}));
   // Track price range
   const [price, setPrice] = useState([MIN_PRICE, MAX_PRICE]);
+
+  // Reset accordion state when category changes
+  useEffect(() => {
+    setOpenKeys(new Set()); // close all accordions
+  }, [category]);
+
+  // Color mapping for visual display
+  const colorMap = {
+    black: '#000000',
+    red: '#FF0000',
+    white: '#FFFFFF',
+    gold: '#FFD700',
+    blue: '#0000FF',
+    'phantom black': '#000000',
+    'phantom green': '#2D5016',
+    'phantom silver': '#C0C0C0',
+    silver: '#C0C0C0',
+    yellow: '#FFFF00',
+    brown: '#8B4513',
+    pink: '#FFC0CB',
+    purple: '#800080',
+    cream: '#FFFDD0',
+    'dark gray': '#A9A9A9',
+    'midnight black': '#000000',
+    orange: '#FFA500',
+    green: '#008000',
+    'navy blue': '#000080',
+    gray: '#808080',
+    grey: '#808080',
+  };
+
+  // Sync with brand selected from carousel
+  useEffect(() => {
+    if (selectedBrandFromCarousel) {
+      // Find brand name from ID
+      const product = availableProducts.find(p => {
+        const brandId = typeof p.brand === 'object' ? p.brand._id : null;
+        return brandId === selectedBrandFromCarousel;
+      });
+      if (product) {
+        const brandName = typeof product.brand === 'object' ? product.brand.name : product.brand;
+        setSelected(prev => ({
+          ...prev,
+          Brands: [brandName]
+        }));
+      }
+    } else if (currentFilters.brands?.length === 0) {
+      // Clear brand selection if no carousel brand selected
+      setSelected(prev => {
+        const newSelected = { ...prev };
+        delete newSelected.Brands;
+        return newSelected;
+      });
+    }
+  }, [selectedBrandFromCarousel, availableProducts, currentFilters.brands]);
+
+  // Extract unique brands from available products
+  const getAvailableBrands = () => {
+    const brandsSet = new Set();
+    availableProducts.forEach(product => {
+      if (product.brand) {
+        const brandName = typeof product.brand === 'object' ? product.brand.name : product.brand;
+        if (brandName) brandsSet.add(brandName);
+      }
+    });
+    return Array.from(brandsSet).sort();
+  };
+
+  // Define which filters to show per category
+  const getFilterGroups = () => {
+    const normalizedCategory = category?.toLowerCase().replace(/-/g, " ") || "";
+    const availableBrands = getAvailableBrands();
+    
+    // Common filters for all categories
+    const commonFilters = {
+      "Brands": availableBrands.length > 0 ? availableBrands : FILTER_GROUPS.Brands,
+      "Type": FILTER_GROUPS.Type,
+    };
+
+    // Category-specific filters
+    if (normalizedCategory.includes("mobile") || normalizedCategory.includes("phone")) {
+      return {
+        ...commonFilters,
+        "Sim Card": FILTER_GROUPS["Sim Card"],
+        "Ram": FILTER_GROUPS.Ram,
+        "Storage": FILTER_GROUPS.Storage,
+        "Color": FILTER_GROUPS.Color,
+      };
+    }
+    
+    if (normalizedCategory.includes("laptop")) {
+      return {
+        ...commonFilters,
+        "SSD": FILTER_GROUPS.SSD,
+        "Ram": FILTER_GROUPS.Ram,
+        "Color": FILTER_GROUPS.Color,
+      };
+    }
+    
+    if (normalizedCategory.includes("tablet")) {
+      return {
+        ...commonFilters,
+        "Sim Card": FILTER_GROUPS["Sim Card"],
+        "Ram": FILTER_GROUPS.Ram,
+        "Storage": FILTER_GROUPS.Storage,
+        "Color": FILTER_GROUPS.Color,
+      };
+    }
+    
+    if (normalizedCategory.includes("watch")) {
+      return {
+        ...commonFilters,
+        "Sim Card": FILTER_GROUPS["Sim Card"],
+        "Color": FILTER_GROUPS.Color,
+      };
+    }
+    
+    if (normalizedCategory.includes("earbuds") || normalizedCategory.includes("headphone")) {
+      return {
+        ...commonFilters,
+        "Color": FILTER_GROUPS.Color,
+      };
+    }
+    
+    if (normalizedCategory.includes("console") || normalizedCategory.includes("playstation") || normalizedCategory.includes("xbox")) {
+      return {
+        ...commonFilters,
+        "Color": FILTER_GROUPS.Color,
+      };
+    }
+
+    // Default: show common filters only
+    return commonFilters;
+  };
+
+  const availableFilters = getFilterGroups();
 
   const toggleOpen = (key) => {
     setOpenKeys((prev) => {
@@ -178,7 +315,11 @@ const FilterSidebar = ({ onApply }) => {
   const clearAll = () => {
     setSelected({});
     setPrice([MIN_PRICE, MAX_PRICE]);
-    if (onApply) onApply({ filters: {}, price: [MIN_PRICE, MAX_PRICE] });
+    if (onClearAll) {
+      onClearAll();
+    } else if (onApply) {
+      onApply({ filters: {}, price: [MIN_PRICE, MAX_PRICE] });
+    }
   };
 
   const applyFilters = useCallback(() => {
@@ -194,7 +335,7 @@ const FilterSidebar = ({ onApply }) => {
       </div>
 
       <div className="mos-filter-panel__groups">
-        {Object.entries(FILTER_GROUPS).map(([group, options]) => {
+        {Object.entries(availableFilters).map(([group, options]) => {
           const isOpen = openKeys.has(group);
           return (
             <div key={group} className="mos-filter-group">
@@ -220,13 +361,25 @@ const FilterSidebar = ({ onApply }) => {
                 >
                   {options.map((opt) => {
                     const checked = selected[group]?.includes(opt);
+                    const isColorGroup = group === 'Color';
+                    const colorValue = colorMap[opt.toLowerCase()] || '#808080';
+                    
                     return (
-                      <label key={opt} className="mos-filter-check">
+                      <label key={opt} className={`mos-filter-check ${isColorGroup ? 'mos-filter-color' : ''}`}>
                         <input
                           type="checkbox"
                           checked={!!checked}
                           onChange={() => toggleValue(group, opt)}
                         />
+                        {isColorGroup && (
+                          <span 
+                            className="mos-color-circle" 
+                            style={{ 
+                              backgroundColor: colorValue,
+                              border: colorValue === '#FFFFFF' ? '1px solid #ddd' : 'none'
+                            }}
+                          />
+                        )}
                         <span>{opt}</span>
                       </label>
                     );
