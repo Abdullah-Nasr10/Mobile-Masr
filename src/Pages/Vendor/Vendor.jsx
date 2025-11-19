@@ -18,7 +18,7 @@ function Vendor() {
   const vendor = useSelector((store) => store.vendors.data);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 12;
 
   useEffect(() => {
     dispatch(fetchVendorData(id));
@@ -26,7 +26,9 @@ function Vendor() {
 
   if (!vendor) {
     return (
-      <div className="reh-fs-1 reh-text-center reh-mt-5">Loading vendor...</div>
+      <div className="reh-fs-1 reh-text-center reh-mt-5">
+        Loading vendor...
+      </div>
     );
   }
 
@@ -43,37 +45,45 @@ function Vendor() {
 
   return (
     <>
-      <div className="reh-container reh-py-5">
-        <div className="row">
-          <div className="col-12 col-lg-3 g-10">
-            <VendorContainer vendor={vendor} />
+     <div className="reh-container reh-py-5">
+  <div className="reh-row-negative">
+    {/* Sidebar */}
+    <div className="reh-vendor-sidebar">
+      <VendorContainer vendor={vendor} />
+    </div>
+
+    {/* Main content */}
+    <div className="reh-vendor-main">
+      {vendorProducts.length > 0 ? (
+        <>
+          <div className="reh-vendor-products-row">
+            {currentProducts.map((product) => (
+              <div
+                key={product._id}
+                className="reh-vendor-product-col"
+              >
+                <Card product={product} />
+              </div>
+            ))}
           </div>
 
-          <div className="col-12 col-lg-9">
-            {vendorProducts.length > 0 ? (
-              <>
-                <div className="vendor-products-row">
-                  {currentProducts.map((product) => (
-                    <div key={product._id} className="vendor-product-col">
-                      <Card product={product} />
-                    </div>
-                  ))}
-                </div>
-                <Pagination
-                  currentPage={currentPage}
-                  totalProducts={vendorProducts.length}
-                  productsPerPage={productsPerPage}
-                  onPageChange={setCurrentPage}
-                />
-              </>
-            ) : (
-              <div className="reh-text-center reh-fs-4">
-                No products for this vendor yet.
-              </div>
-            )}
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalProducts={vendorProducts.length}
+            productsPerPage={productsPerPage}
+            onPageChange={setCurrentPage}
+          />
+        </>
+      ) : (
+        <div className="reh-text-center reh-fs-4">
+          No products for this vendor yet.
         </div>
-      </div>
+      )}
+    </div>
+  </div>
+</div>
+
+
       <KnowledgeBanners />
     </>
   );
