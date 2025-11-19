@@ -13,7 +13,7 @@ const Sort = ({ sortBy, onSortChange }) => {
   return (
     <div className="position-relative">
       <button
-        className="btn btn-outline-secondary d-flex align-items-center gap-2 mos-sort-btn"
+        className="btn d-flex align-items-center gap-2 mos-sort-btn"
         onClick={() => setShowDropdown(!showDropdown)}
       >
         <span>Sort by</span>

@@ -1,5 +1,5 @@
 .abd-Product-Card {
-  max-width: 40rem;
+  max-width: 45rem;
   /* height: 35rem; */
   border: 1px solid var(--border-color);
   border-radius: 2rem;
@@ -161,7 +161,6 @@
   -webkit-box-orient: vertical;
   line-clamp: 2;
 }
-
 
 
 /* =================compare-btn================= */

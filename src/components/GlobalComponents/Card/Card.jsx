@@ -2,13 +2,12 @@
 import { FaFacebook, FaHeart, FaShareAlt, FaWhatsapp } from "react-icons/fa";
 import { MdOutlineBatteryChargingFull as BatteryIcon } from "react-icons/md";
 import { TbBuildingStore } from "react-icons/tb";
-// import { IoGitCompareOutline } from "react-icons/io5";
+import { IoGitCompareOutline } from "react-icons/io5";
 
 import "./Card.css";
 import { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import Button from "../Button/Button";
-import CompareBtn from "./CompareBtn";
 
 export default function Card({ product }) {
   const [isFav, setIsFav] = useState(false);
@@ -113,7 +112,13 @@ export default function Card({ product }) {
           >
             <Button btnTitle="View Details" style={{ width: "300px" }} />
           </NavLink>
-          {compare === "compare" && <CompareBtn />}
+          {/* -----------copmare-Btn------------ */}
+          {compare === "compare" && (
+            <div className="abd-CompareBtn p-2">
+              <IoGitCompareOutline size={20} />
+              <div className="abd-TextCompareBtn ms-2">Compare</div>
+            </div>
+          )}
         </div>
       </div>
       {/* ==========  Card-Details-end  ===========  */}

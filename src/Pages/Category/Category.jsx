@@ -13,9 +13,10 @@ import CategoryHeader from "../../components/CategoryComponents/CategoryHeader/C
 import MobileFilterSidebar from "../../components/CategoryComponents/MobileFilterSidebar/MobileFilterSidebar";
 import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
 import "./Category.css";
+import CompareList from "../../components/CategoryComponents/CompareList/CompareList.jsx";
 
 function Category() {
-  const { category } = useParams();
+  const { category, compare } = useParams();
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -35,7 +36,7 @@ function Category() {
     ssd: [],
     color: [],
   });
-  const productsPerPage = 15;
+  const productsPerPage = 12;
 
   // Get current page from URL
   const currentPage = parseInt(searchParams.get("page")) || 1;
@@ -494,6 +495,7 @@ function Category() {
         currentFilters={filters}
         onClearAll={handleClearAll}
       />
+      {compare == "compare" && <CompareList />}
     </div>
   );
 }
