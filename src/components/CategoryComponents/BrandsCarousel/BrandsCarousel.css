@@ -1,8 +1,8 @@
 .mos-brands-carousel-wrapper {
-  background-color: #fff;
+  background-color: var(--white-color);
   padding: 20px 0;
   margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
 }
 
 .mos-brands-swiper {
@@ -10,7 +10,7 @@
 }
 
 .mos-brand-card {
-  background: #f8f9fa;
+  background: var(--cart-color);
   border-radius: 12px;
   padding: 15px;
   height: 80px;
@@ -30,7 +30,7 @@
 
 .mos-brand-card.active {
   border-color: var(--orange-color);
-  background: #e7f3ff;
+  background: var(--white-color);
   box-shadow: 0 4px 12px #007bff33;
 }
 

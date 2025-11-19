@@ -2,14 +2,14 @@
 .mos-sort-btn {
   padding: 8px 16px;
   font-size: 14px;
-  border-color: #dee2e6;
-  background: #fff;
+  border-color: var(--border-color);
+  background: var(--white-color);
   transition: all 0.3s ease;
 }
 
 .mos-sort-btn:hover {
-  border-color: #007bff;
-  color: #007bff;
+  border-color: var(--blue-color);
+  color: var(--blue-color);
 }
 
 .mos-sort-arrow {

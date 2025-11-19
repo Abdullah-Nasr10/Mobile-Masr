@@ -9,6 +9,8 @@ import Pagination from "../../components/GlobalComponents/Pagination/Pagination"
 
 import "./Vendor.css";
 import KnowledgeBanners from "../../components/HomeComponents/KnowledgeBanners/KnowledgeBanners.jsx";
+import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
+import PagePath from "../../components/GlobalComponents/PagePath/PagePath.jsx";
 
 function Vendor() {
   const { id } = useParams();
@@ -18,16 +20,14 @@ function Vendor() {
   const vendor = useSelector((store) => store.vendors.data);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 6;
+  const productsPerPage = 12;
 
   useEffect(() => {
     dispatch(fetchVendorData(id));
   }, [dispatch, id]);
 
-  if (!vendor) {
-    return (
-      <div className="reh-fs-1 reh-text-center reh-mt-5">Loading vendor...</div>
-    );
+  if (!vendor || allProducts.length === 0) {
+    return <Loader />;
   }
 
   const vendorProducts = allProducts.filter(
@@ -42,20 +42,24 @@ function Vendor() {
   );
 
   return (
-    <>
-      <div className="reh-container reh-py-5">
+    <div className="container pt-5">
+      <PagePath path={`${vendor.name}`} />
+      <div className="py-5">
         <div className="row">
-          <div className="col-12 col-lg-3 g-10">
+          <aside className="col-12 col-lg-3">
             <VendorContainer vendor={vendor} />
-          </div>
+          </aside>
 
-          <div className="col-12 col-lg-9">
+          <main className="col-12 col-lg-9">
             {vendorProducts.length > 0 ? (
               <>
-                <div className="vendor-products-row">
+                <div className="row g-3 reh-vendor-products-row">
                   {currentProducts.map((product) => (
-                    <div key={product._id} className="vendor-product-col">
-                      <Card product={product} />
+                    <div
+                      key={product._1d}
+                      className="col-12 col-md-6 col-lg-4 "
+                    >
+                      <Card product={product} className=" mx-auto" />
                     </div>
                   ))}
                 </div>
@@ -71,11 +75,11 @@ function Vendor() {
                 No products for this vendor yet.
               </div>
             )}
-          </div>
+          </main>
         </div>
       </div>
       <KnowledgeBanners />
-    </>
+    </div>
   );
 }
 
