@@ -2,17 +2,22 @@
 import { FaFacebook, FaHeart, FaShareAlt, FaWhatsapp } from "react-icons/fa";
 import { MdOutlineBatteryChargingFull as BatteryIcon } from "react-icons/md";
 import { TbBuildingStore } from "react-icons/tb";
+// import { IoGitCompareOutline } from "react-icons/io5";
 
 import "./Card.css";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import Button from "../Button/Button";
+import CompareBtn from "./CompareBtn";
 
 export default function Card({ product }) {
   const [isFav, setIsFav] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const simText = product.simCard || "";
   const simCount = /2[-\s]?sim/i.test(simText) ? "2" : "";
+  // const { pathname } = window.location;
+  const { compare } = useParams();
+  console.log("param name: ", compare);
 
   return (
     <div className="abd-Product-Card">
@@ -101,12 +106,15 @@ export default function Card({ product }) {
           )}
         </div>
         {/* --------------Go to Product Details ----------- */}
-        <NavLink
-          to={`/products/${product._id}`}
-          className="abd-View-Details d-block mt-4 py-2"
-        >
-          <Button btnTitle="View Details" style={{ width: "300px" }} />
-        </NavLink>
+        <div className="abd-Card-Buttons d-flex align-items-center justify-content-between mt-4 gap-3">
+          <NavLink
+            to={`/products/${product._id}`}
+            className="abd-View-Details d-block py-2"
+          >
+            <Button btnTitle="View Details" style={{ width: "300px" }} />
+          </NavLink>
+          {compare === "compare" && <CompareBtn />}
+        </div>
       </div>
       {/* ==========  Card-Details-end  ===========  */}
     </div>
