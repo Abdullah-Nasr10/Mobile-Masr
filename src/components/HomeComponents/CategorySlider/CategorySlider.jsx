@@ -9,15 +9,6 @@ import "./CategorySlider.css";
 const CategorySlider = () => {
   const [categories, setCategories] = useState([]);
 
-  const CatName = [
-    "mobile",
-    "tablet",
-    "smart-watches",
-    "wireless-earbuds",
-    "game-consoles",
-    "laptop",
-  ];
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -59,19 +50,21 @@ const CategorySlider = () => {
           },
         }}
       >
-        {categories.map((cat, index) => (
-          <SwiperSlide key={cat._id}>
-            <Link
-              to={`/category/${CatName[index]}`}
-              className="geh-category-card"
-            >
-              <div className="geh-image-box">
-                <img src={cat.image} alt={cat.name} />
-              </div>
-              <span className="geh-title">{cat.name}</span>
-            </Link>
-          </SwiperSlide>
-        ))}
+        {categories.map((cat) => {
+          const slug = `/category/${cat.name
+            .toLowerCase()
+            .replace(/\s+/g, "-")}`;
+          return (
+            <SwiperSlide key={cat._id}>
+              <Link to={slug} className="geh-category-card">
+                <div className="geh-image-box">
+                  <img src={cat.image} alt={cat.name} />
+                </div>
+                <span className="geh-title">{cat.name}</span>
+              </Link>
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );

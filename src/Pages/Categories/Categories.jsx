@@ -1,6 +1,4 @@
-
 // function Categories() {
-
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -23,16 +21,21 @@ const Categories = () => {
   }, []);
 
   return (
-    <div className="heb-category-page container">
+    <div className="heb-category-page container my-5">
       <h2 className="heb-category-title">All Categories</h2>
 
       <div className="heb-category-grid">
-        {categories.map((cat) => (
-          <Link to={`${cat.name.toLowerCase()}`} key={cat._id} className="heb-category-card">
-            <img src={cat.image} alt={cat.name} />
-            <h3>{cat.name}</h3>
-          </Link>
-        ))}
+        {categories.map((cat) => {
+          const slug = `/category/${cat.name
+            .toLowerCase()
+            .replace(/\s+/g, "-")}`;
+          return (
+            <Link to={slug} key={cat._id} className="heb-category-card">
+              <img src={cat.image} alt={cat.name} />
+              <h3>{cat.name}</h3>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
