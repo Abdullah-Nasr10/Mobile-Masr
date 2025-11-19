@@ -1,44 +1,44 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-// http://localhost:3000/vendor/:id
-
+// http://localhost:3000/vendors/:id
 const fetchData = async (id) => {
-    try {
-        const data = await fetch(`http://localhost:3000/vendors/${id}`);
-        const result = await data.json();
-        return result.data;
-    } catch (error) {
-        console.error("Error fetching vendor:", error);
-        return error;
-    }
+  try {
+    const response = await fetch(`http://localhost:3000/vendors/${id}`);
+    const result = await response.json();
+    // لو الـ API رجع object مفرد، حوّله array
+    return result
+  } catch (error) {
+    console.error("Error fetching vendor:", error);
+    throw error;
+  }
 };
 
-
+// Thunk لجلب بيانات vendor
 export const fetchVendorData = createAsyncThunk("fetchVendorData", fetchData);
 
 const vendorSlice = createSlice({
-    name: "vendorSlice",
-    initialState: {
-        data: [],
-        isLoading: true,
-        error: null,
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchVendorData.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(fetchVendorData.fulfilled, (state, action) => {
-                state.data = action.payload;
-                state.isLoading = false;
-                state.error = null;
-            })
-            .addCase(fetchVendorData.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.error.message;
-            });
-    }
+  name: "vendorSlice",
+  initialState: {
+    data: [],        // دايمًا array
+    isLoading: false,
+    error: null,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchVendorData.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchVendorData.fulfilled, (state, action) => {
+        state.data = action.payload; // array دائماً
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(fetchVendorData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Failed to fetch vendor";
+      });
+  },
 });
-
 
 export default vendorSlice;
