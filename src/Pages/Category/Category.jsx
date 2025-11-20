@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchProductsData } from "../../store/slices/ProductSlice";
+// import { fetchProductsData } from "../../store/slices/ProductSlice";
 import { fetchBrandsData } from "../../store/slices/BrandSlice";
 import FilterSidebar from "../../components/GlobalComponents/Filter/Filter";
 import Card from "../../components/GlobalComponents/Card/Card";
@@ -42,7 +42,7 @@ function Category() {
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
   useEffect(() => {
-    dispatch(fetchProductsData());
+    // dispatch(fetchProductsData());
     dispatch(fetchBrandsData());
   }, [dispatch]);
 
@@ -394,7 +394,7 @@ function Category() {
     setSearchParams({});
   };
 
-  if (isLoading) {
+  if (isLoading && allProducts.length === 0) {
     return <Loader />;
   }
 
