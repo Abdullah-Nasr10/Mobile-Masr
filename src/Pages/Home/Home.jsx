@@ -12,7 +12,7 @@ import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
 function Home() {
   const allProducts = useSelector((store) => store.products.data);
   const isLoading = useSelector((store) => store.products.isLoading);
-  if (isLoading) {
+  if (isLoading && allProducts.length === 0) {
     return <Loader />;
   }
   // const products = allProducts.filter((p) => p.category?.name != "Laptop");
