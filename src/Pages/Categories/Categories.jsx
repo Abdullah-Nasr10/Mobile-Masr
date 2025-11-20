@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Categories.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
-
+  const { compare } = useParams();
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -28,7 +28,7 @@ const Categories = () => {
         {categories.map((cat) => {
           const slug = `/category/${cat.name
             .toLowerCase()
-            .replace(/\s+/g, "-")}`;
+            .replace(/\s+/g, "-")}/${compare ? compare : ""}`;
           return (
             <Link to={slug} key={cat._id} className="heb-category-card">
               <img src={cat.image} alt={cat.name} />

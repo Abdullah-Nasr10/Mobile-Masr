@@ -1,12 +1,13 @@
 import "./CategoryNavbar.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 function CategoryNavbar() {
+  const { compare } = useParams();
   return (
     <div className="abd-CategoryNavbar">
       <ul className="d-none d-md-flex align-items-center justify-content-center gap-5 py-4">
         <li>
           <NavLink
-            to="/category/mobile"
+            to={`/category/mobile/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Mobile
@@ -14,7 +15,7 @@ function CategoryNavbar() {
         </li>
         <li>
           <NavLink
-            to="/category/tablet"
+            to={`/category/tablet/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Tablet
@@ -22,7 +23,7 @@ function CategoryNavbar() {
         </li>
         <li>
           <NavLink
-            to="/category/laptop"
+            to={`/category/laptop/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Laptop
@@ -30,7 +31,7 @@ function CategoryNavbar() {
         </li>
         <li>
           <NavLink
-            to="/category/smart-watches"
+            to={`/category/smart-watches/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Smart Watches
@@ -38,7 +39,7 @@ function CategoryNavbar() {
         </li>
         <li>
           <NavLink
-            to="/category/wireless-earbuds"
+            to={`/category/wireless-earbuds/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Wireless Earbuds
@@ -46,7 +47,7 @@ function CategoryNavbar() {
         </li>
         <li>
           <NavLink
-            to="/category/game-consoles"
+            to={`/category/game-consoles/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
             Game Consoles
