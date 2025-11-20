@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import "./BottomNavbar.css";
 import { IoHome } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
@@ -6,6 +6,7 @@ import { HiOutlineShoppingCart as ShoppingCart } from "react-icons/hi";
 import { FaRegCircleUser as UserIcon } from "react-icons/fa6";
 
 function BottomNavbar() {
+  const { compare } = useParams();
   return (
     <div className="abd-BottomNavbar">
       <div className="container d-flex justify-content-around align-items-center py-2">
@@ -24,7 +25,7 @@ function BottomNavbar() {
         </NavLink>
         {/* ---------------------- */}
         <NavLink
-          to="/categories"
+          to={`/categories/${compare ? compare : ""}`}
           className={({ isActive }) =>
             `d-flex flex-column align-items-center fs-1 gap-2 nav-link ${
               isActive ? "active" : ""

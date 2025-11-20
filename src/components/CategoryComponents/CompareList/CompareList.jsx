@@ -20,7 +20,7 @@ function CompareList() {
         >
           <div className="abd-compareListItem d-flex align-items-center gap-3 p-3">
             <img
-              src="https://m.media-amazon.com/images/I/61jLiCov3SL._AC_UY218_.jpg"
+              src="https://static.mobilemasr.com/public/items/thumbnails/tn_691c3d3e68807_1763458366.png"
               alt="product"
             />
             <div className="abd-compareItemInfo">Product Name</div>
