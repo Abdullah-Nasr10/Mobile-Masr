@@ -8,13 +8,13 @@
   background-color: var(--white-color);
   /* align-self: stretch; */
   position: relative;
+  transition: all 0.3s ease;
 
 }
 
 .abd-Product-Card:hover {
   box-shadow: 0 0.5rem 1rem var(--shadow-color-2);
   transform: translateY(-0.5rem);
-  transition: all 0.3s ease;
 }
 
 .abd-Product-Card .abd-Product-Type {
@@ -42,12 +42,16 @@
   color: var(--gray-color-light);
   z-index: 10;
 
+  transition: all 0.3s ease;
+
   .abd-Icon-Share:hover {
     color: var(--blue-color);
+    transition: all 0.3s ease;
   }
 
   .abd-Icon-Favorite:hover {
     color: var(--red-color);
+    transition: all 0.3s ease;
   }
 
   .abd-shareOptions {
@@ -76,12 +80,14 @@
   border-bottom: 1px solid var(--border-color);
   position: relative;
   margin-top: 3.5rem;
+  transition: all 0.3s ease;
 }
 
 .abd-Product-Card .abd-Product-Image {
   /* width: 100%; */
   height: 15rem;
   object-fit: cover;
+  transition: all 0.3s ease;
 }
 
 .abd-Card-Image-Container:hover .abd-Product-Image {
@@ -102,12 +108,13 @@
   font-weight: 500;
   border-top: 2px solid var(--green-color);
   transform: translateY(100%);
+  transition: all 0.3s ease;
 }
 
 
 .abd-Card-Image-Container:hover .abd-Product-Guarantee {
   transform: translateY(0);
-  transition: all 0.3s ease;
+  /* transition: all 0.3s ease; */
 }
 
 .abd-Product-Card .abd-simCount {
@@ -122,11 +129,11 @@
   box-shadow: -0.3rem -0.3rem 0rem var(--orange-color);
   color: var(--orange-color);
   transform: translateX(-200%);
+  transition: all 0.3s ease;
 }
 
 .abd-Card-Image-Container:hover .abd-simCount {
   transform: translateX(0);
-  transition: all 0.3s ease;
 }
 
 .abd-Card-Image-Container .abd-BatteryStatus {
@@ -139,10 +146,14 @@
   color: var(--white-color);
   border-radius: 0.5rem 0 0 0.5rem;
   transform: translateX(200%);
+  transition: all 0.3s ease;
 }
 
 .abd-Card-Image-Container:hover .abd-BatteryStatus {
   transform: translateX(0);
+}
+
+.abd-Card-Details .abd-storeName {
   transition: all 0.3s ease;
 }
 
