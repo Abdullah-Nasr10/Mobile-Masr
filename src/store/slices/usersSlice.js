@@ -1,4 +1,3 @@
-// src/store/slices/usersSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../services/api";
 
@@ -7,7 +6,7 @@ export const registerUser = createAsyncThunk(
   "users/register",
   async (payload, { rejectWithValue }) => {
     try {
-      const res = await api.post("/register", payload); // backend endpoint
+      const res = await api.post("/register", payload); 
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || { message: "Server error" });
