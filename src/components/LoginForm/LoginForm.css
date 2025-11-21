@@ -1,0 +1,72 @@
+.login-center {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+}
+
+.geh-form-control {
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  height: 40px;
+  padding: 0.45rem 0.75rem;
+  font-size: 1.45rem;
+}
+
+.login-socials {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 0.75rem;
+}
+
+.login-socials a img {
+  width: 44px;
+  height: 44px;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.geh-link {
+  color: var(--orange-color-2);
+  transition: color 120ms ease;
+}
+
+.geh-link:hover {
+  color: var(--orange-color);
+}
+
+.btn-geh {
+  background-color: var(--orange-color);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  font-size: 1.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.login-socials a img:hover { transform: translateY(-4px) scale(1.02); filter: brightness(1.08); }
+
+@media (max-width: 767px) {
+  .login-center { padding: 1rem; min-height: auto; }
+  .login-card { box-shadow: none; padding: 1rem; }
+  .login-socials { gap: 0.75rem; }
+}
+
+.form-control:focus,
+.geh-form-control:focus,
+.form-control:focus-visible,
+.geh-form-control:focus-visible {
+  border-color: var(--orange-color) !important;
+  outline: none !important;
+  box-shadow: 0 6px 18px rgba(254,81,0,0.08), 0 0 0 0.25rem rgba(254,81,0,0.12);
+}
+
