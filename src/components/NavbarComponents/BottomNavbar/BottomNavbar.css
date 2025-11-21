@@ -11,15 +11,17 @@
     border-top: 0.2rem solid var(--border-color);
     padding: 0.5rem 0;
     display: none;
+    transition: all 0.3s ease;
 }
 
 .abd-BottomNavbar .nav-link {
     color: var(--muted-text);
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .abd-BottomNavbar .nav-link:hover {
     color: var(--orange-color);
+    transition: all 0.3s ease;
 }
 
 .abd-BottomNavbar .nav-link.active .bottomNavIcon {
@@ -27,6 +29,7 @@
     padding: 0.1rem 2rem;
     border-radius: 2rem;
     color: var(--orange-color);
+    transition: all 0.3s ease;
 }
 
 .abd-BottomCartCounter {
