@@ -37,6 +37,7 @@ function TableComparison({ compareItems }) {
         it.ram ? (Array.isArray(it.ram) ? it.ram.join(", ") : it.ram) : "-",
     },
     { label: "Battery Capacity", cell: (it) => it.batteryCapacity || "-" },
+    { label: "Battery Status", cell: (it) => it.batteryStatus || "-" },
     { label: "SIM Card", cell: (it) => it.simCard || "-" },
     { label: "Screen Size", cell: (it) => it.screenSize || "-" },
     { label: "Camera", cell: (it) => it.camera || "-" },

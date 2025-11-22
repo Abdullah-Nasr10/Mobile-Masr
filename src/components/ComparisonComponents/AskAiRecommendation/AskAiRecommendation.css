@@ -1,0 +1,36 @@
+.abd-askAiBestItem {
+    /* background-color: var(--gray-color-light); */
+    /* background-color: var(--cart-color); */
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    /* box-shadow: 0 0.5rem 1rem var(--shadow-color-2); */
+    border-radius: 1rem;
+    padding: 2rem 1.5rem;
+}
+
+.abd-askAiBtn {
+    background-color: var(--black-color);
+    color: var(--white-color);
+    border: 2px solid var(--black-color);
+    padding: 1rem;
+    border-radius: 2.5rem;
+    padding: 1rem 2rem;
+    font-size: 1.4rem;
+    transition: all 0.3s ease;
+}
+
+.abd-askAiBtn:hover {
+    cursor: pointer;
+    background-color: var(--white-color);
+    color: var(--black-color);
+}
+
+.abd-AiResponseContainer {
+    margin-top: 2rem;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    background-color: var(--cart-color);
+    padding: 1.5rem;
+    border-radius: 1rem;
+}

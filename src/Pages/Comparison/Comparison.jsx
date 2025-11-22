@@ -4,8 +4,10 @@ import CompareContext from "../../context/CompareContext";
 import PagePath from "../../components/GlobalComponents/PagePath/PagePath";
 
 import TableComparison from "../../components/ComparisonComponents/TableComparison/TableComparison";
+import AskAiRecommendation from "../../components/ComparisonComponents/AskAiRecommendation/AskAiRecommendation";
 
 const Comparison = () => {
+  //   console.log("api key", import.meta.env.VITE_OPENAI_API_KEY);
   const { compareItems } = useContext(CompareContext);
 
   if (compareItems.length === 0) {
@@ -23,6 +25,8 @@ const Comparison = () => {
     <div className="container pt-4">
       <PagePath path="Comparison" />
       <TableComparison compareItems={compareItems} />
+      {/* =========Ask Ai what the best item======= */}
+      <AskAiRecommendation compareItems={compareItems} />
     </div>
   );
 };
