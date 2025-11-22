@@ -31,13 +31,13 @@ function Navbar() {
           {/* --------------HeaderACtions-------------- */}
           <div className="abd-HeaderActions d-inline-flex align-items-center gap-4">
             <ToggleLanguage />
-            {/* ------------------- */}
-            <div className="center d-none d-md-flex">
+            {/* ----------sign in--------- */}
+            <Link to="/login" className="center d-none d-md-flex">
               <div className="abd-signIn text-center">
                 <span className=" me-2">Sign In</span>
                 <UserIcon />
               </div>
-            </div>
+            </Link>
             {/* ------------------- */}
             <div className="center">
               <div className="abd-Favorite me-3">

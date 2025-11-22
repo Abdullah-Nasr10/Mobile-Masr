@@ -30,6 +30,8 @@ import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
 import Account from "./Pages/Auth/Account/Account";
 import Categories from "./Pages/Categories/Categories";
 import Vendor from "./Pages/Vendor/Vendor";
+import Comparison from "./Pages/Comparison/Comparison";
+import ProtectRoute from "./Pages/ProtectRoute/ProtectRoute";
 // -----------------------------------------
 
 // ===== Router Config =====
@@ -38,6 +40,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
+      // ==== Public routes ====
       { path: "/", element: <Home /> },
       { path: "/about", element: <About /> },
       { path: "/contact", element: <Contact /> },
@@ -46,19 +49,27 @@ const router = createBrowserRouter([
       { path: "/categories/:compare?", element: <Categories /> },
       { path: "/products/:id", element: <ProductDetails /> },
       { path: "/vendor/:id", element: <Vendor /> },
+      { path: "/comparison", element: <Comparison /> },
 
       { path: "/search", element: <Search /> },
 
-      { path: "/account", element: <Account /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
-      { path: "/profile", element: <Profile /> },
-      { path: "/orders", element: <Orders /> },
-      { path: "/wishlist", element: <Wishlist /> },
+      { path: "/account", element: <Account /> },
 
-      { path: "/cart", element: <Cart /> },
-      { path: "/checkout", element: <Checkout /> },
+      // ===== Protected routes group =====
+      {
+        element: <ProtectRoute />, // 🚀 هنا الـOutlet هيشتغل
+        children: [
+          { path: "/profile", element: <Profile /> },
+          { path: "/orders", element: <Orders /> },
+          { path: "/wishlist", element: <Wishlist /> },
+          { path: "/cart", element: <Cart /> },
+          { path: "/checkout", element: <Checkout /> },
+        ],
+      },
 
+      // ==== 404 ====
       { path: "*", element: <NotFoundPage /> },
     ],
   },

@@ -6,6 +6,11 @@
     bottom: 10rem;
 
     z-index: 1000;
+
+    * {
+        transition: all 0.3s ease;
+    }
+
     /* position: relative; */
 
 }
@@ -40,11 +45,13 @@
     bottom: calc(100% + 0.4rem);
     background: var(--white-color);
     color: var(--black-color);
-    padding: 0.4rem 0.6rem;
-    border-radius: 0.4rem;
+    border: 1px solid var(--border-color);
+    width: 30rem;
+    /* padding: 0.4rem 0.6rem; */
+    border-radius: 1rem;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
     font-size: 0.85rem;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     opacity: 0;
     transform: translateY(6px);
     pointer-events: none;
@@ -75,4 +82,10 @@
     transform: translateY(0);
     pointer-events: auto;
     visibility: visible;
+}
+
+
+/* ############################################### */
+.abd-deleteCompareItemBtn {
+    cursor: pointer;
 }

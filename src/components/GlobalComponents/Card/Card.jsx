@@ -2,21 +2,21 @@
 import { FaFacebook, FaHeart, FaShareAlt, FaWhatsapp } from "react-icons/fa";
 import { MdOutlineBatteryChargingFull as BatteryIcon } from "react-icons/md";
 import { TbBuildingStore } from "react-icons/tb";
-import { IoGitCompareOutline } from "react-icons/io5";
 
 import "./Card.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import Button from "../Button/Button";
+import CardCompareBtn from "./CardCompareBtn";
 
-export default function Card({ product }) {
+function Card({ product }) {
   const [isFav, setIsFav] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const simText = product.simCard || "";
   const simCount = /2[-\s]?sim/i.test(simText) ? "2" : "";
   // const { pathname } = window.location;
   const { compare } = useParams();
-  console.log("param name: ", compare);
+  // console.log("param name: ", compare);
 
   return (
     <div className="abd-Product-Card">
@@ -113,15 +113,11 @@ export default function Card({ product }) {
             <Button btnTitle="View Details" style={{ width: "300px" }} />
           </NavLink>
           {/* -----------copmare-Btn------------ */}
-          {compare === "compare" && (
-            <div className="abd-CompareBtn p-2">
-              <IoGitCompareOutline size={20} />
-              <div className="abd-TextCompareBtn ms-2">Compare</div>
-            </div>
-          )}
+          {compare === "compare" && <CardCompareBtn product={product} />}
         </div>
       </div>
       {/* ==========  Card-Details-end  ===========  */}
     </div>
   );
 }
+export default React.memo(Card);
