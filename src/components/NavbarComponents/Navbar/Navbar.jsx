@@ -11,7 +11,7 @@ import BottomNavbar from "../BottomNavbar/BottomNavbar";
 import IsLoginContext from "../../../context/IsLoginContext";
 
 function Navbar() {
-  const isLoggedIn = useContext(IsLoginContext);
+  const { isLoggedIn } = useContext(IsLoginContext);
   console.log("is logged in:", isLoggedIn);
 
   return (

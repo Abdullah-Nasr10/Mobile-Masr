@@ -1,4 +1,7 @@
 import { createContext } from "react";
-const IsLoginContext = createContext();
+const IsLoginContext = createContext({
+  isLoggedIn: false,
+  setIsLoggedIn: () => {},
+});
 
 export default IsLoginContext;
