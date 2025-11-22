@@ -34,9 +34,9 @@ function Layout() {
 
   return (
     <>
-      <Navbar />
-      <CompareContext.Provider value={{ compareItems, setCompareItems }}>
-        <IsLoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+      <IsLoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
+        <Navbar />
+        <CompareContext.Provider value={{ compareItems, setCompareItems }}>
           <div style={{ minHeight: "100vh" }}>
             <Outlet />
           </div>
@@ -48,9 +48,9 @@ function Layout() {
             closeOnClick
             pauseOnHover
           />
-        </IsLoginContext.Provider>
-      </CompareContext.Provider>
-      <Footer />
+        </CompareContext.Provider>
+        <Footer />
+      </IsLoginContext.Provider>
     </>
   );
 }
