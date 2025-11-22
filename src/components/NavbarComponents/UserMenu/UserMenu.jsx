@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../store/slices/usersSlice";
 import { Link } from "react-router-dom";
 import { FaShoppingBag, FaUserCog, FaSignOutAlt } from "react-icons/fa";
 import "./UserMenu.css";
+import IsLoginContext from "../../../context/IsLoginContext";
 const UserMenu = () => {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+  const { setIsLoggedIn } = useContext(IsLoginContext);
   if (!user) return null;
 
   return (
@@ -46,7 +48,10 @@ const UserMenu = () => {
         <li>
           <button
             className="dropdown-item-custom signout-btn"
-            onClick={() => dispatch(logout())}
+            onClick={() => {
+              dispatch(logout());
+              setIsLoggedIn(false);
+            }}
           >
             <FaSignOutAlt className="dropdown-icon" /> Sign Out
           </button>

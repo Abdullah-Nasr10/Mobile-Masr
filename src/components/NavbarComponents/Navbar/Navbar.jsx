@@ -13,8 +13,12 @@ import UserMenu from "../UserMenu/UserMenu";
 import { useSelector } from "react-redux";
 
 function Navbar() {
-const { user } = useSelector ((state) => state.users);
-console.log("Navbar user:", user);
+// const { user } = useSelector ((state) => state.users);
+// console.log("Navbar user:", user);
+
+const { isLoggedIn } = useContext(IsLoginContext);
+console.log("........" , isLoggedIn);
+
 
   return (
     <nav className="abd-Navbar">
@@ -38,7 +42,7 @@ console.log("Navbar user:", user);
           <div className="abd-HeaderActions d-inline-flex align-items-center gap-4">
             <ToggleLanguage />
             {/* ----------sign in--------- */}
-            {!user ? (
+            {!isLoggedIn ? (
             <Link to="/login" className="center d-none d-md-flex">
               <div className="abd-signIn text-center">
                 <span className=" me-2">Sign In</span>
