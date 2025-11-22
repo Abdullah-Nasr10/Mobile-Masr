@@ -28,7 +28,7 @@ function CompareList() {
           }`}
         >
           {compareItems.length === 0 ? (
-            <div className="abd-emptyCompare p-3 text-center fs-5">
+            <div className="abd-emptyCompareList p-3 text-center fs-5">
               No items to compare
             </div>
           ) : (
@@ -70,11 +70,17 @@ function CompareList() {
                   {/* ============delete-btn============ */}
                   <div
                     className="abd-deleteCompareItemBtn col-2 center text-danger"
-                    onClick={() =>
+                    onClick={() => {
                       setCompareItems(
                         compareItems.filter((i) => i._id !== item._id)
-                      )
-                    }
+                      );
+                      localStorage.setItem(
+                        "compareItems",
+                        JSON.stringify(
+                          compareItems.filter((i) => i._id !== item._id)
+                        )
+                      );
+                    }}
                   >
                     <TiDeleteOutline size={20} />
                   </div>

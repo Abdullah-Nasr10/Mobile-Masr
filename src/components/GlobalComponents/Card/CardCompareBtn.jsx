@@ -12,6 +12,10 @@ function CardCompareBtn({ product }) {
   function handleCompareClick() {
     if (compareItems.some((prod) => prod._id === product._id)) {
       setCompareItems(compareItems.filter((prod) => prod._id !== product._id));
+      localStorage.setItem(
+        "compareItems",
+        JSON.stringify(compareItems.filter((prod) => prod._id !== product._id))
+      );
       toast.info("Removed from compare");
     } else if (compareItems.length < 3) {
       if (
@@ -22,6 +26,10 @@ function CardCompareBtn({ product }) {
         return;
       }
       setCompareItems([...compareItems, product]);
+      localStorage.setItem(
+        "compareItems",
+        JSON.stringify([...compareItems, product])
+      );
       toast.success("Added to compare");
     } else {
       toast.error("You can only compare up to 3 items");

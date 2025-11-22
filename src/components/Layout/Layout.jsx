@@ -11,7 +11,9 @@ import IsLoginContext from "../../context/IsLoginContext";
 function Layout() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const [compareItems, setCompareItems] = useState([]);
+  const [compareItems, setCompareItems] = useState(
+    () => JSON.parse(localStorage.getItem("compareItems")) || []
+  );
   // ==============isLoggedInContext===============
   const [isLoggedIn, setIsLoggedIn] = useState(
     Boolean(localStorage.getItem("token"))
