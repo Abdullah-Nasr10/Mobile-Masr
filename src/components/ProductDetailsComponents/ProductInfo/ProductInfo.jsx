@@ -6,6 +6,7 @@ import { BsBoxSeam, BsUsbPlug } from "react-icons/bs";
 import { PiDeviceMobileSpeakerLight as MobileCover } from "react-icons/pi";
 import { AiOutlineShoppingCart as Cart } from "react-icons/ai";
 import { BsEarbuds } from "react-icons/bs";
+import { LiaPencilAltSolid } from "react-icons/lia";
 import VendorContainer from "../../GlobalComponents/VendorContainer/VendorContainer";
 
 function ProductInfo({ product }) {
@@ -172,6 +173,8 @@ function ProductInfo({ product }) {
                       <BsUsbPlug />
                     ) : acc.toLowerCase() == "mobile cover" ? (
                       <MobileCover />
+                    ) : acc.toLowerCase() == "pen" ? (
+                      <LiaPencilAltSolid />
                     ) : (
                       acc
                     )}
