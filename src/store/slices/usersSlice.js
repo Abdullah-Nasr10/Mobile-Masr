@@ -1,4 +1,4 @@
-// src/store/slices/usersSlice.js
+
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../services/api";
 
@@ -31,7 +31,7 @@ export const loginUser = createAsyncThunk(
 const usersSlice = createSlice({
   name: "users",
   initialState: {
-    user: null,
+    user: JSON.parse(localStorage.getItem("user")) || null,
     token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
@@ -40,11 +40,13 @@ const usersSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
+      localStorage.removeItem("user");
       localStorage.removeItem("token");
     },
     setCredentials: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
+      if (action.payload.user) localStorage.setItem("user", JSON.stringify(action.payload.user));
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
     },
   },
@@ -55,6 +57,7 @@ const usersSlice = createSlice({
       state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
+      if (action.payload.user) localStorage.setItem("user", JSON.stringify(action.payload.user));
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
     });
     builder.addCase(registerUser.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
@@ -65,6 +68,7 @@ const usersSlice = createSlice({
       state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
+      if (action.payload.user) localStorage.setItem("user", JSON.stringify(action.payload.user));
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
     });
     builder.addCase(loginUser.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });

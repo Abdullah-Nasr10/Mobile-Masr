@@ -9,10 +9,16 @@ import CategoryNavbar from "../CategoryNavbar/CategoryNavbar";
 import ToggleLanguage from "../ToggleLanguage/ToggleLanguage";
 import BottomNavbar from "../BottomNavbar/BottomNavbar";
 import IsLoginContext from "../../../context/IsLoginContext";
+import UserMenu from "../UserMenu/UserMenu";
+import { useSelector } from "react-redux";
 
 function Navbar() {
-  const { isLoggedIn } = useContext(IsLoginContext);
-  console.log("is logged in:", isLoggedIn);
+// const { user } = useSelector ((state) => state.users);
+// console.log("Navbar user:", user);
+
+const { isLoggedIn } = useContext(IsLoginContext);
+console.log("........" , isLoggedIn);
+
 
   return (
     <nav className="abd-Navbar">
@@ -36,12 +42,16 @@ function Navbar() {
           <div className="abd-HeaderActions d-inline-flex align-items-center gap-4">
             <ToggleLanguage />
             {/* ----------sign in--------- */}
+            {!isLoggedIn ? (
             <Link to="/login" className="center d-none d-md-flex">
               <div className="abd-signIn text-center">
                 <span className=" me-2">Sign In</span>
                 <UserIcon />
               </div>
-            </Link>
+            </Link>) : ( 
+              <UserMenu />
+            )}
+
             {/* ------------------- */}
             <div className="center">
               <div className="abd-Favorite me-3">
