@@ -10,15 +10,14 @@ import ToggleLanguage from "../ToggleLanguage/ToggleLanguage";
 import BottomNavbar from "../BottomNavbar/BottomNavbar";
 import IsLoginContext from "../../../context/IsLoginContext";
 import UserMenu from "../UserMenu/UserMenu";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 function Navbar() {
-// const { user } = useSelector ((state) => state.users);
-// console.log("Navbar user:", user);
+  // const { user } = useSelector ((state) => state.users);
+  // console.log("Navbar user:", user);
 
-const { isLoggedIn } = useContext(IsLoginContext);
-console.log("........" , isLoggedIn);
-
+  const { isLoggedIn } = useContext(IsLoginContext);
+  console.log("........", isLoggedIn);
 
   return (
     <nav className="abd-Navbar">
@@ -43,12 +42,13 @@ console.log("........" , isLoggedIn);
             <ToggleLanguage />
             {/* ----------sign in--------- */}
             {!isLoggedIn ? (
-            <Link to="/login" className="center d-none d-md-flex">
-              <div className="abd-signIn text-center">
-                <span className=" me-2">Sign In</span>
-                <UserIcon />
-              </div>
-            </Link>) : ( 
+              <Link to="/login" className="center d-none d-md-flex">
+                <div className="abd-signIn text-center">
+                  <span className=" me-2">Sign In</span>
+                  <UserIcon />
+                </div>
+              </Link>
+            ) : (
               <UserMenu />
             )}
 
