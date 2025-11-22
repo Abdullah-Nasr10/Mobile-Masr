@@ -6,11 +6,18 @@ import { useEffect, useState } from "react";
 import { fetchProductsData } from "../../store/slices/ProductSlice";
 import CompareContext from "../../context/CompareContext";
 import { ToastContainer } from "react-toastify";
+import IsLoginContext from "../../context/IsLoginContext";
 // ============================================================
 function Layout() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [compareItems, setCompareItems] = useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const isLoggedIn = Boolean(localStorage.getItem("token"));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -27,17 +34,19 @@ function Layout() {
     <>
       <Navbar />
       <CompareContext.Provider value={{ compareItems, setCompareItems }}>
-        <div style={{ minHeight: "100vh" }}>
-          <Outlet />
-        </div>
-        <ToastContainer
-          position="top-right"
-          autoClose={2000} // 2 ثواني
-          hideProgressBar={false} // مهم: خلي خط اللودر يظهر
-          newestOnTop={true}
-          closeOnClick
-          pauseOnHover
-        />
+        <IsLoginContext.Provider value={isLoggedIn}>
+          <div style={{ minHeight: "100vh" }}>
+            <Outlet />
+          </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={2000} // 2 ثواني
+            hideProgressBar={false} // مهم: خلي خط اللودر يظهر
+            newestOnTop={true}
+            closeOnClick
+            pauseOnHover
+          />
+        </IsLoginContext.Provider>
       </CompareContext.Provider>
       <Footer />
     </>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Navbar.css";
 import Logo from "../../GlobalComponents/Logo/Logo";
 import { CiUser as UserIcon } from "react-icons/ci";
@@ -8,8 +8,12 @@ import { Link, NavLink } from "react-router-dom";
 import CategoryNavbar from "../CategoryNavbar/CategoryNavbar";
 import ToggleLanguage from "../ToggleLanguage/ToggleLanguage";
 import BottomNavbar from "../BottomNavbar/BottomNavbar";
+import IsLoginContext from "../../../context/IsLoginContext";
 
 function Navbar() {
+  const isLoggedIn = useContext(IsLoginContext);
+  console.log("is logged in:", isLoggedIn);
+
   return (
     <nav className="abd-Navbar">
       <div className="container">
