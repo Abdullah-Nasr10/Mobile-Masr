@@ -12,12 +12,14 @@ function Layout() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [compareItems, setCompareItems] = useState([]);
+  // ==============isLoggedInContext===============
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    Boolean(localStorage.getItem("token"))
+  );
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
-  }, []);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const isLoggedIn = Boolean(localStorage.getItem("token"));
+    setIsLoggedIn(Boolean(localStorage.getItem("token")));
+  }, [pathname]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -34,7 +36,7 @@ function Layout() {
     <>
       <Navbar />
       <CompareContext.Provider value={{ compareItems, setCompareItems }}>
-        <IsLoginContext.Provider value={isLoggedIn}>
+        <IsLoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
           <div style={{ minHeight: "100vh" }}>
             <Outlet />
           </div>
