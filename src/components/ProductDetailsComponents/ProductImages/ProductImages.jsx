@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { MdOutlineBatteryChargingFull as BatteryIcon } from "react-icons/md";
-import { FaFacebook, FaHeart, FaShareAlt, FaWhatsapp } from "react-icons/fa";
+import { FaFacebook, FaShareAlt, FaWhatsapp } from "react-icons/fa";
 import "./ProductImages.css";
+import ProdDetailsFavoriteIcon from "./ProdDetailsFavoriteIcon";
 function ProductImages({ product }) {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isFav, setIsFav] = useState(false);
+
   const [showShareOptions, setShowShareOptions] = useState(false);
   const simText = product?.simCard || "";
   const simCount = /2[-\s]?sim/i.test(simText) ? "2" : "";
@@ -50,17 +51,7 @@ function ProductImages({ product }) {
         {/* =============Product-Icons-Start ============ */}
         <div className="abd-ProdIcons fs-3">
           {/* -------------- Heart-Icon --------------- */}
-          <div
-            className="abd-ProdIcon center"
-            style={{
-              backgroundColor: isFav ? "var(--red-color-light)" : "",
-            }}
-            onClick={() => setIsFav(!isFav)}
-          >
-            <FaHeart
-              className={`abd-ProdFavoriteIcon ${isFav ? "text-danger" : ""}`}
-            />
-          </div>
+          <ProdDetailsFavoriteIcon />
           {/* -------------- Share-Icon -------------- */}
           <div
             className="abd-ProdIcon center position-relative "

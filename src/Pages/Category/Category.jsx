@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchBrandsData } from "../../store/slices/BrandSlice";
-import { useCategoryFilters } from "../../hooks/useCategoryFilters";
+import { useCategoryFilters } from "../../utilities/useCategoryFilters.js";
 import FilterSidebar from "../../components/GlobalComponents/Filter/Filter";
 import BrandsCarousel from "../../components/CategoryComponents/BrandsCarousel/BrandsCarousel";
 import PagePath from "../../components/GlobalComponents/PagePath/PagePath";
@@ -45,8 +45,12 @@ function Category() {
   const filteredProducts = getFilteredAndSortedProducts();
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-  const handlePageChange = (pageNumber) => setSearchParams(buildUrlParams(pageNumber));
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const handlePageChange = (pageNumber) =>
+    setSearchParams(buildUrlParams(pageNumber));
 
   if (isLoading && allProducts.length === 0) return <Loader />;
 

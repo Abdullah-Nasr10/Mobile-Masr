@@ -32,6 +32,7 @@ import Categories from "./Pages/Categories/Categories";
 import Vendor from "./Pages/Vendor/Vendor";
 import Comparison from "./Pages/Comparison/Comparison";
 import ProtectRoute from "./Pages/ProtectRoute/ProtectRoute";
+import Review from "./Pages/Review/Review";
 // -----------------------------------------
 
 // ===== Router Config =====
@@ -59,13 +60,14 @@ const router = createBrowserRouter([
 
       // ===== Protected routes group =====
       {
-        element: <ProtectRoute />, // 🚀 هنا الـOutlet هيشتغل
+        element: <ProtectRoute />,
         children: [
           { path: "/profile", element: <Profile /> },
           { path: "/orders", element: <Orders /> },
           { path: "/wishlist", element: <Wishlist /> },
           { path: "/cart", element: <Cart /> },
           { path: "/checkout", element: <Checkout /> },
+          { path: "/review", element: <Review /> },
         ],
       },
 
