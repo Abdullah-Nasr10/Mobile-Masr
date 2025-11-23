@@ -7,6 +7,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import Button from "../../GlobalComponents/Button/Button";
+import { Link } from "react-router-dom";
 
 export default function MobileReviewsStatic() {
   const [reviews, setReviews] = useState([]);
@@ -25,7 +26,9 @@ export default function MobileReviewsStatic() {
     <>
       <div className="container mb-5 d-flex justify-content-between align-items-center">
         <h2 className="fw-light site-reviews-title">Reviews</h2>
-        <Button btnTitle="Add Review" btnColor="var(--orange-color)" />
+        <Link to="/review">
+          <Button btnTitle="Add Review" btnColor="var(--orange-color)" />
+        </Link>
       </div>
       <Swiper
         className="site-reviews-swiper container px-5 pt-4"

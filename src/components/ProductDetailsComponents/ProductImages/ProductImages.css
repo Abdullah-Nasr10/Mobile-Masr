@@ -101,6 +101,7 @@
         height: 3.5rem;
         aspect-ratio: 1/1;
         border-radius: 50%;
+        transition: all 0.3s ease;
     }
 
     .abd-ProdIcon:nth-child(1):hover {

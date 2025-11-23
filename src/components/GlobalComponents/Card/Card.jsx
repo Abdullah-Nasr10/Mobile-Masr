@@ -1,5 +1,5 @@
 // import React, { useState } from "react";
-import { FaFacebook, FaHeart, FaShareAlt, FaWhatsapp } from "react-icons/fa";
+import { FaFacebook, FaShareAlt, FaWhatsapp } from "react-icons/fa";
 import { MdOutlineBatteryChargingFull as BatteryIcon } from "react-icons/md";
 import { TbBuildingStore } from "react-icons/tb";
 
@@ -8,9 +8,9 @@ import React, { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import Button from "../Button/Button";
 import CardCompareBtn from "./CardCompareBtn";
+import CardFavoriteIcon from "./CardFavoriteIcon";
 
 function Card({ product }) {
-  const [isFav, setIsFav] = useState(false);
   const [showShareOptions, setShowShareOptions] = useState(false);
   const simText = product.simCard || "";
   const simCount = /2[-\s]?sim/i.test(simText) ? "2" : "";
@@ -48,10 +48,7 @@ function Card({ product }) {
         </div>
         {/* ============Heart-Icon =========== */}
         <div className="abd-Card-Icon">
-          <FaHeart
-            className={`abd-Icon-Favorite ${isFav ? "text-danger" : ""}`}
-            onClick={() => setIsFav(!isFav)}
-          />
+          <CardFavoriteIcon />
         </div>
       </div>
       {/* =============Card-Icons-End ============ */}

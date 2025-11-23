@@ -59,13 +59,13 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
   const handleBrandSelect = useCallback((brandId) => {
     const isClearing = selectedBrand === brandId;
     const newBrandId = isClearing ? null : brandId;
-    
+
     setSelectedBrand(newBrandId);
-    
+
     // Clear brands from filters when selecting from carousel
     const updatedFilters = { ...filters, brands: [] };
     setFilters(updatedFilters);
-    
+
     // Build params with updated values
     const params = buildUrlParams(updatedFilters, sortBy, newBrandId, 1);
     setSearchParams(params);
@@ -85,16 +85,16 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
       ssd: filterData.filters.SSD || [],
       color: filterData.filters.Color || [],
     };
-    
+
     console.log("🔍 Filter Apply - New Filters:", newFilters);
-    
+
     setFilters(newFilters);
     if (newFilters.brands.length > 0) setSelectedBrand(null);
-    
+
     // Build URL params with new filters
     const params = buildUrlParams(newFilters, sortBy, null, 1);
     console.log("🔗 URL Params:", params);
-    
+
     setSearchParams(params);
   }, [sortBy, setSearchParams]);
 
