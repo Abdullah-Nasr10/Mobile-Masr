@@ -34,3 +34,78 @@
     padding: 1.5rem;
     border-radius: 1rem;
 }
+
+/* ================================================== */
+.abd-AiResponseContainer .abd-AiResponse {
+    margin-bottom: 1.5rem;
+    display: block;
+    background-color: var(--white-color);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 0.75rem;
+    padding: 0.8rem;
+    box-shadow: 0 6px 18px rgba(13, 38, 59, 0.06);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.abd-AiResponseContainer .abd-AiResponse:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(13, 38, 59, 0.08);
+}
+
+.abd-AiResponseContainer .abd-AiResponseLabel {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 0.9rem;
+    background: linear-gradient(90deg, var(--black-color) 0%, rgba(0, 0, 0, 0.85) 100%);
+    color: var(--white-color);
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(2, 6, 23, 0.08);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.abd-AiResponseContainer .abd-AiResponseLabel::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--accent-color, #7c3aed), var(--accent-2, #06b6d4));
+    display: inline-block;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.abd-AiResponseContainer .abd-AiResponseContent {
+    white-space: pre-wrap;
+    background-color: var(--body-bg);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-size: 1.35rem;
+    line-height: 1.6;
+    max-height: 26rem;
+    overflow: auto;
+    word-break: break-word;
+}
+
+/* Responsive tweaks */
+@media (max-width: 420px) {
+    .abd-AiResponseContainer .abd-AiResponse {
+        padding: 0.6rem;
+    }
+
+    .abd-AiResponseContainer .abd-AiResponseLabel {
+        font-size: 1rem;
+        padding: 0.25rem 0.6rem;
+    }
+
+    .abd-AiResponseContainer .abd-AiResponseContent {
+        font-size: 1.25rem;
+        max-height: 18rem;
+    }
+}
