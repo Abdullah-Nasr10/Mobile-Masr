@@ -14,20 +14,6 @@
     border-bottom: 0.2rem solid var(--border-color);
 }
 
-.abd-SearchBox {
-    width: 40%;
-}
-
-.abd-NavInputSerach {
-    width: 100%;
-    outline: none;
-    border: 0.2rem solid var(--border-color);
-    border-radius: 0.8rem;
-}
-
-.abd-NavInputSerach:focus {
-    border: 0.2rem solid var(--orange-color);
-}
 
 .abd-HeaderActions {
     font-size: 1.6rem;

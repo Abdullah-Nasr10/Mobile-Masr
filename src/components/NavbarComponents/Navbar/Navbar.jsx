@@ -10,6 +10,7 @@ import ToggleLanguage from "../ToggleLanguage/ToggleLanguage";
 import BottomNavbar from "../BottomNavbar/BottomNavbar";
 import IsLoginContext from "../../../context/IsLoginContext";
 import UserMenu from "../UserMenu/UserMenu";
+import SearchInput from "../SearchInput/SearchInput";
 // import { useSelector } from "react-redux";
 
 function Navbar() {
@@ -29,14 +30,7 @@ function Navbar() {
             <Logo />
           </NavLink>
           {/* --------------inputSearch--------------- */}
-          <div className="d-inline-flex align-items-center abd-SearchBox">
-            <input
-              type="search"
-              name="search"
-              placeholder="What are You looking to day? "
-              className="abd-NavInputSerach w-100 p-3"
-            />
-          </div>
+          <SearchInput />
           {/* --------------HeaderACtions-------------- */}
           <div className="abd-HeaderActions d-inline-flex align-items-center gap-4">
             <ToggleLanguage />
