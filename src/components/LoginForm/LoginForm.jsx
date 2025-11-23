@@ -40,7 +40,7 @@ export default function LoginForm() {
     <div className="login-center">
       <div className="login-card">
       <div className="text-center mb-5">
-        <p>Sign In with email or mobile number</p>
+        <p>Sign In with email</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         

@@ -11,19 +11,24 @@ const UserMenu = () => {
   const { setIsLoggedIn } = useContext(IsLoginContext);
   if (!user) return null;
 
+  const firstNameRaw = (user.name || "").split(" ")[0] || "";
+  const displayName = firstNameRaw
+    ? firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1).toLowerCase()
+    : "";
+
   return (
     <div className="dropdown user-dropdown">
       <button
         className="user-dropdown-btn dropdown-toggle"
         data-bs-toggle="dropdown"
       >
-        {user.name.toUpperCase()}
+        {"Hi! "+ displayName}
       </button>
 
       <ul className="dropdown-menu dropdown-menu-end dropdown-menu-custom">
         {/* header */}
         <li className="dropdown-header">
-          Signed in as <strong>{user.name}</strong>
+          Signed in as <span>{displayName}</span>
         </li>
 
         <li>
@@ -46,15 +51,15 @@ const UserMenu = () => {
 
         {/* Signout */}
         <li>
-          <button
+          <Link
             className="dropdown-item-custom signout-btn"
             onClick={() => {
               dispatch(logout());
               setIsLoggedIn(false);
             }}
           >
-            <FaSignOutAlt className="dropdown-icon" /> Sign Out
-          </button>
+            <FaSignOutAlt className="dropdown-icon" /> Log Out
+          </Link>
         </li>
       </ul>
     </div>
