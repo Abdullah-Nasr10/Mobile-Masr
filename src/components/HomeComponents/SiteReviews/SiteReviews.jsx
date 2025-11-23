@@ -1,4 +1,4 @@
-import ReviewCard from "./ReviewCard";
+import ReviewCard from "./ReviewCard/ReviewCard";
 import "./SiteReviews.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -6,8 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import Button from "../../GlobalComponents/Button/Button";
-import { Link } from "react-router-dom";
+import AddReview from "./AddReview/AddReview";
 
 export default function MobileReviewsStatic() {
   const [reviews, setReviews] = useState([]);
@@ -26,9 +25,7 @@ export default function MobileReviewsStatic() {
     <>
       <div className="container mb-5 d-flex justify-content-between align-items-center">
         <h2 className="fw-light site-reviews-title">Reviews</h2>
-        <Link to="/review">
-          <Button btnTitle="Add Review" btnColor="var(--orange-color)" />
-        </Link>
+        <AddReview />
       </div>
       <Swiper
         className="site-reviews-swiper container px-5 pt-4"
