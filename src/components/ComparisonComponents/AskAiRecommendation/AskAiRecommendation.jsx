@@ -92,15 +92,25 @@ function AskAiRecommendation({ compareItems }) {
           </div>
         )}
         {loading ? (
-          <>
+          <div className="d-flex align-items-center gap-2">
             <div className="spinner-border" role="status"></div>{" "}
             <span>loading...</span>
-          </>
+          </div>
         ) : (
           aiRecommendation && (
             <>
-              <div>name: {aiRecommendation.name}</div>
-              <div>message: {aiRecommendation.message}</div>
+              <div className="abd-AiResponse">
+                <div className="abd-AiResponseLabel">The best product is:</div>
+                <div className="abd-AiResponseContent">
+                  {aiRecommendation.name}
+                </div>
+              </div>
+              <div className="abd-AiResponse">
+                <div className="abd-AiResponseLabel">Because:</div>
+                <div className="abd-AiResponseContent">
+                  {aiRecommendation.message}
+                </div>
+              </div>
             </>
           )
         )}
