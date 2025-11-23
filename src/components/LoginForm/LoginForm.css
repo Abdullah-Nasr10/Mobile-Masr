@@ -13,24 +13,47 @@
 }
 
 .geh-form-control {
-  border-radius: 4px;
+  border-radius: 6px;
   border: 1px solid var(--border-color);
   height: 40px;
   padding: 0.45rem 0.75rem;
   font-size: 1.45rem;
 }
 
-.login-socials {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 0.75rem;
+
+.geh-form-control.is-invalid {
+  border-color: var(--danger-color, #dc3545) !important;
+  box-shadow: 0 6px 18px rgba(220,53,69,0.08);
 }
 
-.login-socials a img {
-  width: 44px;
-  height: 44px;
-  transition: transform 120ms ease, filter 120ms ease;
+
+.text-danger {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1.25rem;
+}
+
+.login-socials {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem; 
+  align-items: center;
+}
+
+.login-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.04);
+  transition: transform 160ms ease, filter 120ms ease, box-shadow 160ms ease;
+}
+
+.login-socials a svg {
+  font-size: 1.6rem;
 }
 
 .geh-link {
@@ -48,17 +71,60 @@
   border: none;
   padding: 0.75rem 1.25rem;
   font-size: 1.6rem;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  height: 40px;
   transition: background-color 120ms ease;
 }
+.btn-geh:hover {
+  background-color: var(--orange-color-2);
+  color: var(--border-color);
+  
+}
 
-.login-socials a img:hover { transform: translateY(-4px) scale(1.02); filter: brightness(1.08); }
+
+.btn-geh:disabled,
+.btn-geh[aria-disabled="true"] {
+  cursor: not-allowed;
+  background-color: #dd512ab1;
+  pointer-events: none; 
+  color: #fff;
+}
+
+.login-socials a:hover {
+  transform: translateY(-6px) scale(1.04);
+  filter: brightness(1.06);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
 
 @media (max-width: 767px) {
   .login-center { padding: 1rem; min-height: auto; }
-  .login-card { box-shadow: none; padding: 1rem; }
+  .login-card { box-shadow: none; padding: 1rem; max-width: 420px; }
+
+  .geh-form-control {
+    height: 44px;
+    font-size: 1.25rem;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .btn-geh {
+    height: 44px;
+    font-size: 1.3rem;
+    padding: 0.6rem 1rem;
+  }
+
   .login-socials { gap: 0.75rem; }
+  .login-socials a { width: 48px; height: 48px; }
+  .login-socials a svg { font-size: 1.25rem; }
+
+
+  .geh-password-toggle-icon {
+    right: 10px;
+    top: 70px;
+    transform: translateY(-50%);
+    font-size: 1.15rem;
+    color: #777;
+  }
 }
 
 .form-control:focus,
@@ -70,3 +136,25 @@
   box-shadow: 0 6px 18px rgba(254,81,0,0.08), 0 0 0 0.25rem rgba(254,81,0,0.12);
 }
 
+/* ==== Password Toggle Icon ==== */
+.geh-password-toggle-icon {
+  position: absolute;
+  right: 25px;
+  top: 38px; 
+  cursor: pointer;
+  color: #777;
+  font-size: 1.4rem;
+  transition: color 120ms ease;
+}
+
+.geh-password-toggle-icon:hover {
+  color: var(--orange-color);
+}
+
+@media (max-width: 576px) {
+  .geh-password-toggle-icon {
+  right: 18px;
+  top: 44px; 
+  font-size: 1.25rem;
+  }
+}
