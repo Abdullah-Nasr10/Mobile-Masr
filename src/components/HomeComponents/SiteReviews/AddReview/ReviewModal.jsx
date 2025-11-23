@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./AddReview.css";
 
 function ReviewModal({ show, handleClose }) {
@@ -21,9 +21,7 @@ function ReviewModal({ show, handleClose }) {
           Close
         </Button>
 
-        <Link to="/review">
-          <Button variant="success">Add Review</Button>
-        </Link>
+        <Button variant="success">Add Review</Button>
       </Modal.Footer>
     </Modal>
   );

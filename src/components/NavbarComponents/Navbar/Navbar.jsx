@@ -18,7 +18,7 @@ function Navbar() {
   // console.log("Navbar user:", user);
 
   const { isLoggedIn } = useContext(IsLoginContext);
-  console.log("........", isLoggedIn);
+  console.log("is Logged In:", isLoggedIn);
 
   return (
     <nav className="abd-Navbar">
