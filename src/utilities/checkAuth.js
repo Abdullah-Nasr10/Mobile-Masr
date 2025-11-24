@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-const checkRespons = async (param, navigate) => {
+const checkAuth = async (param, navigate) => {
     try {
         const res = await fetch(`http://localhost:3000/${param}`, {
             method: "GET",
@@ -25,4 +25,4 @@ const checkRespons = async (param, navigate) => {
     }
 };
 
-export default checkRespons;
+export default checkAuth;
