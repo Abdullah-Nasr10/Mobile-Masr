@@ -98,7 +98,6 @@ git checkout -b abd-navbar
 - Use your **3-letter prefix** for any variable, function, or CSS class.
   - Example:
     - CSS: `.abd-navbar`, `.mos-footer`
-    - JS: `abd_handleLogin()`, `geh_isValid()`,`mosAddCounter`
 
 ---
 
