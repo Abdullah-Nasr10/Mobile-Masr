@@ -1,9 +1,21 @@
-import React from 'react'
+import React, { useEffect } from "react";
+
+import "react-toastify/dist/ReactToastify.css";
+import checkRespons from "../../utilities/checkAuth";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  return (
-    <div>Cart</div>
-  )
-}
+  const navigate = useNavigate();
 
-export default Cart
+  useEffect(() => {
+    checkRespons("cart", navigate);
+  }, [navigate]);
+
+  return (
+    <>
+      <div>Cart</div>
+    </>
+  );
+};
+
+export default Cart;
