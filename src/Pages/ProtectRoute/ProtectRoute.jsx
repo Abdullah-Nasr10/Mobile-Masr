@@ -1,23 +1,39 @@
-import React, { useEffect, useRef } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import checkAuth from "../../utilities/checkAuth";
+import Loader from "../../components/GlobalComponents/Loader/Loader";
 
 function ProtectRoute() {
-  const isLoggedIn = localStorage.getItem("token");
-  const notifiedRef = useRef(false);
+  const token = localStorage.getItem("token");
+  const [authorized, setAuthorized] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoggedIn && !notifiedRef.current) {
-      toast.error("You must be logged in to access this page.");
-      notifiedRef.current = true;
-    }
-  }, [isLoggedIn]);
+    const controller = new AbortController();
+    const verify = async () => {
+      if (!token) {
+        toast.error("You must be logged in to access this page.");
+        navigate("/login", { state: { from: location }, replace: true });
+        return;
+      }
+      const ok = await checkAuth(token, controller.signal);
+      if (ok) {
+        setAuthorized(true);
+      } else {
+        toast.error("you unauthorized. Please login.");
+        localStorage.removeItem("token");
+        setAuthorized(false);
+        navigate("/login", { state: { from: location }, replace: true });
+      }
+    };
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+    verify();
+    return () => controller.abort();
+  }, [token, navigate, location]);
 
+  if (authorized === null) return <Loader />;
   return <Outlet />;
 }
 
