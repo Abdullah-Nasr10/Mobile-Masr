@@ -32,7 +32,7 @@ export const fetchWishlist = createAsyncThunk(
     try {
       const { users } = getState();
       const userId = getUserId(users.user);
-    
+
       if (!userId) {
         return rejectWithValue("User not logged in");
       }
@@ -54,7 +54,7 @@ export const addToWishlist = createAsyncThunk(
     try {
       const { users } = getState();
       const userId = getUserId(users.user);
-      
+
       if (!userId) {
         return rejectWithValue("User not logged in");
       }
@@ -76,13 +76,13 @@ export const removeFromWishlist = createAsyncThunk(
     try {
       const { users } = getState();
       const userId = getUserId(users.user);
-      
+
       if (!userId) {
         return rejectWithValue("User not logged in");
       }
 
       const response = await wishlistApi.delete(`/${userId}/remove`, {
-        data: { productId }
+        data: { productId },
       });
       return { productId, data: response.data };
     } catch (error) {
@@ -100,8 +100,7 @@ export const toggleWishlist = createAsyncThunk(
     try {
       const { wishlist, users } = getState();
       const userId = getUserId(users.user);
-    
-      
+
       if (!userId) {
         return rejectWithValue("User not logged in");
       }
@@ -112,7 +111,7 @@ export const toggleWishlist = createAsyncThunk(
 
       if (isInWishlist) {
         const response = await wishlistApi.delete(`/${userId}/remove`, {
-          data: { productId }
+          data: { productId },
         });
         return { action: "removed", productId, data: response.data };
       } else {
