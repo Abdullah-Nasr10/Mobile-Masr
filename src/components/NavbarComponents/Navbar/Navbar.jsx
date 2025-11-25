@@ -11,11 +11,11 @@ import BottomNavbar from "../BottomNavbar/BottomNavbar";
 import IsLoginContext from "../../../context/IsLoginContext";
 import UserMenu from "../UserMenu/UserMenu";
 import SearchInput from "../SearchInput/SearchInput";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function Navbar() {
-  // const { user } = useSelector ((state) => state.users);
-  // console.log("Navbar user:", user);
+  const wishlist = useSelector((state) => state.wishlist);
+  const wishlistCount = wishlist?.items?.length || 0;
 
   const { isLoggedIn } = useContext(IsLoginContext);
   console.log("is Logged In:", isLoggedIn);
@@ -48,10 +48,10 @@ function Navbar() {
 
             {/* ------------------- */}
             <div className="center">
-              <div className="abd-Favorite me-3">
+              <Link to="/wishlist" className="abd-Favorite me-3">
                 <FavoriteHeart />
-                <div className="abd-FavCounter center">0</div>
-              </div>
+                <div className="abd-FavCounter center">{wishlistCount}</div>
+              </Link>
               <div className="abd-Cart d-none d-md-inline-block">
                 <Cart />
                 <div className="abd-CartCounter center">100</div>
