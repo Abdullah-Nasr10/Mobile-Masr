@@ -16,11 +16,11 @@ function Layout() {
   );
   // ==============isLoggedInContext===============
   const [isLoggedIn, setIsLoggedIn] = useState(
-    Boolean(localStorage.getItem("token") && localStorage.getItem("user"))  
+    Boolean(localStorage.getItem("token"))
   );
 
   useEffect(() => {
-    setIsLoggedIn(Boolean(localStorage.getItem("token") && localStorage.getItem("user")));
+    setIsLoggedIn(Boolean(localStorage.getItem("token")));
   }, [pathname]);
 
   useEffect(() => {
