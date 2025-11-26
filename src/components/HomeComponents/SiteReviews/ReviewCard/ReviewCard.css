@@ -39,13 +39,16 @@
     font-size: 1.4rem;
     font-style: italic;
     color: var(--muted-text);
-    /* ====max3lines====== */
+
+    line-height: 1.6;
+    height: calc(1.6em * 3);
+    /* force exactly 3 lines worth of height */
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     line-clamp: 3;
-
+    white-space: normal;
 }
 
 .reh-review-card .rating {
