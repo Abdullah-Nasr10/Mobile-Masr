@@ -3,11 +3,11 @@ import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../../../store/slices/WishlistSlice";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 function ProdDetailsFavoriteIcon({ productId }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const wishlist = useSelector((state) => state.wishlist);
   const user = useSelector((state) => state.users?.user);
   const [isFav, setIsFav] = useState(false);
@@ -26,7 +26,7 @@ function ProdDetailsFavoriteIcon({ productId }) {
     // Check if user is logged in
     if (!user) {
       toast.error("Please login first to add to wishlist");
-      navigate("/login");
+      // navigate("/login");
       return;
     }
 
