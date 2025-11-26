@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PagePath from "../../components/GlobalComponents/PagePath/PagePath";
 import "./ProductDetails.css";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../../components/GlobalComponents/Loader/Loader";
 import ProductImages from "../../components/ProductDetailsComponents/ProductImages/ProductImages";
 import ProductInfo from "../../components/ProductDetailsComponents/ProductInfo/ProductInfo";
@@ -9,19 +9,35 @@ import ProductAdditionalInfo from "../../components/ProductDetailsComponents/Pro
 
 function ProductDetails() {
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProductDetails = async () => {
-      const response = await fetch(`http://localhost:3000/products/${id}`);
-      const data = await response.json();
-      setProduct(data.data);
-      console.log(data.data);
+      try {
+        const response = await fetch(`http://localhost:3000/products/${id}`);
+        const data = await response.json();
+
+        if (!data.data || response.status === 404) {
+          navigate("/not-found");
+          return;
+        }
+
+        setProduct(data.data);
+        console.log(data.data);
+      } catch (error) {
+        console.error("Error fetching product:", error);
+        navigate("/not-found");
+      } finally {
+        setLoading(false);
+      }
     };
     fetchProductDetails();
-  }, [id]);
-  if (!product) {
+  }, [id, navigate]);
+
+  if (loading) {
     return <Loader />;
   }
   return (

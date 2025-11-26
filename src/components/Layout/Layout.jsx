@@ -5,9 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchProductsData } from "../../store/slices/ProductSlice";
 import { fetchWishlist } from "../../store/slices/WishlistSlice";
+import { logout } from "../../store/slices/usersSlice";
 import CompareContext from "../../context/CompareContext";
 import { ToastContainer } from "react-toastify";
 import IsLoginContext from "../../context/IsLoginContext";
+import checkAuth from "../../utilities/checkAuth";
 // ============================================================
 function Layout() {
   const dispatch = useDispatch();
@@ -18,13 +20,25 @@ function Layout() {
     () => JSON.parse(localStorage.getItem("compareItems")) || []
   );
   // ==============isLoggedInContext===============
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    Boolean(localStorage.getItem("token"))
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(Boolean(localStorage.getItem("token")));
-  }, [pathname]);
+    const controller = new AbortController();
+    const verify = async () => {
+      const tkn = localStorage.getItem("token");
+      if (!tkn) {
+        setIsLoggedIn(false);
+        return;
+      }
+      const ok = await checkAuth(tkn, controller.signal);
+      if (!ok) {
+        dispatch(logout());
+      }
+      setIsLoggedIn(ok);
+    };
+    verify();
+    return () => controller.abort();
+  }, [pathname, dispatch]);
 
   // Fetch wishlist when user logs in (check both user and token)
   useEffect(() => {
