@@ -1,77 +1,86 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
+import "./AddReview.css";
+import { toast } from "react-toastify";
 
 export default function ReviewModal({ show, handleClose }) {
   const [rating, setRating] = useState(4);
-  const [review, setReview] = useState("");
+  const [comment, setComment] = useState("");
   const token = localStorage.getItem("token");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!comment.trim() || comment.length < 4) {
+      toast.error("Please add a comment with more than 3 characters.");
+      return;
+    }
 
-    await fetch("http://localhost:3000/reviews", {
+    const res = await fetch("http://localhost:3000/reviews", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ rating, review }),
+      body: JSON.stringify({ rating, comment }),
     });
 
-    alert("sent review successfully!");
+    if (res.status === 401) {
+      toast.error("Unauthorized token. Please login.");
+      return;
+    }
+
+    if (!res.ok) {
+      toast.error("Failed to send review.");
+      return;
+    }
+
+    toast.success("Sent review successfully!");
     setRating(0);
-    setReview("");
+    setComment("");
     handleClose();
   };
 
   return (
     <>
-      <Modal 
-        show={show} 
-        onHide={handleClose} 
+      <Modal
+        show={show}
+        onHide={handleClose}
         centered
-        dialogClassName="custom-modal"   
+        dialogClassName="reh-review-modal"
       >
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold">Rate and review</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <small className="text-muted" style={{ color: "#7c7c7c" }}>
-            Rating ({rating}/5)
-          </small>
+          <small className="reh-rating-label">Rating ({rating}/5)</small>
 
-          <div className="d-flex gap-2 my-2" style={{ fontSize: "30px" }}>
+          <div className="d-flex gap-2 my-2 reh-stars-row">
             {[1, 2, 3, 4, 5].map((star) => (
               <FaStar
                 key={star}
                 onClick={() => setRating(star)}
-                style={{ cursor: "pointer" }}
-                color={star <= rating ? "orange" : "#ccc"}
+                className="reh-star"
+                color={
+                  star <= rating
+                    ? "var(--orange-color)"
+                    : "var(--gray-color-light)"
+                }
               />
             ))}
           </div>
 
           <Form>
-            <Form.Label className="fw-semibold" style={{ color: "#7c7c7c" }}>
-              Review
-            </Form.Label>
+            <Form.Label className="my-2 reh-review-label">Review</Form.Label>
 
             <Form.Control
               as="textarea"
               rows={4}
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
               placeholder="Write your review..."
-              style={{
-                border: "2px solid orange",
-                borderRadius: "12px",
-                padding: "10px",
-                fontSize: "18px",
-                resize: "none",
-                height: "200px",
-              }}
+              className="reh-review-textarea"
             />
           </Form>
         </Modal.Body>
@@ -81,41 +90,17 @@ export default function ReviewModal({ show, handleClose }) {
             <Button
               variant="light"
               onClick={handleClose}
-              style={{
-                padding: "10px 25px",
-                borderRadius: "15px",
-                border: "1px solid #ccc",
-                color: "#7c7c7c"
-              }}
+              className="reh-cancel-btn"
             >
               Cancel
             </Button>
 
-            <Button
-              onClick={handleSubmit}
-              style={{
-                padding: "10px 35px",
-                borderRadius: "12px",
-                backgroundColor: "var(--orange-color)",
-                color: "white",
-                border: "none",
-              }}
-            >
+            <Button onClick={handleSubmit} className="reh-post-btn">
               Post
             </Button>
           </div>
         </Modal.Footer>
       </Modal>
-
-    
-      <style>
-      {`
-        .custom-modal {
-          max-width: 320px !important;
-          width: 90% !important;
-        }
-      `}
-      </style>
     </>
   );
 }
