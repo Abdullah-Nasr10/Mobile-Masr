@@ -48,7 +48,7 @@ function Card({ product }) {
         </div>
         {/* ============Heart-Icon =========== */}
         <div className="abd-Card-Icon">
-          <CardFavoriteIcon />
+          <CardFavoriteIcon productId={product._id} />
         </div>
       </div>
       {/* =============Card-Icons-End ============ */}

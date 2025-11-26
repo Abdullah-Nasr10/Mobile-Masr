@@ -51,7 +51,7 @@ function ProductImages({ product }) {
         {/* =============Product-Icons-Start ============ */}
         <div className="abd-ProdIcons fs-3">
           {/* -------------- Heart-Icon --------------- */}
-          <ProdDetailsFavoriteIcon />
+          <ProdDetailsFavoriteIcon productId={product._id} />
           {/* -------------- Share-Icon -------------- */}
           <div
             className="abd-ProdIcon center position-relative "
