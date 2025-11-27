@@ -9,7 +9,7 @@ function CardFavoriteIcon({ productId }) {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const wishlist = useSelector((state) => state.wishlist);
-  const user = useSelector((state) => state.users?.user);
+  const token = useSelector((state) => state.users?.token);
   const [isFav, setIsFav] = useState(false);
 
   // Check if product is in wishlist
@@ -27,7 +27,7 @@ function CardFavoriteIcon({ productId }) {
     e.stopPropagation();
 
     // Check if user is logged in
-    if (!user) {
+    if (!token) {
       toast.error("Please login first to add to wishlist");
       // navigate("/login");
       return;

@@ -15,6 +15,19 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// thunk fetch user profile
+export const fetchUserProfile = createAsyncThunk(
+  "users/fetchProfile",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get("/profile");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || { message: "Server error" });
+    }
+  }
+);
+
 // thunk login
 export const loginUser = createAsyncThunk(
   "users/login",
@@ -31,7 +44,7 @@ export const loginUser = createAsyncThunk(
 const usersSlice = createSlice({
   name: "users",
   initialState: {
-    user: JSON.parse(localStorage.getItem("user")) || null,
+    user: null,
     token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
@@ -40,13 +53,11 @@ const usersSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      localStorage.removeItem("user");
       localStorage.removeItem("token");
     },
     setCredentials: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.token;
-      if (action.payload.user) localStorage.setItem("user", JSON.stringify(action.payload.user));
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
     },
   },
@@ -57,7 +68,6 @@ const usersSlice = createSlice({
       state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
-      if (action.payload.user) localStorage.setItem("user", JSON.stringify(action.payload.user));
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
     });
     builder.addCase(registerUser.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
@@ -68,10 +78,17 @@ const usersSlice = createSlice({
       state.loading = false;
       state.user = action.payload.user;
       state.token = action.payload.token;
-      if (action.payload.user) localStorage.setItem("user", JSON.stringify(action.payload.user));
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
     });
     builder.addCase(loginUser.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
+
+    // fetch profile
+    builder.addCase(fetchUserProfile.pending, (state) => { state.loading = true; state.error = null; });
+    builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload.user || action.payload;
+    });
+    builder.addCase(fetchUserProfile.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
   },
 });
 

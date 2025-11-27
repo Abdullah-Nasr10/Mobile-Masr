@@ -19,25 +19,18 @@ wishlistApi.interceptors.request.use((config) => {
   return config;
 });
 
-// Helper function to get user ID
-const getUserId = (user) => {
-  if (!user) return null;
-  return user._id || user.id;
-};
-
 // Fetch user's wishlist
 export const fetchWishlist = createAsyncThunk(
   "wishlist/fetchWishlist",
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const { users } = getState();
-      const userId = getUserId(users.user);
+      const token = localStorage.getItem("token");
 
-      if (!userId) {
+      if (!token) {
         return rejectWithValue("User not logged in");
       }
 
-      const response = await wishlistApi.get(`/${userId}`);
+      const response = await wishlistApi.get("/");
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -50,16 +43,15 @@ export const fetchWishlist = createAsyncThunk(
 // Add product to wishlist
 export const addToWishlist = createAsyncThunk(
   "wishlist/addToWishlist",
-  async (productId, { getState, rejectWithValue }) => {
+  async (productId, { rejectWithValue }) => {
     try {
-      const { users } = getState();
-      const userId = getUserId(users.user);
+      const token = localStorage.getItem("token");
 
-      if (!userId) {
+      if (!token) {
         return rejectWithValue("User not logged in");
       }
 
-      const response = await wishlistApi.post(`/${userId}`, { productId });
+      const response = await wishlistApi.post("/", { productId });
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -72,16 +64,15 @@ export const addToWishlist = createAsyncThunk(
 // Remove product from wishlist
 export const removeFromWishlist = createAsyncThunk(
   "wishlist/removeFromWishlist",
-  async (productId, { getState, rejectWithValue }) => {
+  async (productId, { rejectWithValue }) => {
     try {
-      const { users } = getState();
-      const userId = getUserId(users.user);
+      const token = localStorage.getItem("token");
 
-      if (!userId) {
+      if (!token) {
         return rejectWithValue("User not logged in");
       }
 
-      const response = await wishlistApi.delete(`/${userId}/remove`, {
+      const response = await wishlistApi.delete("/remove", {
         data: { productId },
       });
       return { productId, data: response.data };
@@ -98,10 +89,10 @@ export const toggleWishlist = createAsyncThunk(
   "wishlist/toggleWishlist",
   async (productId, { getState, rejectWithValue }) => {
     try {
-      const { wishlist, users } = getState();
-      const userId = getUserId(users.user);
+      const { wishlist } = getState();
+      const token = localStorage.getItem("token");
 
-      if (!userId) {
+      if (!token) {
         return rejectWithValue("User not logged in");
       }
 
@@ -110,12 +101,12 @@ export const toggleWishlist = createAsyncThunk(
       );
 
       if (isInWishlist) {
-        const response = await wishlistApi.delete(`/${userId}/remove`, {
+        const response = await wishlistApi.delete("/remove", {
           data: { productId },
         });
         return { action: "removed", productId, data: response.data };
       } else {
-        const response = await wishlistApi.post(`/${userId}`, { productId });
+        const response = await wishlistApi.post("/", { productId });
         return { action: "added", data: response.data };
       }
     } catch (error) {
