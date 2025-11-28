@@ -4,10 +4,10 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { GiCharging } from "react-icons/gi";
 import { BsBoxSeam, BsUsbPlug } from "react-icons/bs";
 import { PiDeviceMobileSpeakerLight as MobileCover } from "react-icons/pi";
-import { AiOutlineShoppingCart as Cart } from "react-icons/ai";
 import { BsEarbuds } from "react-icons/bs";
 import { LiaPencilAltSolid } from "react-icons/lia";
 import VendorContainer from "../../GlobalComponents/VendorContainer/VendorContainer";
+import AddToCartBtn from "./AddToCartBtn";
 
 function ProductInfo({ product }) {
   return (
@@ -190,9 +190,7 @@ function ProductInfo({ product }) {
       <VendorContainer vendor={product.vendor} />
       {/* ==============Add-To-Cart-Button=================== */}
       <div className="my-5">
-        <button className="abd-InfoAddToCartBtn w-100 center gap-3 ">
-          <Cart size={20} /> Add to Cart
-        </button>
+        <AddToCartBtn product={product} />
       </div>
     </>
   );

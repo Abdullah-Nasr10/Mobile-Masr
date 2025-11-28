@@ -3,7 +3,6 @@ import "./Navbar.css";
 import Logo from "../../GlobalComponents/Logo/Logo";
 import { CiUser as UserIcon } from "react-icons/ci";
 import { CiHeart as FavoriteHeart } from "react-icons/ci";
-import { AiOutlineShoppingCart as Cart } from "react-icons/ai";
 import { Link, NavLink } from "react-router-dom";
 import CategoryNavbar from "../CategoryNavbar/CategoryNavbar";
 import ToggleLanguage from "../ToggleLanguage/ToggleLanguage";
@@ -12,6 +11,7 @@ import IsLoginContext from "../../../context/IsLoginContext";
 import UserMenu from "../UserMenu/UserMenu";
 import SearchInput from "../SearchInput/SearchInput";
 import { useSelector } from "react-redux";
+import CartCounterNav from "../CartCounterNav/CartCounterNav";
 
 function Navbar() {
   const wishlist = useSelector((state) => state.wishlist);
@@ -52,10 +52,7 @@ function Navbar() {
                 <FavoriteHeart />
                 <div className="abd-FavCounter center">{wishlistCount}</div>
               </Link>
-              <div className="abd-Cart d-none d-md-inline-block">
-                <Cart />
-                <div className="abd-CartCounter center">100</div>
-              </div>
+              <CartCounterNav />
             </div>
             {/* ------------------- */}
           </div>
