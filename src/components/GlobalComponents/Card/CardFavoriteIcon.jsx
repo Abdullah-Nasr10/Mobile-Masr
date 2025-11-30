@@ -5,7 +5,7 @@ import { toggleWishlist } from "../../../store/slices/WishlistSlice";
 import { toast } from "react-toastify";
 // import { useNavigate } from "react-router-dom";
 
-function CardFavoriteIcon({ productId }) {
+function CardFavoriteIcon({ productId, className = "" }) {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const wishlist = useSelector((state) => state.wishlist);
@@ -47,7 +47,9 @@ function CardFavoriteIcon({ productId }) {
 
   return (
     <FaHeart
-      className={`abd-Icon-Favorite ${isFav ? "text-danger" : ""}`}
+      className={`abd-Icon-Favorite ${
+        isFav ? "text-danger" : ""
+      } ${className}`.trim()}
       onClick={handleToggle}
       size={20}
       style={{ cursor: wishlist?.isLoading ? "wait" : "pointer" }}

@@ -118,12 +118,63 @@ const cartSlice = createSlice({
             .addCase(addToCart.fulfilled, fulfilledWithCart)
             .addCase(addToCart.rejected, rejected)
 
-            .addCase(updateCartQuantity.pending, pending)
-            .addCase(updateCartQuantity.fulfilled, fulfilledWithCart)
+            // Do not flip global loading for small quantity updates
+            .addCase(updateCartQuantity.pending, (state) => {
+                state.error = null;
+            })
+            .addCase(updateCartQuantity.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                const cart = action.payload;
+                // Merge: keep old product details, update only quantity & totalPrice
+                if (cart.items) {
+                    state.items = state.items.map((oldItem) => {
+                        const newItem = cart.items.find(
+                            (ni) => (ni.product?._id || ni.product) === (oldItem.product?._id || oldItem.product)
+                        );
+                        if (newItem) {
+                            return {
+                                ...oldItem,
+                                quantity: newItem.quantity,
+                                price: newItem.price,
+                                product: oldItem.product, // preserve full product data
+                            };
+                        }
+                        return oldItem;
+                    });
+                }
+                state.totalPrice = cart.totalPrice || 0;
+            })
             .addCase(updateCartQuantity.rejected, rejected)
 
-            .addCase(removeFromCart.pending, pending)
-            .addCase(removeFromCart.fulfilled, fulfilledWithCart)
+            .addCase(removeFromCart.pending, (state) => {
+                state.error = null;
+            })
+            .addCase(removeFromCart.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+                const cart = action.payload;
+                const remainingIds = new Set(
+                    (cart.items || []).map((i) => (i.product?._id || i.product))
+                );
+                // Keep only items that still exist in cart, preserving product details
+                state.items = state.items
+                    .filter((oldItem) => remainingIds.has(oldItem.product?._id || oldItem.product))
+                    .map((oldItem) => {
+                        const updated = (cart.items || []).find(
+                            (i) => (i.product?._id || i.product) === (oldItem.product?._id || oldItem.product)
+                        );
+                        if (updated) {
+                            return {
+                                ...oldItem,
+                                quantity: updated.quantity,
+                                price: updated.price,
+                            };
+                        }
+                        return oldItem;
+                    });
+                state.totalPrice = cart.totalPrice || 0;
+            })
             .addCase(removeFromCart.rejected, rejected)
 
             .addCase(clearCart.pending, pending)
