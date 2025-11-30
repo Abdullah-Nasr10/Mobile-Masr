@@ -10,9 +10,11 @@ export const buildUrlParams = (filters, sortBy, selectedBrand, page = 1) => {
   }
 
   // Add price
-  if (filters.priceRange.min > 0 || filters.priceRange.max < Infinity) {
-    params.minPrice = filters.priceRange.min;
-    params.maxPrice = filters.priceRange.max === Infinity ? 199000 : filters.priceRange.max;
+  const defaultMax = 199000; // slider default upper bound in UI
+  const max = filters.priceRange.max;
+  const includeMax = max < Infinity && max !== defaultMax;
+  if (includeMax) {
+    params.maxPrice = max;
   }
 
   // Add condition
