@@ -40,6 +40,55 @@ const FilterSidebar = ({
     }
   }, [selectedBrandFromCarousel, availableProducts, currentFilters.brands]);
 
+  // Sync all filters from URL (currentFilters)
+  useEffect(() => {
+    const newSelected = {};
+    
+    // Brands
+    if (currentFilters.brands?.length > 0) {
+      newSelected.Brands = currentFilters.brands;
+    }
+    
+    // RAM
+    if (currentFilters.ram?.length > 0) {
+      newSelected.Ram = currentFilters.ram;
+    }
+    
+    // Storage
+    if (currentFilters.storage?.length > 0) {
+      newSelected.Storage = currentFilters.storage;
+    }
+    
+    // SSD
+    if (currentFilters.ssd?.length > 0) {
+      newSelected.SSD = currentFilters.ssd;
+    }
+    
+    // Color
+    if (currentFilters.color?.length > 0) {
+      newSelected.Color = currentFilters.color;
+    }
+    
+    // Sim Card
+    if (currentFilters.simCard?.length > 0) {
+      newSelected["Sim Card"] = currentFilters.simCard;
+    }
+    
+    // Type/Condition
+    if (currentFilters.condition) {
+      newSelected.Type = [currentFilters.condition];
+    }
+    
+    setSelected(newSelected);
+    
+    // Sync price
+    if (currentFilters.priceRange) {
+      const min = currentFilters.priceRange.min || MIN_PRICE;
+      const max = currentFilters.priceRange.max === Infinity ? MAX_PRICE : currentFilters.priceRange.max;
+      setPrice([min, max]);
+    }
+  }, [currentFilters]);
+
   const availableFilters = getFilterGroups(category, availableProducts);
 
   const toggleOpen = (key) => {
