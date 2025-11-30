@@ -52,6 +52,7 @@ function ProdDetailsFavoriteIcon({ productId }) {
       onClick={handleToggle}
     >
       <FaHeart
+        size={20}
         className={`abd-ProdFavoriteIcon ${isFav ? "text-danger" : ""}`}
       />
     </div>
