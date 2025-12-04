@@ -41,6 +41,19 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// thunk google login
+export const googleLogin = createAsyncThunk(
+  "users/googleLogin",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/google-login", payload);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data || { message: "Google login failed" });
+    }
+  }
+);
+
 const usersSlice = createSlice({
   name: "users",
   initialState: {
@@ -81,6 +94,16 @@ const usersSlice = createSlice({
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
     });
     builder.addCase(loginUser.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
+
+    // google login
+    builder.addCase(googleLogin.pending, (state) => { state.loading = true; state.error = null; });
+    builder.addCase(googleLogin.fulfilled, (state, action) => {
+      state.loading = false;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      if (action.payload.token) localStorage.setItem("token", action.payload.token);
+    });
+    builder.addCase(googleLogin.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
 
     // fetch profile
     builder.addCase(fetchUserProfile.pending, (state) => { state.loading = true; state.error = null; });

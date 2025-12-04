@@ -15,6 +15,10 @@ const UserMenu = () => {
   const displayName = firstNameRaw
     ? firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1).toLowerCase()
     : "";
+  const profilePicture = user.profilePicture || "";
+  const avatarLetter = (displayName || user?.email || "?")
+    .charAt(0)
+    .toUpperCase();
 
   return (
     <div className="dropdown user-dropdown">
@@ -22,7 +26,14 @@ const UserMenu = () => {
         className="user-dropdown-btn dropdown-toggle"
         data-bs-toggle="dropdown"
       >
-        {"Hi! "+ displayName}
+        <span className="user-avatar" aria-hidden="true">
+          {profilePicture ? (
+            <img src={profilePicture} alt={displayName || "User avatar"} />
+          ) : (
+            <span className="user-avatar-fallback">{avatarLetter}</span>
+          )}
+        </span>
+        <span className="user-name">{`Hi! ${displayName || "User"}`}</span>
       </button>
 
       <ul className="dropdown-menu dropdown-menu-end dropdown-menu-custom">
