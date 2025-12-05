@@ -1,19 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../store/slices/usersSlice";
+import { registerUser, googleLogin } from "../../store/slices/usersSlice";
 import "../LoginForm/LoginForm.css";
 import "../../Pages/Auth/Register/Register.css";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { MdOutlineFacebook } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 export default function Register() {
   const dispatch = useDispatch();
   const { loading, error, user, success } = useSelector((s) => s.users);
   const [showPassword, setShowPassword] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
+
+  const handleGoogleRegister = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        setGoogleLoading(true);
+        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+        });
+        
+        const { sub: googleId, email, name, picture } = res.data;
+        dispatch(googleLogin({ googleId, email, name, profilePicture: picture }));
+      } catch (err) {
+        toast.error("Google registration failed");
+      } finally {
+        setGoogleLoading(false);
+      }
+    },
+    onError: () => toast.error("Google registration failed")
+  });
 
   const {
     register,
@@ -273,14 +294,15 @@ export default function Register() {
           <span className="text-muted">Or</span>
         </div>
 
-        <div className="login-socials">
-          <Link to="#">
-            <FcGoogle />
-          </Link>
-          <Link to="#">
-            <MdOutlineFacebook />
-          </Link>
-        </div>
+        <button 
+          type="button"
+          className="btn btn-google-custom w-100" 
+          onClick={handleGoogleRegister}
+          disabled={googleLoading}
+        >
+          <FcGoogle className="google-icon" />
+          {googleLoading ? "Signing up..." : "Sign up with Google"}
+        </button>
 
         <div className="text-center mt-4">
           <p className="text-muted">
