@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { filterProductsByCategory, applyFilters, applySorting } from "./useFilterLogic";
 import { buildUrlParams, parseFiltersFromUrl, parseSortFromUrl } from "./useUrlParams";
+import { translateArabicToEnglish } from "../services/aiSearchService";
 
 export const useCategoryFilters = (allProducts, category, searchParams, setSearchParams) => {
   const [sortBy, setSortBy] = useState(() => searchParams.get("sort") || "newest");
@@ -56,9 +57,29 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
 
   const getFilteredAndSortedProducts = useCallback(() => {
     const categoryProducts = getCategoryProducts();
-    const filteredProducts = applyFilters(categoryProducts, filters, selectedBrand);
+
+    // Apply search query from URL (name/brand/category contains search text)
+    let searchQuery = searchParams.get("search")?.toLowerCase().trim();
+    
+    // Translate Arabic query to English for matching
+    if (searchQuery) {
+      const translated = translateArabicToEnglish(searchQuery, categoryProducts);
+      searchQuery = translated.toLowerCase().trim();
+    }
+    
+    const afterSearch = searchQuery
+      ? categoryProducts.filter((p) => {
+          const text = `${p.name || ""} ${
+            typeof p.brand === "object" ? p.brand.name : p.brand || ""
+          } ${p.category?.name || ""}`
+            .toLowerCase();
+          return text.includes(searchQuery);
+        })
+      : categoryProducts;
+
+    const filteredProducts = applyFilters(afterSearch, filters, selectedBrand);
     return applySorting(filteredProducts, sortBy);
-  }, [getCategoryProducts, filters, selectedBrand, sortBy]);
+  }, [getCategoryProducts, filters, selectedBrand, sortBy, searchParams]);
 
   const handleBrandSelect = useCallback((brandId) => {
     // Keep selectedBrand as brand._id for swiper highlighting
@@ -79,10 +100,11 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
     const updatedFilters = { ...filters, brands: [] };
     setFilters(updatedFilters);
 
-    // Build params with brand name (not id) in URL
-    const params = buildUrlParams(updatedFilters, sortBy, brandValueForUrl, 1);
+    // Build params with brand name (not id) in URL - preserve search query
+    const searchQuery = searchParams.get("search");
+    const params = buildUrlParams(updatedFilters, sortBy, brandValueForUrl, 1, searchQuery);
     setSearchParams(params);
-  }, [filters, sortBy, setSearchParams, allProducts, category]);
+  }, [filters, sortBy, setSearchParams, allProducts, category, searchParams]);
 
   const handleFilterApply = useCallback((filterData) => {
     const newFilters = {
@@ -91,7 +113,9 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
         min: filterData.price?.[0] || 0,
         max: filterData.price?.[1] || Infinity,
       },
-      condition: filterData.filters.Type?.[0]?.toLowerCase() || null,
+      condition: filterData.filters.Type && filterData.filters.Type.length > 0 
+        ? filterData.filters.Type[0].toLowerCase() 
+        : null,
       simCard: filterData.filters["Sim Card"] || [],
       ram: filterData.filters.Ram || [],
       storage: filterData.filters.Storage || [],
@@ -121,16 +145,19 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
       if (!brandValueForUrl) brandValueForUrl = selectedBrand; // fallback to id
     }
 
-    const params = buildUrlParams(newFilters, sortBy, brandValueForUrl, 1);
+    // Preserve search query
+    const searchQuery = searchParams.get("search");
+    const params = buildUrlParams(newFilters, sortBy, brandValueForUrl, 1, searchQuery);
     console.log("🔗 URL Params:", params);
     setSearchParams(params);
-  }, [sortBy, setSearchParams, selectedBrand, allProducts, category]);
+  }, [sortBy, setSearchParams, selectedBrand, allProducts, category, searchParams]);
 
   const handleSortChange = useCallback((sortOption) => {
     setSortBy(sortOption);
-    // Use sortOption immediately instead of waiting for state update
-    setSearchParams(buildUrlParams(filters, sortOption, selectedBrand, 1));
-  }, [filters, selectedBrand, setSearchParams]);
+    // Use sortOption immediately instead of waiting for state update - preserve search
+    const searchQuery = searchParams.get("search");
+    setSearchParams(buildUrlParams(filters, sortOption, selectedBrand, 1, searchQuery));
+  }, [filters, selectedBrand, setSearchParams, searchParams]);
 
   const handleClearAll = useCallback(() => {
     setSelectedBrand(null);
@@ -145,8 +172,14 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
       color: [],
     });
     setSortBy("newest");
-    setSearchParams({});
-  }, [setSearchParams]);
+    // Preserve search query when clearing filters
+    const searchQuery = searchParams.get("search");
+    if (searchQuery) {
+      setSearchParams({ search: searchQuery });
+    } else {
+      setSearchParams({});
+    }
+  }, [setSearchParams, searchParams]);
 
   return {
     sortBy,
@@ -154,7 +187,10 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
     filters,
     filterProductsByCategory: getCategoryProducts,
     getFilteredAndSortedProducts,
-    buildUrlParams: (page) => buildUrlParams(filters, sortBy, selectedBrand, page),
+    buildUrlParams: (page) => {
+      const searchQuery = searchParams.get("search");
+      return buildUrlParams(filters, sortBy, selectedBrand, page, searchQuery);
+    },
     handleBrandSelect,
     handleFilterApply,
     handleSortChange,

@@ -1,8 +1,13 @@
 // URL parameter management utilities
 
-// Build URL params from filters, sort, and page
-export const buildUrlParams = (filters, sortBy, selectedBrand, page = 1) => {
+// Build URL params from filters, sort, and page (preserve search query)
+export const buildUrlParams = (filters, sortBy, selectedBrand, page = 1, searchQuery = null) => {
   const params = {};
+
+  // Always preserve search query if present
+  if (searchQuery) {
+    params.search = searchQuery;
+  }
 
   // Add brands
   if (selectedBrand || filters.brands.length > 0) {
@@ -10,7 +15,7 @@ export const buildUrlParams = (filters, sortBy, selectedBrand, page = 1) => {
   }
 
   // Add price
-  const defaultMax = 199000; // slider default upper bound in UI
+  const defaultMax = 199000;
   const max = filters.priceRange.max;
   const includeMax = max < Infinity && max !== defaultMax;
   if (includeMax) {

@@ -14,6 +14,7 @@ const FilterSidebar = ({
   selectedBrandFromCarousel = null,
   currentFilters = {},
   onClearAll,
+  searchQuery = null,
 }) => {
   const [openKeys, setOpenKeys] = useState(() => new Set());
   const [selected, setSelected] = useState(() => ({}));
@@ -76,7 +77,9 @@ const FilterSidebar = ({
     
     // Type/Condition
     if (currentFilters.condition) {
-      newSelected.Type = [currentFilters.condition];
+      // Capitalize first letter to match FilterData options: "new" -> "New", "used" -> "Used"
+      const capitalizedCondition = currentFilters.condition.charAt(0).toUpperCase() + currentFilters.condition.slice(1).toLowerCase();
+      newSelected.Type = [capitalizedCondition];
     }
     
     setSelected(newSelected);
@@ -130,6 +133,15 @@ const FilterSidebar = ({
         <FiSliders className="mos-filter-panel__icon" />
         <span>Filter</span>
       </div>
+
+      {searchQuery && (
+        <div className="mos-filter-search-badge">
+          <div className="mos-search-badge-label">
+            <span className="mos-badge-icon">🔍</span>
+            <span className="mos-badge-text">Search : "{searchQuery}"</span>
+          </div>
+        </div>
+      )}
 
       <div className="mos-filter-panel__groups">
         {Object.entries(availableFilters).map(([group, options]) => (

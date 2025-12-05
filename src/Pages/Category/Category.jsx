@@ -24,6 +24,13 @@ function Category() {
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const productsPerPage = 12;
   const currentPage = parseInt(searchParams.get("page")) || 1;
+  const searchQuery = searchParams.get("search") || null;
+
+  const makeBreadcrumbPath = () => {
+    const base = category?.replace(/-/g, " ") || "all";
+    if (searchQuery) return `${base} > ${searchQuery}`;
+    return base;
+  };
 
   const {
     sortBy,
@@ -31,7 +38,7 @@ function Category() {
     filters,
     filterProductsByCategory,
     getFilteredAndSortedProducts,
-    buildUrlParams,
+    buildUrlParams: buildUrlParamsForPage,
     handleBrandSelect,
     handleFilterApply,
     handleSortChange,
@@ -49,15 +56,18 @@ function Category() {
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const handlePageChange = (pageNumber) =>
-    setSearchParams(buildUrlParams(pageNumber));
+  const handlePageChange = (pageNumber) => {
+    // Use the buildUrlParams wrapper from the hook which preserves all state
+    const params = buildUrlParamsForPage(pageNumber);
+    setSearchParams(params);
+  };
 
   if (isLoading && allProducts.length === 0) return <Loader />;
 
   return (
     <div className="mos-category-page">
       <div className="container pt-4">
-        <PagePath path={category?.replace(/-/g, " ")} />
+        <PagePath path={makeBreadcrumbPath()} />
       </div>
 
       <BrandsCarousel
@@ -76,6 +86,7 @@ function Category() {
               selectedBrandFromCarousel={selectedBrand}
               currentFilters={filters}
               onClearAll={handleClearAll}
+              searchQuery={searchQuery}
             />
           </div>
 
@@ -121,6 +132,7 @@ function Category() {
         selectedBrandFromCarousel={selectedBrand}
         currentFilters={filters}
         onClearAll={handleClearAll}
+        searchQuery={searchQuery}
       />
 
       {compare === "compare" && <CompareList />}
