@@ -1,63 +1,95 @@
-// URL parameter management utilities
-
-// Build URL params from filters, sort, and page (preserve search query)
-export const buildUrlParams = (filters, sortBy, selectedBrand, page = 1, searchQuery = null) => {
+// -------------------------------------------------------------
+export const buildUrlParams = (
+  filters,
+  sortBy,
+  selectedBrand,
+  page = 1,
+  searchQuery = null
+) => {
   const params = {};
 
-  // Always preserve search query if present
+  /* -----------------------------------------------------------
+       ALWAYS KEEP AI SEARCH CANONICAL TERM IN URL
+  ----------------------------------------------------------- */
   if (searchQuery) {
     params.search = searchQuery;
   }
 
-  // Add brands
-  if (selectedBrand || filters.brands.length > 0) {
-    params.brands = selectedBrand || filters.brands.join(",");
+  /* -----------------------------------------------------------
+       BRAND HANDLING (carousel OR sidebar)
+  ----------------------------------------------------------- */
+  if (selectedBrand || (filters.brands && filters.brands.length > 0)) {
+    params.brands =
+      selectedBrand || filters.brands.join(",");
   }
 
-  // Add price
+  /* -----------------------------------------------------------
+       PRICE RANGE
+  ----------------------------------------------------------- */
+  const defaultMin = 0;
   const defaultMax = 199000;
-  const max = filters.priceRange.max;
-  const includeMax = max < Infinity && max !== defaultMax;
-  if (includeMax) {
-    params.maxPrice = max;
-  }
 
-  // Add condition
+  const min = filters.priceRange?.min ?? defaultMin;
+  const max = filters.priceRange?.max ?? defaultMax;
+
+  const minChanged = min !== defaultMin;
+  const maxChanged = max !== defaultMax && max < Infinity;
+
+  if (minChanged) params.minPrice = min;
+  if (maxChanged) params.maxPrice = max;
+
+  /* -----------------------------------------------------------
+       Condition (Type: new/used)
+  ----------------------------------------------------------- */
   if (filters.condition) {
     params.type = filters.condition;
   }
 
-  // Add simCard
-  if (filters.simCard.length > 0) {
+  /* -----------------------------------------------------------
+       Sim Card
+  ----------------------------------------------------------- */
+  if (filters.simCard?.length > 0) {
     params.simCard = filters.simCard.join(",");
   }
 
-  // Add ram
-  if (filters.ram.length > 0) {
+  /* -----------------------------------------------------------
+      RAM
+  ----------------------------------------------------------- */
+  if (filters.ram?.length > 0) {
     params.ram = filters.ram.join(",");
   }
 
-  // Add storage
-  if (filters.storage.length > 0) {
+  /* -----------------------------------------------------------
+      Storage
+  ----------------------------------------------------------- */
+  if (filters.storage?.length > 0) {
     params.storage = filters.storage.join(",");
   }
 
-  // Add ssd
-  if (filters.ssd.length > 0) {
+  /* -----------------------------------------------------------
+      SSD
+  ----------------------------------------------------------- */
+  if (filters.ssd?.length > 0) {
     params.ssd = filters.ssd.join(",");
   }
 
-  // Add color
-  if (filters.color.length > 0) {
+  /* -----------------------------------------------------------
+      Color
+  ----------------------------------------------------------- */
+  if (filters.color?.length > 0) {
     params.color = filters.color.join(",");
   }
 
-  // Add sort
+  /* -----------------------------------------------------------
+       Sorting
+  ----------------------------------------------------------- */
   if (sortBy !== "newest") {
     params.sort = sortBy;
   }
 
-  // Add page
+  /* -----------------------------------------------------------
+      Pagination
+  ----------------------------------------------------------- */
   if (page > 1) {
     params.page = page;
   }
@@ -65,7 +97,10 @@ export const buildUrlParams = (filters, sortBy, selectedBrand, page = 1, searchQ
   return params;
 };
 
-// Parse filters from URL search params
+
+// -------------------------------------------------------------
+// Parse URL params → produce sidebar filter object
+// -------------------------------------------------------------
 export const parseFiltersFromUrl = (searchParams) => {
   const filters = {
     brands: [],
@@ -78,56 +113,49 @@ export const parseFiltersFromUrl = (searchParams) => {
     color: [],
   };
 
-  // Parse brands
+  // Brands
   const brands = searchParams.get("brands");
   if (brands) {
     filters.brands = brands.split(",").filter(Boolean);
   }
 
-  // Parse price
+  // Price
   const minPrice = searchParams.get("minPrice");
   const maxPrice = searchParams.get("maxPrice");
   if (minPrice) filters.priceRange.min = parseFloat(minPrice);
   if (maxPrice) filters.priceRange.max = parseFloat(maxPrice);
 
-  // Parse condition
+  // Condition (new/used)
   const type = searchParams.get("type");
   if (type) filters.condition = type;
 
-  // Parse simCard
+  // Sim Card
   const simCard = searchParams.get("simCard");
-  if (simCard) {
-    filters.simCard = simCard.split(",").filter(Boolean);
-  }
+  if (simCard) filters.simCard = simCard.split(",").filter(Boolean);
 
-  // Parse ram
+  // RAM
   const ram = searchParams.get("ram");
-  if (ram) {
-    filters.ram = ram.split(",").filter(Boolean);
-  }
+  if (ram) filters.ram = ram.split(",").filter(Boolean);
 
-  // Parse storage
+  // Storage
   const storage = searchParams.get("storage");
-  if (storage) {
-    filters.storage = storage.split(",").filter(Boolean);
-  }
+  if (storage) filters.storage = storage.split(",").filter(Boolean);
 
-  // Parse ssd
+  // SSD
   const ssd = searchParams.get("ssd");
-  if (ssd) {
-    filters.ssd = ssd.split(",").filter(Boolean);
-  }
+  if (ssd) filters.ssd = ssd.split(",").filter(Boolean);
 
-  // Parse color
+  // Color
   const color = searchParams.get("color");
-  if (color) {
-    filters.color = color.split(",").filter(Boolean);
-  }
+  if (color) filters.color = color.split(",").filter(Boolean);
 
   return filters;
 };
 
-// Parse sort option from URL
+
+// -------------------------------------------------------------
+// Parse sorting type from URL
+// -------------------------------------------------------------
 export const parseSortFromUrl = (searchParams) => {
   return searchParams.get("sort") || "newest";
 };

@@ -1,8 +1,15 @@
+// src/components/Navbar/SearchInput/SearchInput.jsx
+
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { searchProductsWithAI, getLiveSuggestions } from "../../../services/aiSearchService";
+
+import {
+  searchProductsWithAI,
+  getLiveSuggestions,
+} from "../../../services/aiSearchService";
+
 import "./SearchInput.css";
 
 function SearchInput() {
@@ -10,11 +17,13 @@ function SearchInput() {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+
   const navigate = useNavigate();
   const allProducts = useSelector((state) => state?.products?.data || []);
+
   const dropdownRef = useRef(null);
 
-  // Live suggestions (without AI, faster)
+  // ---------- LIVE suggestions ---------- //
   useEffect(() => {
     if (query.length >= 2) {
       const matches = getLiveSuggestions(query, allProducts, 20);
@@ -26,19 +35,21 @@ function SearchInput() {
     }
   }, [query, allProducts]);
 
-  // Close dropdown when clicking outside
+  // ---------- Close dropdown on outside click ---------- //
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowSuggestions(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  // ---------- MAIN SEARCH ---------- //
   const handleSearch = async (e) => {
     e.preventDefault();
+
     if (!query.trim()) {
       toast.warning("Please enter a search term");
       return;
@@ -48,84 +59,64 @@ function SearchInput() {
     setShowSuggestions(false);
 
     try {
-      // AI-powered search
-      const result = await searchProductsWithAI(query, allProducts);
+      const { matchedProducts, ai, categorySlug } =
+        await searchProductsWithAI(query, allProducts);
 
-      if (result.matchedProducts.length === 0) {
+      if (!matchedProducts || matchedProducts.length === 0) {
         toast.info("No products found. Try different keywords.");
         setIsSearching(false);
         return;
       }
 
-      // If only one product matched, go directly to its details
-      if (result.matchedProducts.length === 1 && result.matchedProducts[0]?._id) {
-        navigate(`/products/${result.matchedProducts[0]._id}`);
+      // منتج واحد → روح لصفحة المنتج
+      if (matchedProducts.length === 1 && matchedProducts[0]?._id) {
+        navigate(`/products/${matchedProducts[0]._id}`);
         toast.success("Showing selected product");
+        setIsSearching(false);
         return;
       }
 
-      // Build filter params for URL (for lists)
+      // نحدد الكاتيجوري من الـ AI (أو all لو مش واضح)
+      const catPath = categorySlug || "all";
+
       const params = new URLSearchParams();
-      if (result.filters?.brands?.length > 0) {
-        params.set("brands", result.filters.brands.join(","));
-      }
-      if (result.filters?.ram?.length > 0) {
-        params.set("ram", result.filters.ram.join(","));
-      }
-      if (result.filters?.storage?.length > 0) {
-        params.set("storage", result.filters.storage.join(","));
-      }
-      if (result.filters?.color?.length > 0) {
-        params.set("color", result.filters.color.join(","));
-      }
-      if (result.filters?.condition?.length > 0) {
-        params.set("type", result.filters.condition.join(","));
-      }
-      params.set("search", query);
 
-      // Choose best path: category if present, else brand slug, else all
-      const slugify = (v) => v?.toString().toLowerCase().replace(/\s+/g, "-") || "all";
-      let categoryPath = slugify(result.category || "");
-      if (!result.category || result.category === "all") {
-        if (result.filters?.brands?.length > 0) categoryPath = slugify(result.filters.brands[0]);
+      // search في الـ URL يكون normalized English (من AI لو موجود)
+      const searchValue =
+        ai?.normalizedQuery && !/[\u0600-\u06FF]/.test(ai.normalizedQuery)
+          ? ai.normalizedQuery
+          : query;
+      params.set("search", searchValue);
+
+      // لو فيه براند من الـ AI ضيفه في الـ URL
+      if (ai?.brand) {
+        params.set("brands", ai.brand);
       }
-      if (!categoryPath) categoryPath = "all";
 
-      navigate(`/category/${categoryPath}?${params.toString()}`);
+      navigate(`/category/${catPath}?${params.toString()}`);
 
-      toast.success(
-        `Found ${result.matchedProducts.length} product${
-          result.matchedProducts.length > 1 ? "s" : ""
-        }`
-      );
-    } catch (error) {
-      console.error("Search error:", error);
+      toast.success(`Showing results for "${searchValue}"`);
+    } catch (err) {
+      console.error("AI Search error:", err);
       toast.error("Search failed. Please try again.");
     } finally {
       setIsSearching(false);
     }
   };
 
+  // ---------- Click on suggestion → open product ---------- //
   const handleSuggestionClick = (product) => {
-    try {
-      if (!product || !product._id) {
-        toast.error("Invalid product selected");
-        return;
-      }
-
-      // Prefer direct navigation to product details to show exactly the chosen item
-      navigate(`/products/${product._id}`);
-
-      setQuery("");
-      setShowSuggestions(false);
-    } catch (error) {
-      console.error("Error handling suggestion click:", error);
-      toast.error("Failed to open product");
-    }
+    if (!product?._id) return;
+    navigate(`/products/${product._id}`);
+    setQuery("");
+    setShowSuggestions(false);
   };
 
   return (
-    <div className="d-inline-flex align-items-center abd-SearchBox" ref={dropdownRef}>
+    <div
+      className="d-inline-flex align-items-center abd-SearchBox"
+      ref={dropdownRef}
+    >
       <form onSubmit={handleSearch} className="w-100">
         <input
           type="search"
@@ -136,6 +127,7 @@ function SearchInput() {
           onChange={(e) => setQuery(e.target.value)}
           disabled={isSearching}
         />
+
         {isSearching && (
           <div className="mos-search-loading">
             <span className="spinner-border spinner-border-sm"></span>
@@ -157,7 +149,9 @@ function SearchInput() {
                 className="mos-search-suggestion-image"
               />
               <div className="mos-search-suggestion-details">
-                <div className="mos-search-suggestion-name">{product.name}</div>
+                <div className="mos-search-suggestion-name">
+                  {product.name}
+                </div>
                 <div className="mos-search-suggestion-brand">
                   {typeof product.brand === "object"
                     ? product.brand.name

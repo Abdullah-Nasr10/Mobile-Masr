@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+
 import { fetchBrandsData } from "../../store/slices/BrandSlice";
+
 import { useCategoryFilters } from "../../utilities/useCategoryFilters.js";
+
 import FilterSidebar from "../../components/GlobalComponents/Filter/Filter";
 import BrandsCarousel from "../../components/CategoryComponents/BrandsCarousel/BrandsCarousel";
 import PagePath from "../../components/GlobalComponents/PagePath/PagePath";
@@ -13,63 +16,96 @@ import ProductsGrid from "../../components/CategoryComponents/ProductsGrid/Produ
 import NoProducts from "../../components/CategoryComponents/NoProducts/NoProducts";
 import CompareList from "../../components/CategoryComponents/CompareList/CompareList.jsx";
 import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
+
 import "./Category.css";
 
 function Category() {
   const { category, compare } = useParams();
   const dispatch = useDispatch();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const allProducts = useSelector((state) => state?.products?.data || []);
   const isLoading = useSelector((store) => store.products.isLoading);
+
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+
   const productsPerPage = 12;
   const currentPage = parseInt(searchParams.get("page")) || 1;
+
+  // AI canonical search
   const searchQuery = searchParams.get("search") || null;
 
+ 
   const makeBreadcrumbPath = () => {
     const base = category?.replace(/-/g, " ") || "all";
-    if (searchQuery) return `${base} > ${searchQuery}`;
+
+    if (searchQuery) {
+      return `${base} > ${searchQuery}`;
+    }
     return base;
   };
 
+  /* -----------------------------------------------------------
+       Use Category Filters Hook (AI integrated)
+  ----------------------------------------------------------- */
   const {
     sortBy,
     selectedBrand,
     filters,
+
     filterProductsByCategory,
     getFilteredAndSortedProducts,
+    
     buildUrlParams: buildUrlParamsForPage,
+
     handleBrandSelect,
     handleFilterApply,
     handleSortChange,
-    handleClearAll,
+    handleClearAll
   } = useCategoryFilters(allProducts, category, searchParams, setSearchParams);
 
+
+  /* -----------------------------------------------------------
+       Fetch brands on mount
+  ----------------------------------------------------------- */
   useEffect(() => {
     dispatch(fetchBrandsData());
   }, [dispatch]);
 
+
+  /* -----------------------------------------------------------
+       Pagination calculations
+  ----------------------------------------------------------- */
   const filteredProducts = getFilteredAndSortedProducts();
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+
   const currentProducts = filteredProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
+
   const handlePageChange = (pageNumber) => {
-    // Use the buildUrlParams wrapper from the hook which preserves all state
     const params = buildUrlParamsForPage(pageNumber);
     setSearchParams(params);
   };
 
+
+  /* -----------------------------------------------------------
+      Loading
+  ----------------------------------------------------------- */
   if (isLoading && allProducts.length === 0) return <Loader />;
+
 
   return (
     <div className="mos-category-page">
       <div className="container pt-4">
+        {/* Breadcrumb */}
         <PagePath path={makeBreadcrumbPath()} />
       </div>
 
+      {/* Brand Carousel */}
       <BrandsCarousel
         category={category}
         onBrandClick={handleBrandSelect}
@@ -78,6 +114,7 @@ function Category() {
 
       <div className="container py-4">
         <div className="row">
+          {/* ---------------- Sidebar (Desktop) ---------------- */}
           <div className="col-lg-3 col-md-4 mb-4 d-none d-md-block">
             <FilterSidebar
               category={category}
@@ -90,6 +127,7 @@ function Category() {
             />
           </div>
 
+          {/* ---------------- Products Section ---------------- */}
           <div className="col-lg-9 col-md-8 col-12">
             <CategoryHeader
               category={category}
@@ -112,6 +150,7 @@ function Category() {
           </div>
         </div>
 
+        {/* ---------------- Banners (optional) ---------------- */}
         {filteredProducts.length > 0 && (
           <div className="row mt-5">
             <div className="col-12">
@@ -121,6 +160,7 @@ function Category() {
         )}
       </div>
 
+      {/* ---------------- Mobile Filters Drawer ---------------- */}
       <MobileFilterSidebar
         show={showMobileFilter}
         onClose={() => setShowMobileFilter(false)}
@@ -135,6 +175,7 @@ function Category() {
         searchQuery={searchQuery}
       />
 
+      {/* ---------------- Compare List ---------------- */}
       {compare === "compare" && <CompareList />}
     </div>
   );
