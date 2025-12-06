@@ -1,13 +1,13 @@
 .abd-item-details .abd-CartItemPrice {
     .abd-CartPriceDisc {
         color: var(--green-color);
-        background-color: var(--green-color-light);
+        /* background-color: var(--green-color-light); */
         width: fit-content;
         font-size: 1.4rem;
         /* font-weight: 700; */
 
-        padding: 0.5rem 1rem;
-        border-radius: 2rem;
+        /* padding: 0.5rem 1rem; */
+        /* border-radius: 2rem; */
     }
 
     .abd-CartPriceOriginal {

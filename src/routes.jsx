@@ -23,7 +23,9 @@ import Wishlist from "./Pages/Wishlist/Wishlist";
 // -----------------------------------------
 
 import Cart from "./Pages/Cart/Cart";
-import Checkout from "./Pages/Checkout/Checkout";
+import ShoppingCart from "./Pages/Cart/ShoppingCart/ShoppingCart";
+import Checkout from "./Pages/Cart/Checkout/Checkout";
+import OrderSuccess from "./Pages/Cart/OrderSuccess/OrderSuccess";
 // -----------------------------------------
 
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
@@ -65,8 +67,15 @@ const router = createBrowserRouter([
           { path: "/profile", element: <Profile /> },
           { path: "/orders", element: <Orders /> },
           { path: "/wishlist", element: <Wishlist /> },
-          { path: "/cart", element: <Cart /> },
-          { path: "/checkout", element: <Checkout /> },
+          {
+            path: "/cart",
+            element: <Cart />,
+            children: [
+              { path: "", element: <ShoppingCart /> },
+              { path: "checkout", element: <Checkout /> },
+              { path: "order-success", element: <OrderSuccess /> },
+            ],
+          },
         ],
       },
 

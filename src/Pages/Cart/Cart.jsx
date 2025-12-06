@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../store/slices/cartSlice";
 import PagePath from "../../components/GlobalComponents/PagePath/PagePath";
 import CartEmpty from "../../components/CartComponents/CartEmpty/CartEmpty";
-import CartCheckout from "../../components/CartComponents/CartCheckout/CartCheckout";
+import { Outlet } from "react-router-dom";
+import CartNavbar from "../../components/CartComponents/CartNavbar/CartNavbar";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -59,7 +60,8 @@ const Cart = () => {
   return (
     <div className="abd-Cart-Page container my-4">
       <PagePath path="Cart" />
-      <CartCheckout items={items} totalPrice={totalPrice} />
+      <CartNavbar />
+      <Outlet context={{ items, totalPrice }} />
     </div>
   );
 };
