@@ -1,12 +1,32 @@
+// src/utilities/useCategoryFilters.js
+
 import { useState, useEffect, useCallback } from "react";
-import { filterProductsByCategory, applyFilters, applySorting } from "./useFilterLogic";
-import { buildUrlParams, parseFiltersFromUrl, parseSortFromUrl } from "./useUrlParams";
+import {
+  filterProductsByCategory,
+  applyFilters,
+  applySorting,
+} from "./useFilterLogic";
+import {
+  buildUrlParams,
+  parseFiltersFromUrl,
+  parseSortFromUrl,
+} from "./useUrlParams";
 
-export const useCategoryFilters = (allProducts, category, searchParams, setSearchParams) => {
-  const [sortBy, setSortBy] = useState(() => searchParams.get("sort") || "newest");
+export const useCategoryFilters = (
+  allProducts,
+  category,
+  searchParams,
+  setSearchParams
+) => {
+  const [sortBy, setSortBy] = useState(
+    () => searchParams.get("sort") || "newest"
+  );
   const [selectedBrand, setSelectedBrand] = useState(null);
-  const [filters, setFilters] = useState(() => parseFiltersFromUrl(searchParams));
+  const [filters, setFilters] = useState(() =>
+    parseFiltersFromUrl(searchParams)
+  );
 
+  // Reset filters when category changes
   useEffect(() => {
     setSelectedBrand(null);
     setFilters({
@@ -21,22 +41,23 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
     });
   }, [category]);
 
-  // Sync from URL on change and on mount
+  // Sync filters + sort + brand highlight from URL
   useEffect(() => {
     const urlFilters = parseFiltersFromUrl(searchParams);
     const urlSort = parseSortFromUrl(searchParams);
     setFilters(urlFilters);
     setSortBy(urlSort);
 
-    // Map brand name from URL back to brand._id for swiper highlighting
     const brandsParam = searchParams.get("brands");
     if (brandsParam && !brandsParam.includes(",")) {
-      // Find the brand id by name
       const categoryProducts = filterProductsByCategory(allProducts, category);
       let foundBrandId = null;
       for (const p of categoryProducts) {
         if (p.brand && typeof p.brand === "object") {
-          if (p.brand.name === brandsParam || String(p.brand._id) === brandsParam) {
+          if (
+            p.brand.name === brandsParam ||
+            String(p.brand._id) === brandsParam
+          ) {
             foundBrandId = p.brand._id;
             break;
           }
@@ -44,10 +65,8 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
       }
       setSelectedBrand(foundBrandId || brandsParam);
     } else if (brandsParam && brandsParam.includes(",")) {
-      // multiple brands -> sidebar owns brand selection
       setSelectedBrand(null);
     }
-    // If no brandsParam, leave selectedBrand as is
   }, [searchParams, allProducts, category]);
 
   const getCategoryProducts = useCallback(() => {
@@ -56,82 +75,125 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
 
   const getFilteredAndSortedProducts = useCallback(() => {
     const categoryProducts = getCategoryProducts();
-    const filteredProducts = applyFilters(categoryProducts, filters, selectedBrand);
+
+    // search من الـ URL (دلوقتي AI حط فيه normalized English)
+    let searchQuery = searchParams.get("search")?.toLowerCase().trim();
+
+    const afterSearch = searchQuery
+      ? categoryProducts.filter((p) => {
+          const text = `${p.name || ""} ${
+            typeof p.brand === "object" ? p.brand.name : p.brand || ""
+          } ${p.category?.name || ""}`.toLowerCase();
+          return text.includes(searchQuery);
+        })
+      : categoryProducts;
+
+    const filteredProducts = applyFilters(
+      afterSearch,
+      filters,
+      selectedBrand
+    );
     return applySorting(filteredProducts, sortBy);
-  }, [getCategoryProducts, filters, selectedBrand, sortBy]);
+  }, [getCategoryProducts, filters, selectedBrand, sortBy, searchParams]);
 
-  const handleBrandSelect = useCallback((brandId) => {
-    // Keep selectedBrand as brand._id for swiper highlighting
-    setSelectedBrand(brandId);
+  // Brand select from carousel
+  const handleBrandSelect = useCallback(
+    (brandId) => {
+      setSelectedBrand(brandId);
 
-    // Find brand name for URL param
-    let brandNameForUrl = null;
-    const categoryProducts = filterProductsByCategory(allProducts, category);
-    for (const p of categoryProducts) {
-      if (p.brand && typeof p.brand === "object" && String(p.brand._id) === String(brandId)) {
-        brandNameForUrl = p.brand.name;
-        break;
-      }
-    }
-    const brandValueForUrl = brandNameForUrl || brandId; // fallback to id
-
-    // Clear brands from filters when selecting from carousel
-    const updatedFilters = { ...filters, brands: [] };
-    setFilters(updatedFilters);
-
-    // Build params with brand name (not id) in URL
-    const params = buildUrlParams(updatedFilters, sortBy, brandValueForUrl, 1);
-    setSearchParams(params);
-  }, [filters, sortBy, setSearchParams, allProducts, category]);
-
-  const handleFilterApply = useCallback((filterData) => {
-    const newFilters = {
-      brands: filterData.filters.Brands || [],
-      priceRange: {
-        min: filterData.price?.[0] || 0,
-        max: filterData.price?.[1] || Infinity,
-      },
-      condition: filterData.filters.Type?.[0]?.toLowerCase() || null,
-      simCard: filterData.filters["Sim Card"] || [],
-      ram: filterData.filters.Ram || [],
-      storage: filterData.filters.Storage || [],
-      ssd: filterData.filters.SSD || [],
-      color: filterData.filters.Color || [],
-    };
-
-    console.log("🔍 Filter Apply - New Filters:", newFilters);
-
-    setFilters(newFilters);
-
-    // Decide brand value for URL
-    let brandValueForUrl = null;
-    if (newFilters.brands.length > 0) {
-      // Sidebar brands override swiper selection
-      setSelectedBrand(null);
-      // buildUrlParams will use filters.brands internally if brandValueForUrl stays null
-    } else if (selectedBrand) {
-      // Translate selectedBrand (_id) to name for URL
+      let brandNameForUrl = null;
       const categoryProducts = filterProductsByCategory(allProducts, category);
       for (const p of categoryProducts) {
-        if (p.brand && typeof p.brand === "object" && String(p.brand._id) === String(selectedBrand)) {
-          brandValueForUrl = p.brand.name;
+        if (
+          p.brand &&
+          typeof p.brand === "object" &&
+          String(p.brand._id) === String(brandId)
+        ) {
+          brandNameForUrl = p.brand.name;
           break;
         }
       }
-      if (!brandValueForUrl) brandValueForUrl = selectedBrand; // fallback to id
-    }
+      const brandValueForUrl = brandNameForUrl || brandId;
 
-    const params = buildUrlParams(newFilters, sortBy, brandValueForUrl, 1);
-    console.log("🔗 URL Params:", params);
-    setSearchParams(params);
-  }, [sortBy, setSearchParams, selectedBrand, allProducts, category]);
+      const updatedFilters = { ...filters, brands: [] };
+      setFilters(updatedFilters);
 
-  const handleSortChange = useCallback((sortOption) => {
-    setSortBy(sortOption);
-    // Use sortOption immediately instead of waiting for state update
-    setSearchParams(buildUrlParams(filters, sortOption, selectedBrand, 1));
-  }, [filters, selectedBrand, setSearchParams]);
+      const searchQuery = searchParams.get("search");
+      const params = buildUrlParams(
+        updatedFilters,
+        sortBy,
+        brandValueForUrl,
+        1,
+        searchQuery
+      );
+      setSearchParams(params);
+    },
+    [filters, sortBy, setSearchParams, allProducts, category, searchParams]
+  );
 
+  // Apply filters (sidebar/mobile)
+  const handleFilterApply = useCallback(
+    (filterData) => {
+      const newFilters = {
+        brands: filterData.filters.Brands || [],
+        priceRange: {
+          min: filterData.price?.[0] || 0,
+          max: filterData.price?.[1] || Infinity,
+        },
+        condition:
+          filterData.filters.Type && filterData.filters.Type.length > 0
+            ? filterData.filters.Type[0].toLowerCase()
+            : null,
+        simCard: filterData.filters["Sim Card"] || [],
+        ram: filterData.filters.Ram || [],
+        storage: filterData.filters.Storage || [],
+        ssd: filterData.filters.SSD || [],
+        color: filterData.filters.Color || [],
+      };
+
+      setFilters(newFilters);
+
+      let brandValueForUrl = null;
+      if (newFilters.brands.length === 0 && selectedBrand) {
+        const categoryProducts = filterProductsByCategory(allProducts, category);
+        for (const p of categoryProducts) {
+          if (
+            p.brand &&
+            typeof p.brand === "object" &&
+            String(p.brand._id) === String(selectedBrand)
+          ) {
+            brandValueForUrl = p.brand.name;
+            break;
+          }
+        }
+      }
+
+      const searchQuery = searchParams.get("search");
+      const params = buildUrlParams(
+        newFilters,
+        sortBy,
+        brandValueForUrl,
+        1,
+        searchQuery
+      );
+      setSearchParams(params);
+    },
+    [sortBy, selectedBrand, setSearchParams, allProducts, category, searchParams]
+  );
+
+  // Sort change
+  const handleSortChange = useCallback(
+    (sortOption) => {
+      setSortBy(sortOption);
+      const searchQuery = searchParams.get("search");
+      setSearchParams(
+        buildUrlParams(filters, sortOption, selectedBrand, 1, searchQuery)
+      );
+    },
+    [filters, selectedBrand, setSearchParams, searchParams]
+  );
+
+  // Clear all filters (keep search if exists)
   const handleClearAll = useCallback(() => {
     setSelectedBrand(null);
     setFilters({
@@ -145,8 +207,14 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
       color: [],
     });
     setSortBy("newest");
-    setSearchParams({});
-  }, [setSearchParams]);
+
+    const searchQuery = searchParams.get("search");
+    if (searchQuery) {
+      setSearchParams({ search: searchQuery });
+    } else {
+      setSearchParams({});
+    }
+  }, [setSearchParams, searchParams]);
 
   return {
     sortBy,
@@ -154,7 +222,10 @@ export const useCategoryFilters = (allProducts, category, searchParams, setSearc
     filters,
     filterProductsByCategory: getCategoryProducts,
     getFilteredAndSortedProducts,
-    buildUrlParams: (page) => buildUrlParams(filters, sortBy, selectedBrand, page),
+    buildUrlParams: (page) => {
+      const searchQuery = searchParams.get("search");
+      return buildUrlParams(filters, sortBy, selectedBrand, page, searchQuery);
+    },
     handleBrandSelect,
     handleFilterApply,
     handleSortChange,

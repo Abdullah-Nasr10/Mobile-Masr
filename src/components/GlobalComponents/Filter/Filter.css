@@ -38,6 +38,32 @@
   color: var(--orange-color);
 }
 
+.mos-filter-search-badge {
+  background: var(--orange-color);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px #667eea4d;
+  /* color: var(--white-color); */
+}
+
+.mos-search-badge-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.mos-badge-icon {
+  font-size: 16px;
+}
+
+.mos-badge-text {
+  font-weight: 600;
+  font-size: 14px;
+  word-break: break-word;
+}
+
 .mos-filter-panel__groups {
   margin-top: 6px;
 }
