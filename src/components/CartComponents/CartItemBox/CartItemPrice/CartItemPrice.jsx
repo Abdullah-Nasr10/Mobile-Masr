@@ -21,7 +21,7 @@ function CartItemPrice({ item }) {
             discount > 0
               ? {
                   color: "var(--red-color)",
-                  backgroundColor: "var(--red-color-light)",
+                  // backgroundColor: "var(--red-color-light)",
                 }
               : {}
           }

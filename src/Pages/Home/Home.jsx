@@ -18,7 +18,7 @@ function Home() {
   // const products = allProducts.filter((p) => p.category?.name != "Laptop");
   const newProducts = allProducts.filter((p) => p.condition == "new");
   const usedProducts = allProducts.filter((p) => p.condition == "used");
-  console.log("Products from Redux Store:", allProducts);
+  // console.log("Products from Redux Store:", allProducts);
   return (
     <>
       {/*geh-Header*/}
