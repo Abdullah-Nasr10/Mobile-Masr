@@ -33,27 +33,38 @@
   font-size: 1.25rem;
 }
 
-.login-socials {
+.btn-google-custom {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 0.5rem; 
-  align-items: center;
-}
-
-.login-socials a {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.04);
-  transition: transform 160ms ease, filter 120ms ease, box-shadow 160ms ease;
+  gap: 10px;
+  background-color: #fff;
+  color: #444;
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  height: 40px;
+  transition: all 180ms ease;
+  margin-top: 0.5rem;
 }
 
-.login-socials a svg {
-  font-size: 1.6rem;
+.btn-google-custom:hover {
+  background-color: #f8f9fa;
+  border-color: #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-google-custom:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.btn-google-custom .google-icon {
+  font-size: 1.8rem;
 }
 
 .geh-link {

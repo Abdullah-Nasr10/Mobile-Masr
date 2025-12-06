@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchProductsData } from "../../store/slices/ProductSlice";
 import { fetchWishlist } from "../../store/slices/WishlistSlice";
-import { logout } from "../../store/slices/usersSlice";
+import { logout, fetchUserProfile } from "../../store/slices/usersSlice";
 import CompareContext from "../../context/CompareContext";
 import { ToastContainer } from "react-toastify";
 import IsLoginContext from "../../context/IsLoginContext";
@@ -21,6 +21,14 @@ function Layout() {
   );
   // ==============isLoggedInContext===============
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Fetch user profile on mount if token exists
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !user) {
+      dispatch(fetchUserProfile());
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
     const controller = new AbortController();

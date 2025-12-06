@@ -1,21 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, logout } from "../../store/slices/usersSlice";
+import { loginUser, logout, googleLogin } from "../../store/slices/usersSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineFacebook } from "react-icons/md";
 import "./LoginForm.css";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((s) => s.users);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const { register, handleSubmit, formState: { errors, isValid, isSubmitting } } = useForm({ mode : "onChange" });
+
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        setGoogleLoading(true);
+        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
+        });
+        
+        const { sub: googleId, email, name, picture } = res.data;
+        dispatch(googleLogin({ googleId, email, name, profilePicture: picture }));
+      } catch (err) {
+        toast.error("Google login failed");
+      } finally {
+        setGoogleLoading(false);
+      }
+    },
+    onError: () => toast.error("Google login failed")
+  });
 
   const onSubmit = (data) => {
     dispatch(loginUser({ email: data.email, password: data.password }));
@@ -104,17 +125,18 @@ export default function LoginForm() {
       </form>
 
       <div className="text-center mt-4">
-        <span className="text-muted">Sign In with</span>
+        <span className="text-muted">Or</span>
       </div>
 
-      <div className="login-socials">
-        <Link to="#">
-          <FcGoogle />
-        </Link>
-        <Link to="#">
-          <MdOutlineFacebook />
-        </Link>
-      </div>
+      <button 
+        type="button"
+        className="btn btn-google-custom w-100" 
+        onClick={handleGoogleLogin}
+        disabled={googleLoading}
+      >
+        <FcGoogle className="google-icon" />
+        {googleLoading ? "Signing in..." : "Sign in with Google"}
+      </button>
 
       <div className="text-center mt-4">
         <p className="text-muted">Don't have an account? <Link to="/register" className="geh-link text-decoration-none ">Sign Up</Link></p>
