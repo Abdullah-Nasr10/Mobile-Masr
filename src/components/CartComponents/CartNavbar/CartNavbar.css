@@ -17,3 +17,16 @@
     color: var(--orange-color);
     font-weight: 600;
 }
+
+
+
+@media (max-width: 768px) {
+    .abd-CartNavbar {
+        margin-bottom: 1rem;
+    }
+
+    .abd-CartNavbar .abd-cart-link {
+        padding: 1rem;
+        font-size: 1.4rem;
+    }
+}
