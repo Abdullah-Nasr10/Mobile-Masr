@@ -7,7 +7,7 @@ function CartNavbar() {
   const currentPath = location.pathname;
 
   return (
-    <div className="abd-CartNavbar d-flex align-items-center justify-content-evenly gap-4 my-4">
+    <div className="abd-CartNavbar d-flex align-items-center justify-content-evenly gap-3 gap-md-4 my-4">
       <div
         className={`abd-cart-link ${currentPath === "/cart" ? "active" : ""}`}
       >
