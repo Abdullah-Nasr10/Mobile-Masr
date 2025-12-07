@@ -20,6 +20,17 @@ import Register from "./Pages/Auth/Register/Register";
 import Profile from "./Pages/Profile/Profile";
 import Orders from "./Pages/Orders/Orders";
 import Wishlist from "./Pages/Wishlist/Wishlist";
+
+// Profile sub-pages
+import AccountInfo from "./Pages/Profile/pages/AccountInfo";
+import EditAccount from "./Pages/Profile/pages/EditAccount";
+import ChangePassword from "./Pages/Profile/pages/ChangePassword";
+import Favorites from "./Pages/Profile/pages/Favorites";
+import ProfileOrders from "./Pages/Profile/pages/Orders";
+import Refunds from "./Pages/Profile/pages/Refunds";
+import Addresses from "./Pages/Profile/pages/Addresses";
+import Ads from "./Pages/Profile/pages/Ads";
+import Notifications from "./Pages/Profile/pages/Notifications";
 // -----------------------------------------
 
 import Cart from "./Pages/Cart/Cart";
@@ -29,7 +40,6 @@ import OrderSuccess from "./Pages/Cart/OrderSuccess/OrderSuccess";
 // -----------------------------------------
 
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
-import Account from "./Pages/Auth/Account/Account";
 import Categories from "./Pages/Categories/Categories";
 import Vendor from "./Pages/Vendor/Vendor";
 import Comparison from "./Pages/Comparison/Comparison";
@@ -58,13 +68,27 @@ const router = createBrowserRouter([
 
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
-      { path: "/account", element: <Account /> },
 
       // ===== Protected routes group =====
       {
         element: <ProtectRoute />,
         children: [
-          { path: "/profile", element: <Profile /> },
+          { 
+            path: "/profile", 
+            element: <Profile />,
+            children: [
+              { path: "", element: <AccountInfo /> },
+              { path: "account", element: <AccountInfo /> },
+              { path: "edit-account", element: <EditAccount /> },
+              { path: "change-password", element: <ChangePassword /> },
+              { path: "favorites", element: <Favorites /> },
+              { path: "orders", element: <ProfileOrders /> },
+              { path: "refunds", element: <Refunds /> },
+              { path: "addresses", element: <Addresses /> },
+              { path: "ads", element: <Ads /> },
+              { path: "notifications", element: <Notifications /> },
+            ],
+          },
           { path: "/orders", element: <Orders /> },
           { path: "/wishlist", element: <Wishlist /> },
           {

@@ -55,7 +55,7 @@ const UserMenu = () => {
 
         {/* Account Settings */}
         <li>
-          <Link className="dropdown-item-custom" to="/account">
+          <Link className="dropdown-item-custom" to="/profile/account">
             <FaUserCog className="dropdown-icon" /> Account Settings
           </Link>
         </li>
