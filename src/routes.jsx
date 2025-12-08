@@ -19,7 +19,7 @@ import Login from "./Pages/Auth/Login/Login";
 import Register from "./Pages/Auth/Register/Register";
 import Profile from "./Pages/Profile/Profile";
 import Orders from "./Pages/Orders/Orders";
-import Wishlist from "./Pages/Wishlist/Wishlist";
+import Wishlist from "./Pages/Profile/pages/Favorites";
 
 // Profile sub-pages
 import AccountInfo from "./Pages/Profile/pages/AccountInfo";

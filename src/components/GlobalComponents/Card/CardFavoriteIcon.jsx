@@ -22,28 +22,32 @@ function CardFavoriteIcon({ productId, className = "" }) {
     }
   }, [wishlist?.items, productId]);
 
-  const handleToggle = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+const handleToggle = async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
 
-    // Check if user is logged in
-    if (!token) {
-      toast.error("Please login first to add to wishlist");
-      // navigate("/login");
-      return;
-    }
+  if (!token) {
+    toast.error("Please login first to add to Favorites");
+    return;
+  }
 
-    try {
-      const result = await dispatch(toggleWishlist(productId)).unwrap();
-      if (result.action === "added") {
-        toast.success("Added to wishlist");
-      } else {
-        toast.info("Removed from wishlist");
-      }
-    } catch (error) {
-      toast.error(error || "Failed to update wishlist");
+  // UI Update First (لإحساس فوري)
+  setIsFav((prev) => !prev);
+
+  try {
+    const result = await dispatch(toggleWishlist(productId)).unwrap();
+
+    if (result.action === "added") {
+      toast.success("Added to Favorites");
+    } else {
+      toast.info("Removed from Favorites");
     }
-  };
+  } catch (error) {
+    // رجّع القيمة الأصلية لو حصل خطأ
+    setIsFav((prev) => !prev);
+    toast.error(error || "Failed to update Favorites");
+  }
+};
 
   return (
     <FaHeart
