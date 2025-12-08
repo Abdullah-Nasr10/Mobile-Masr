@@ -19,7 +19,9 @@ wishlistApi.interceptors.request.use((config) => {
   return config;
 });
 
-// Fetch user's wishlist
+/* ============================
+   Fetch User Wishlist
+============================ */
 export const fetchWishlist = createAsyncThunk(
   "wishlist/fetchWishlist",
   async (_, { rejectWithValue }) => {
@@ -40,7 +42,9 @@ export const fetchWishlist = createAsyncThunk(
   }
 );
 
-// Add product to wishlist
+/* ============================
+   Add To Wishlist
+============================ */
 export const addToWishlist = createAsyncThunk(
   "wishlist/addToWishlist",
   async (productId, { rejectWithValue }) => {
@@ -55,13 +59,15 @@ export const addToWishlist = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to add to wishlist"
+        error.response?.data?.message || "Failed to add to Favorites"
       );
     }
   }
 );
 
-// Remove product from wishlist
+/* ============================
+   Remove From Wishlist
+============================ */
 export const removeFromWishlist = createAsyncThunk(
   "wishlist/removeFromWishlist",
   async (productId, { rejectWithValue }) => {
@@ -75,16 +81,19 @@ export const removeFromWishlist = createAsyncThunk(
       const response = await wishlistApi.delete("/remove", {
         data: { productId },
       });
+
       return { productId, data: response.data };
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to remove from wishlist"
+        error.response?.data?.message || "Failed to remove from Favorites"
       );
     }
   }
 );
 
-// Toggle product in wishlist (add if not exists, remove if exists)
+/* ============================
+   Toggle Wishlist
+============================ */
 export const toggleWishlist = createAsyncThunk(
   "wishlist/toggleWishlist",
   async (productId, { getState, rejectWithValue }) => {
@@ -111,12 +120,40 @@ export const toggleWishlist = createAsyncThunk(
       }
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to toggle wishlist"
+        error.response?.data?.message || "Failed to toggle Favorites"
       );
     }
   }
 );
 
+/* ============================
+   Clear Entire Wishlist  (FIXED!)
+============================ */
+export const clearAllWishlist = createAsyncThunk(
+  "wishlist/clearAllWishlist",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        return rejectWithValue("User not logged in");
+      }
+
+      // 🔥 FIX → backend accepts DELETE /wishlist only
+      const response = await wishlistApi.delete("/");
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to clear Favorites"
+      );
+    }
+  }
+);
+
+/* ============================
+   SLICE
+============================ */
 const wishlistSlice = createSlice({
   name: "wishlist",
   initialState: {
@@ -139,7 +176,7 @@ const wishlistSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Fetch Wishlist
+    /* Fetch Wishlist */
     builder
       .addCase(fetchWishlist.pending, (state) => {
         state.isLoading = true;
@@ -147,7 +184,6 @@ const wishlistSlice = createSlice({
       })
       .addCase(fetchWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Backend returns wishlist object with products array
         state.items = action.payload.products || [];
         state.error = null;
       })
@@ -156,75 +192,63 @@ const wishlistSlice = createSlice({
         state.error = action.payload;
       });
 
-    // Add to Wishlist
+    /* Add To Wishlist */
     builder
       .addCase(addToWishlist.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
-        state.successMessage = null;
       })
       .addCase(addToWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Backend returns updated wishlist object with products array
         state.items = action.payload.products || [];
-        state.successMessage = action.payload.message || "Added to wishlist";
-        state.error = null;
       })
       .addCase(addToWishlist.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
 
-    // Remove from Wishlist
+    /* Remove From Wishlist */
     builder
       .addCase(removeFromWishlist.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
-        state.successMessage = null;
       })
       .addCase(removeFromWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
-        // Backend returns updated wishlist object with products array
         state.items = action.payload.data.products || [];
-        state.successMessage =
-          action.payload.data.message || "Removed from wishlist";
-        state.error = null;
       })
       .addCase(removeFromWishlist.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
 
-    // Toggle Wishlist
+    /* Toggle Wishlist */
     builder
       .addCase(toggleWishlist.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
-        state.successMessage = null;
       })
       .addCase(toggleWishlist.fulfilled, (state, action) => {
         state.isLoading = false;
-
-        if (action.payload.action === "added") {
-          // Backend returns updated wishlist object
-          state.items = action.payload.data.products || [];
-          state.successMessage =
-            action.payload.data.message || "Added to wishlist";
-        } else if (action.payload.action === "removed") {
-          // Backend returns updated wishlist object
-          state.items = action.payload.data.products || [];
-          state.successMessage =
-            action.payload.data.message || "Removed from wishlist";
-        }
-
-        state.error = null;
+        state.items = action.payload.data.products || [];
       })
       .addCase(toggleWishlist.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
 
-    // Clear wishlist on logout
+    /* Clear All Wishlist (Delete All) */
+    builder
+      .addCase(clearAllWishlist.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(clearAllWishlist.fulfilled, (state) => {
+        state.isLoading = false;
+        state.items = [];
+      })
+      .addCase(clearAllWishlist.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+
+    /* Clear wishlist on logout */
     builder.addCase(logout, (state) => {
       state.items = [];
       state.error = null;

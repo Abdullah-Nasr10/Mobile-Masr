@@ -48,7 +48,7 @@ function Navbar() {
 
             {/* ------------------- */}
             <div className="center">
-              <Link to="/wishlist" className="abd-Favorite me-3">
+              <Link to="/profile/favorites" className="abd-Favorite me-3">
                 <FavoriteHeart />
                 <div className="abd-FavCounter center">{wishlistCount}</div>
               </Link>

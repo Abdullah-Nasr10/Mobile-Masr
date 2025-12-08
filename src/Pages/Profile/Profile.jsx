@@ -27,7 +27,7 @@ function Profile() {
   return (
     <div className="profile-page-container">
       <div className="container" >
-        <PagePath path="profile"/>
+       <PagePath path={`Profile`} />
       <div className="profile-wrapper container">
         <aside className="profile-sidebar">
           <nav className="profile-nav">

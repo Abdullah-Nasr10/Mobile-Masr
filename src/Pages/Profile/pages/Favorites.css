@@ -1,0 +1,83 @@
+/* ========== EMPTY FAVORITES ========== */
+
+.mos-empty-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.mos-empty-heart-icon {
+  font-size: 13rem;
+  color: #ff5a00;
+}
+
+.mos-empty-text {
+  margin-top: 15px;
+  font-size: 17px;
+  color: #ee6013;
+}
+
+.mos-empty-btn {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  background: #ff5a00;
+  color: white;
+  border-radius: 8px;
+  font-weight: 400;
+}
+
+/* Responsive */
+@media (max-width:768px) {
+  .mos-empty-heart-icon {
+    font-size: 3.5rem;
+  }
+  .mos-empty-container {
+    padding: 2.5rem 1rem;
+  }
+}
+
+/* ========== NORMAL VIEW ========== */
+
+.mos-Favorites-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.mos-Favorites-title {
+  font-size: 20px;        
+  font-weight: 600;       
+  color: #ff5a00;        
+  display: inline-block;  
+  padding-bottom: 4px;    
+  border-bottom: 2px solid #ff5a00; 
+  letter-spacing: 0.3px; 
+}
+
+.mos-Favorites-count {
+  font-size: 1.2rem;
+}
+
+/* GRID */
+.mos-Favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.2rem;
+}
+
+.mos-Favorites-card {
+  transition: 0.25s ease;
+}
+
+.mos-Favorites-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .mos-Favorites-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  }
+}
+
+
