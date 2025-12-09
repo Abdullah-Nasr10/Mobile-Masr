@@ -10,10 +10,10 @@ function CartCount() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (token && (!items || items.length === 0)) {
+    if (isLoggedIn && token && (!items || items.length === 0)) {
       dispatch(fetchCart()).catch(() => {});
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, isLoggedIn]);
 
   const count = isLoggedIn
     ? items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0
