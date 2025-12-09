@@ -3,19 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../store/slices/usersSlice";
 import { Link } from "react-router-dom";
 import { FaShoppingBag, FaUserCog, FaSignOutAlt } from "react-icons/fa";
+import { CiUser } from "react-icons/ci";
 import "./UserMenu.css";
 import IsLoginContext from "../../../context/IsLoginContext";
+
 const UserMenu = () => {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { setIsLoggedIn } = useContext(IsLoginContext);
+
   if (!user) return null;
 
-  const firstNameRaw = (user.name || "").split(" ")[0] || "";
+  const firstNameRaw = (user?.name || "").split(" ")[0] || "";
   const displayName = firstNameRaw
     ? firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1).toLowerCase()
     : "";
-  const profilePicture = user.profilePicture || "";
+  const profilePicture = user?.profilePicture || "";
   const avatarLetter = (displayName || user?.email || "?")
     .charAt(0)
     .toUpperCase();
@@ -26,20 +29,28 @@ const UserMenu = () => {
         className="user-dropdown-btn dropdown-toggle"
         data-bs-toggle="dropdown"
       >
-        <span className="user-avatar" aria-hidden="true">
-          {profilePicture ? (
-            <img src={profilePicture} alt={displayName || "User avatar"} />
-          ) : (
-            <span className="user-avatar-fallback">{avatarLetter}</span>
-          )}
-        </span>
-        <span className="user-name">{`Hi! ${displayName || "User"}`}</span>
+        <CiUser className="user-icon" />
+        <span className="user-label">Account</span>
       </button>
 
       <ul className="dropdown-menu dropdown-menu-end dropdown-menu-custom">
-        {/* header */}
-        <li className="dropdown-header">
-          Signed in as <span>{displayName}</span>
+        {/* User Info Header */}
+        <li className="dropdown-user-info">
+          <div className="user-avatar-large">
+            {profilePicture ? (
+              <img
+                src={profilePicture}
+                alt={displayName || "User"}
+                loading="eager"
+              />
+            ) : (
+              <span className="user-avatar-fallback-large">{avatarLetter}</span>
+            )}
+          </div>
+          <div className="user-info-text">
+            <div className="user-display-name">{displayName || "User"}</div>
+            <div className="user-email">{user.email}</div>
+          </div>
         </li>
 
         <li>
@@ -48,7 +59,7 @@ const UserMenu = () => {
 
         {/* My Purchases */}
         <li>
-          <Link className="dropdown-item-custom" to="/purchases">
+          <Link className="dropdown-item-custom" to="/profile/orders">
             <FaShoppingBag className="dropdown-icon" /> My Purchases
           </Link>
         </li>
