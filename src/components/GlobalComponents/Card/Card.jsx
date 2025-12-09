@@ -14,9 +14,17 @@ function Card({ product }) {
   const [showShareOptions, setShowShareOptions] = useState(false);
   const simText = product.simCard || "";
   const simCount = /2[-\s]?sim/i.test(simText) ? "2" : "";
-  // const { pathname } = window.location;
   const { compare } = useParams();
-  // console.log("param name: ", compare);
+
+  // Generate share URL and text
+  const productUrl = `${window.location.origin}/products/${product._id}`;
+  const shareText = `Check out ${product.name} - ${product.priceAfterDiscount} EGP`;
+  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(
+    shareText + " " + productUrl
+  )}`;
+  const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+    productUrl
+  )}`;
 
   return (
     <div className="abd-Product-Card">
@@ -42,8 +50,12 @@ function Card({ product }) {
               showShareOptions ? "d-block" : "d-none"
             }`}
           >
-            <FaWhatsapp className="whatsapp-Icon" />
-            <FaFacebook className="facebook-Icon" />
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <FaWhatsapp className="whatsapp-Icon" />
+            </a>
+            <a href={facebookUrl} target="_blank" rel="noopener noreferrer">
+              <FaFacebook className="facebook-Icon" />
+            </a>
           </div>
         </div>
         {/* ============Heart-Icon =========== */}
