@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import api from "../../../services/api";
-import "./AccountInfo.css";
+import api from "../../../../services/api";
+import "../AccountInfo/AccountInfo.css";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -82,11 +82,7 @@ const ChangePassword = () => {
           </div>
 
           <div className="form-actions">
-            <button
-              type="submit"
-              className="btn btn-geh"
-              disabled={loading}
-            >
+            <button type="submit" className="btn btn-geh" disabled={loading}>
               {loading ? "Changing..." : "Change Password"}
             </button>
             <button
