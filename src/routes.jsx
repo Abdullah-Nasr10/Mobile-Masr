@@ -19,18 +19,18 @@ import Login from "./Pages/Auth/Login/Login";
 import Register from "./Pages/Auth/Register/Register";
 import Profile from "./Pages/Profile/Profile";
 import Orders from "./Pages/Orders/Orders";
-import Wishlist from "./Pages/Profile/pages/Favorites";
+import Wishlist from "./Pages/Profile/pages/Favorites/Favorites";
 
 // Profile sub-pages
-import AccountInfo from "./Pages/Profile/pages/AccountInfo";
-import EditAccount from "./Pages/Profile/pages/EditAccount";
-import ChangePassword from "./Pages/Profile/pages/ChangePassword";
-import Favorites from "./Pages/Profile/pages/Favorites";
-import ProfileOrders from "./Pages/Profile/pages/Orders";
-import Refunds from "./Pages/Profile/pages/Refunds";
-import Addresses from "./Pages/Profile/pages/Addresses";
-import Ads from "./Pages/Profile/pages/Ads";
-import Notifications from "./Pages/Profile/pages/Notifications";
+import AccountInfo from "./Pages/Profile/pages/AccountInfo/AccountInfo";
+import EditAccount from "./Pages/Profile/pages/EditAccount/EditAccount";
+import ChangePassword from "./Pages/Profile/pages/ChangePassword/ChangePassword";
+import Favorites from "./Pages/Profile/pages/Favorites/Favorites";
+import ProfileOrders from "./Pages/Profile/pages/Orders/Orders";
+import Refunds from "./Pages/Profile/pages/Refunds/Refunds";
+import Addresses from "./Pages/Profile/pages/Addresses/Addresses";
+import Ads from "./Pages/Profile/pages/Ads/Ads";
+import Notifications from "./Pages/Profile/pages/Notifications/Notifications";
 // -----------------------------------------
 
 import Cart from "./Pages/Cart/Cart";
@@ -73,8 +73,8 @@ const router = createBrowserRouter([
       {
         element: <ProtectRoute />,
         children: [
-          { 
-            path: "/profile", 
+          {
+            path: "/profile",
             element: <Profile />,
             children: [
               { path: "", element: <AccountInfo /> },

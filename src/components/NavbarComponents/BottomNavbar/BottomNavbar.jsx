@@ -4,9 +4,11 @@ import { IoHome } from "react-icons/io5";
 import { BiCategory } from "react-icons/bi";
 import { HiOutlineShoppingCart as ShoppingCart } from "react-icons/hi";
 import { FaRegCircleUser as UserIcon } from "react-icons/fa6";
+import CartCount from "../../GlobalComponents/CartCount/CartCount";
 
 function BottomNavbar() {
   const { compare } = useParams();
+
   return (
     <div className="abd-BottomNavbar">
       <div className="container d-flex justify-content-around align-items-center py-2">
@@ -49,7 +51,7 @@ function BottomNavbar() {
           <div className="bottomNavIcon position-relative">
             <ShoppingCart />
             <div className="abd-BottomCartCounter center position-absolute top-0 start-100 translate-middle">
-              0
+              <CartCount />
             </div>
           </div>
           <h4 className="fw-light fs-4">Shopping Cart</h4>

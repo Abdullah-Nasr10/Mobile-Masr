@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchWishlist, clearAllWishlist } from "../../../store/slices/WishlistSlice";
+import {
+  fetchWishlist,
+  clearAllWishlist,
+} from "../../../../store/slices/WishlistSlice";
 import { toast } from "react-toastify";
-import Card from "../../../components/GlobalComponents/Card/Card";
+import Card from "../../../../components/GlobalComponents/Card/Card";
 import { FaRegHeart } from "react-icons/fa";
 import "./Favorites.css";
 
@@ -43,7 +46,6 @@ const Favorites = () => {
   if (!wishlistItems || wishlistItems.length === 0) {
     return (
       <div className="mos-empty-container">
-
         {/* Heart Icon */}
         <FaRegHeart className="mos-empty-heart-icon" />
 
@@ -57,7 +59,6 @@ const Favorites = () => {
         >
           Add Products
         </button>
-
       </div>
     );
   }
@@ -65,11 +66,11 @@ const Favorites = () => {
   return (
     <div className="container my-3">
       <div className="mos-Favorites-header d-flex justify-content-between align-items-center mb-4">
-
         <div>
           <h2 className="mos-Favorites-title mb-1">Favorites</h2>
           <p className="text-muted mos-Favorites-count">
-            {wishlistItems.length} item{wishlistItems.length !== 1 ? "s" : ""} Added
+            {wishlistItems.length} item{wishlistItems.length !== 1 ? "s" : ""}{" "}
+            Added
           </p>
         </div>
 

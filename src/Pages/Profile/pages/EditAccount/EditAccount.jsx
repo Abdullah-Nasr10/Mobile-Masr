@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from "../../../services/api";
-import { setCredentials } from "../../../store/slices/usersSlice";
-import "./AccountInfo.css";
+import api from "../../../../services/api";
+import { setCredentials } from "../../../../store/slices/usersSlice";
+import "./EditAccount.css";
 
 const EditAccount = () => {
   const { user, token } = useSelector((state) => state.users);
@@ -42,16 +42,18 @@ const EditAccount = () => {
       // Don't send email since it can't be changed
       const updateData = {
         name: data.name,
-        phone: data.phone || ""
+        phone: data.phone || "",
       };
       const res = await api.put("/profile", updateData);
-      
+
       // Update Redux state with new user data
-      dispatch(setCredentials({ 
-        user: res.data.user, 
-        token: token 
-      }));
-      
+      dispatch(
+        setCredentials({
+          user: res.data.user,
+          token: token,
+        })
+      );
+
       toast.success("Profile updated successfully!");
       navigate("/profile/account");
     } catch (error) {
@@ -109,11 +111,7 @@ const EditAccount = () => {
           </div>
 
           <div className="form-actions">
-            <button
-              type="submit"
-              className="btn btn-geh"
-              disabled={loading}
-            >
+            <button type="submit" className="btn btn-geh" disabled={loading}>
               {loading ? "Saving..." : "Save Changes"}
             </button>
             <button
