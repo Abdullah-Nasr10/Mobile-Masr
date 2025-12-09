@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../../services/api";
 import { setCredentials } from "../../../../store/slices/usersSlice";
-import "./AccountInfo.css";
+import "./EditAccount.css";
 
 const EditAccount = () => {
   const { user, token } = useSelector((state) => state.users);
