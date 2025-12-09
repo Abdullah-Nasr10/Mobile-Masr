@@ -8,6 +8,8 @@ import FeatureBar from "../../components/HomeComponents/FeatureBar/FeatureBar.js
 import BannerGrid from "../../components/HomeComponents/BannerGrid/BannerGrid.jsx";
 import CategorySlider from "../../components/HomeComponents/CategorySlider/CategorySlider.jsx";
 import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
+import BrandBanners from "../../components/HomeComponents/BrandBanner/BrandBanner.jsx";
+import ProductsBanners from "../../components/HomeComponents/ProductsBanner/ProductsBanner.jsx";
 
 function Home() {
   const allProducts = useSelector((store) => store.products.data);
@@ -29,9 +31,23 @@ function Home() {
 
       {/*geh-Card*/}
       <div className="container mt-5">
-        <ProductsSlider title="All Products" products={allProducts} />
-        <ProductsSlider title="New Products" products={newProducts} />
-        <ProductsSlider title="Used Products" products={usedProducts} />
+        <ProductsSlider
+          title="All Products"
+          products={allProducts}
+          seeMoreLink="/category/all"
+        />
+        <BrandBanners />
+        <ProductsSlider
+          title="New Products"
+          products={newProducts}
+          seeMoreLink="/category/all?type=new"
+        />
+        <ProductsBanners />
+        <ProductsSlider
+          title="Used Products"
+          products={usedProducts}
+          seeMoreLink="/category/all?type=used"
+        />
       </div>
       <div className="mt-10">
         <MobileReviewsStatic />

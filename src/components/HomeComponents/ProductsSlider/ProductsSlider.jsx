@@ -8,12 +8,12 @@ import "./ProductsSlider.css";
 import { NavLink } from "react-router-dom";
 import { MdArrowForwardIos } from "react-icons/md";
 
-const ProductsSlider = ({ title, products }) => {
+const ProductsSlider = ({ title, products, seeMoreLink = "/products" }) => {
   return (
     <div className="mb-5">
       <div className="d-flex justify-content-between align-content-center mb-5">
         <h2 className="abd-ProductsSlider-title mb-3 fw-light">{title}</h2>
-        <NavLink to="/products" className="abd-ProductsSlider-see-more center">
+        <NavLink to={seeMoreLink} className="abd-ProductsSlider-see-more center">
           see more <MdArrowForwardIos />
         </NavLink>
       </div>
