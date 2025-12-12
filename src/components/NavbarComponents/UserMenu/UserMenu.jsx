@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../store/slices/usersSlice";
 import { Link } from "react-router-dom";
@@ -11,6 +11,14 @@ const UserMenu = () => {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const { setIsLoggedIn } = useContext(IsLoginContext);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    // Reset image loading state when user changes
+    setImageLoaded(false);
+    setImageError(false);
+  }, [user?.profilePicture]);
 
   if (!user) return null;
 
@@ -22,6 +30,14 @@ const UserMenu = () => {
   const avatarLetter = (displayName || user?.email || "?")
     .charAt(0)
     .toUpperCase();
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <div className="dropdown user-dropdown">
@@ -37,11 +53,15 @@ const UserMenu = () => {
         {/* User Info Header */}
         <li className="dropdown-user-info">
           <div className="user-avatar-large">
-            {profilePicture ? (
+            {profilePicture && !imageError ? (
               <img
                 src={profilePicture}
                 alt={displayName || "User"}
                 loading="eager"
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
               />
             ) : (
               <span className="user-avatar-fallback-large">{avatarLetter}</span>

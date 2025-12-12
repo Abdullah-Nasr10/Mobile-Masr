@@ -32,6 +32,17 @@
     transition: all 0.3s ease;
 }
 
+.abd-BottomNavbar .nav-link.active .bottom-user-avatar {
+    background-color: transparent;
+    padding: 0;
+}
+
+.abd-BottomNavbar .nav-link.active .bottom-nav-profile-img,
+.abd-BottomNavbar .nav-link.active .bottom-nav-avatar-letter {
+    border-color: var(--orange-color);
+    box-shadow: 0 0 0 3px var(--yellow-color-light);
+}
+
 .abd-BottomCartCounter {
     font-size: 1rem;
     color: var(--white-color);
@@ -40,6 +51,48 @@
     height: 1.5rem;
     aspect-ratio: 1/1;
     border-radius: 50%;
+}
+
+.bottom-user-avatar {
+    position: relative;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.bottom-nav-profile-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--orange-color);
+    transition: all 0.3s ease;
+    background: #fff;
+}
+
+.bottom-nav-avatar-letter {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.6rem;
+    border: 3px solid var(--orange-color);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+}
+
+.abd-BottomNavbar .nav-link:hover .bottom-nav-profile-img,
+.abd-BottomNavbar .nav-link:hover .bottom-nav-avatar-letter {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
 }
 
 @media (max-width: 767px) {
