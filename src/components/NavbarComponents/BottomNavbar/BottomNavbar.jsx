@@ -5,9 +5,23 @@ import { BiCategory } from "react-icons/bi";
 import { HiOutlineShoppingCart as ShoppingCart } from "react-icons/hi";
 import { FaRegCircleUser as UserIcon } from "react-icons/fa6";
 import CartCount from "../../GlobalComponents/CartCount/CartCount";
+import { useSelector } from "react-redux";
+import { useContext } from "react";
+import IsLoginContext from "../../../context/IsLoginContext";
 
 function BottomNavbar() {
   const { compare } = useParams();
+  const { user } = useSelector((state) => state.users);
+  const { isLoggedIn } = useContext(IsLoginContext);
+
+  const firstNameRaw = (user?.name || "").split(" ")[0] || "";
+  const displayName = firstNameRaw
+    ? firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1).toLowerCase()
+    : "";
+  const profilePicture = user?.profilePicture || "";
+  const avatarLetter = (displayName || user?.email || "U")
+    .charAt(0)
+    .toUpperCase();
 
   return (
     <div className="abd-BottomNavbar">
@@ -58,15 +72,27 @@ function BottomNavbar() {
         </NavLink>
         {/* ---------------------- */}
         <NavLink
-          to="/account"
+          to={isLoggedIn ? "/profile/account" : "/login"}
           className={({ isActive }) =>
             `d-flex flex-column align-items-center fs-1 gap-2 nav-link ${
               isActive ? "active" : ""
             }`
           }
         >
-          <div className="bottomNavIcon">
-            <UserIcon />
+          <div className="bottomNavIcon bottom-user-avatar">
+            {isLoggedIn && profilePicture ? (
+              <img 
+                src={profilePicture} 
+                alt={displayName || "User"} 
+                className="bottom-nav-profile-img"
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
+              />
+            ) : isLoggedIn ? (
+              <span className="bottom-nav-avatar-letter">{avatarLetter}</span>
+            ) : (
+              <UserIcon />
+            )}
           </div>
           <h4 className="fw-light fs-4">My Account</h4>
         </NavLink>

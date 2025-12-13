@@ -18,7 +18,6 @@ import Search from "./Pages/Search/Search";
 import Login from "./Pages/Auth/Login/Login";
 import Register from "./Pages/Auth/Register/Register";
 import Profile from "./Pages/Profile/Profile";
-import Orders from "./Pages/Orders/Orders";
 import Wishlist from "./Pages/Profile/pages/Favorites/Favorites";
 
 // Profile sub-pages
@@ -89,7 +88,6 @@ const router = createBrowserRouter([
               { path: "notifications", element: <Notifications /> },
             ],
           },
-          { path: "/orders", element: <Orders /> },
           { path: "/wishlist", element: <Wishlist /> },
           {
             path: "/cart",

@@ -113,7 +113,7 @@ function OrderSuccess() {
         <div className="abd-success-actions mt-4">
           <button
             className="btn btn-primary me-3"
-            onClick={() => navigate("/orders")}
+            onClick={() => navigate("/profile/orders")}
           >
             View My Orders
           </button>
