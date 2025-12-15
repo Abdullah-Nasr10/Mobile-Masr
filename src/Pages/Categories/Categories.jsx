@@ -4,10 +4,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Categories.css";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const { compare } = useParams();
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -21,8 +25,11 @@ const Categories = () => {
   }, []);
 
   return (
-    <div className="heb-category-page container my-5">
-      <h2 className="heb-category-title">All Categories</h2>
+    <div
+      className="heb-category-page container my-5"
+      dir={currentLang === "ar" ? "rtl" : "ltr"}
+    >
+      <h2 className="heb-category-title">{t("All Categories")}</h2>
 
       <div className="heb-category-grid">
         {categories.map((cat) => {

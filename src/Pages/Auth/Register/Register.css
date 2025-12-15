@@ -10,23 +10,26 @@
 }
 
 .form-check-input:checked {
-  background-color:var(--orange-color-2) !important;
-  border-color:var(--orange-color) !important;
+  background-color: var(--orange-color-2) !important;
+  border-color: var(--orange-color) !important;
 }
+
 .form-check-input:focus {
   box-shadow: none;
-  border-color:var(--border-color);
+  border-color: var(--border-color);
 }
 
 
 .register-card .form-check-label small {
   font-size: 1.15rem;
-  color: rgba(0,0,0,0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
 
 
 @media (max-width: 576px) {
-  .register-card .form-check-label small { font-size: 0.8rem; }
+  .register-card .form-check-label small {
+    font-size: 0.8rem;
+  }
 }
 
 
@@ -39,10 +42,15 @@
 .gehR-password-toggle-icon {
   position: absolute;
   right: 14px;
-  top: 38px; 
+  top: 38px;
   cursor: pointer;
   padding-right: 18px;
   color: #777;
   font-size: 1.4rem;
   transition: color 120ms ease;
+}
+
+[dir="rtl"] .gehR-password-toggle-icon {
+  right: auto;
+  left: 14px;
 }

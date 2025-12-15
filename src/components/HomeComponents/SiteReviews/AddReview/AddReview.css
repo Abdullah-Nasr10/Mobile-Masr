@@ -49,4 +49,10 @@
         opacity: .6;
         cursor: not-allowed;
     }
+
+}
+
+[dir="rtl"] .modal-header .btn-close {
+    margin-left: auto;
+    margin-right: 0 !important;
 }

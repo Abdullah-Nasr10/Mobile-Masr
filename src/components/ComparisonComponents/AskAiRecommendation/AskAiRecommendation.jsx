@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { SiOpenai } from "react-icons/si";
 import "./AskAiRecommendation.css";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 function AskAiRecommendation({ compareItems }) {
   const [aiRecommendation, setAiRecommendation] = useState(null);
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
   const askAiAboutBestItem = async (items) => {
     try {
       const response = await fetch(
@@ -62,7 +66,10 @@ function AskAiRecommendation({ compareItems }) {
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="abd-askAiBestItem mt-5">
+    <div
+      className="abd-askAiBestItem mt-5"
+      dir={currentLang === "ar" ? "rtl" : "ltr"}
+    >
       <button
         className="abd-askAiBtn d-flex align-items-center gap-2"
         onClick={() => {
@@ -81,32 +88,35 @@ function AskAiRecommendation({ compareItems }) {
         disabled={loading}
       >
         <SiOpenai size={25} />
-        {loading ? "Please wait..." : "Ask AI for Recommendation"}
+        {loading ? t("Please wait...") : t("Ask AI for Recommendation")}
       </button>
 
       <div className="abd-AiResponseContainer">
         {!loading && !aiRecommendation && (
           <div>
-            Please Click the button above to get the best product
-            recommendation.
+            {t(
+              "Please Click the button above to get the best product recommendation."
+            )}
           </div>
         )}
         {loading ? (
           <div className="d-flex align-items-center gap-2">
             <div className="spinner-border" role="status"></div>{" "}
-            <span>loading...</span>
+            <span>{t("loading...")}</span>
           </div>
         ) : (
           aiRecommendation && (
             <>
               <div className="abd-AiResponse">
-                <div className="abd-AiResponseLabel">The best product is:</div>
+                <div className="abd-AiResponseLabel">
+                  {t("The best product is:")}
+                </div>
                 <div className="abd-AiResponseContent">
                   {aiRecommendation.name}
                 </div>
               </div>
               <div className="abd-AiResponse">
-                <div className="abd-AiResponseLabel">Because:</div>
+                <div className="abd-AiResponseLabel">{t("Because:")}</div>
                 <div className="abd-AiResponseContent">
                   {aiRecommendation.message}
                 </div>

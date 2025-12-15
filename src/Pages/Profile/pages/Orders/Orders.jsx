@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrders } from "../../../../store/slices/orderSlice";
 import "./Orders.css";
+import { useTranslation } from "react-i18next";
 
 const Orders = () => {
   const dispatch = useDispatch();
   const { orders, loading, error } = useSelector((state) => state.order);
 
+  const { t } = useTranslation();
   useEffect(() => {
     dispatch(fetchOrders());
   }, [dispatch]);
@@ -52,8 +54,8 @@ const Orders = () => {
   if (loading) {
     return (
       <div className="abd-orders-container">
-        <h2 className="abd-orders-title">My Purchases</h2>
-        <div className="abd-loading-spinner">Loading your orders...</div>
+        <h2 className="abd-orders-title">{t("My Purchases")}</h2>
+        <div className="abd-loading-spinner">{t("Loading your orders...")}</div>
       </div>
     );
   }
@@ -61,9 +63,11 @@ const Orders = () => {
   if (error) {
     return (
       <div className="abd-orders-container">
-        <h2 className="abd-orders-title">My Purchases</h2>
+        <h2 className="abd-orders-title">{t("My Purchases")}</h2>
         <div className="abd-error-message">
-          <p>Error loading orders: {error}</p>
+          <p>
+            {t("Error loading orders")}: {error}
+          </p>
         </div>
       </div>
     );
@@ -72,9 +76,9 @@ const Orders = () => {
   if (!orders || orders.length === 0) {
     return (
       <div className="abd-orders-container">
-        <h2 className="abd-orders-title">My Purchases</h2>
+        <h2 className="abd-orders-title">{t("My Purchases")}</h2>
         <div className="abd-empty-orders">
-          <p>You haven't placed any orders yet.</p>
+          <p>{t("You haven't placed any orders yet.")}</p>
         </div>
       </div>
     );
@@ -82,7 +86,7 @@ const Orders = () => {
 
   return (
     <div className="abd-orders-container">
-      <h2 className="abd-orders-title">My Purchases</h2>
+      <h2 className="abd-orders-title">{t("My Purchases")}</h2>
 
       <div className="abd-orders-list">
         {orders.map((order) => (
@@ -90,7 +94,7 @@ const Orders = () => {
             <div className="abd-order-header">
               <div className="abd-order-info">
                 <span className="abd-order-id">
-                  Order #{order._id.slice(-8)}
+                  {t("Order")} #{order._id.slice(-8)}
                 </span>
                 <span className="abd-order-date">
                   {formatDate(order.createdAt)}
@@ -123,11 +127,11 @@ const Orders = () => {
                         {item.product?.name || "Product"}
                       </span>
                       <span className="abd-item-quantity">
-                        Qty: {item.quantity}
+                        {t("Qty")}: {item.quantity}
                       </span>
                     </div>
                     <span className="abd-item-price">
-                      {formatPrice(item.price * item.quantity)} EGP
+                      {formatPrice(item.price * item.quantity)} {t("EGP")}
                     </span>
                   </div>
                 ))}
@@ -135,21 +139,27 @@ const Orders = () => {
 
             <div className="abd-order-summary">
               <div className="abd-summary-row">
-                <span>Subtotal:</span>
-                <span>{formatPrice(order.subtotal || 0)} EGP</span>
+                <span>{t("Subtotal")}:</span>
+                <span>
+                  {formatPrice(order.subtotal || 0)} {t("EGP")}
+                </span>
               </div>
               <div className="abd-summary-row">
-                <span>Shipping:</span>
-                <span>{formatPrice(order.shippingFees || 0)} EGP</span>
+                <span>{t("Shipping")}:</span>
+                <span>
+                  {formatPrice(order.shippingFees || 0)} {t("EGP")}
+                </span>
               </div>
               <div className="abd-summary-row abd-summary-total">
-                <span>Total:</span>
-                <span>{formatPrice(order.totalAmount || 0)} EGP</span>
+                <span>{t("Total")}:</span>
+                <span>
+                  {formatPrice(order.totalAmount || 0)} {t("EGP")}
+                </span>
               </div>
             </div>
 
             <div className="abd-order-shipping">
-              <h4>Shipping Address</h4>
+              <h4>{t("Shipping Address")}</h4>
               <p>
                 {order.shippingAddress?.fullName}
                 <br />
@@ -162,7 +172,7 @@ const Orders = () => {
                   <>
                     <br />
                     <span className="abd-notes">
-                      Notes: {order.shippingAddress.notes}
+                      {t("Notes")}: {order.shippingAddress.notes}
                     </span>
                   </>
                 )}
@@ -171,10 +181,10 @@ const Orders = () => {
 
             <div className="abd-order-payment">
               <span className="abd-payment-method">
-                Payment:{" "}
+                {t("Payment")}:{" "}
                 {order.paymentMethod === "cod"
-                  ? "Cash on Delivery"
-                  : "Card Payment"}
+                  ? t("Cash on Delivery")
+                  : t("Card Payment")}
               </span>
             </div>
           </div>

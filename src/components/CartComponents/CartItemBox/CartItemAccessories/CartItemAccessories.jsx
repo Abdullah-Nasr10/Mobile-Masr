@@ -4,8 +4,10 @@ import { GiCharging } from "react-icons/gi";
 import { BsBoxSeam, BsUsbPlug, BsEarbuds } from "react-icons/bs";
 import { PiDeviceMobileSpeakerLight as MobileCover } from "react-icons/pi";
 import { LiaPencilAltSolid } from "react-icons/lia";
+import { useTranslation } from "react-i18next";
 
 function CartItemAccessories({ accessories }) {
+  const { t } = useTranslation();
   const renderAccessory = (acc) => {
     if (!acc) return acc;
     const a = acc.toLowerCase();
@@ -19,12 +21,12 @@ function CartItemAccessories({ accessories }) {
   };
 
   if (!accessories || accessories.length === 0) {
-    return <p className="text-muted">No accessories</p>;
+    return <p className="text-muted">{t("No accessories")}</p>;
   }
 
   return (
     <div className="d-flex flex-wrap gap-2">
-      Accessories :&nbsp;
+      {t("Accessories")} :&nbsp;
       {accessories.map((acc, i) => (
         <span
           key={i}

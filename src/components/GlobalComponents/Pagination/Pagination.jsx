@@ -1,5 +1,7 @@
 import React from "react";
 import "./Pagination.css";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 function Pagination({
   currentPage,
@@ -14,11 +16,18 @@ function Pagination({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // ======translation=====
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
+
   if (totalProducts === 0) return null;
 
   return (
     <div className="mos-pagination-wrapper mt-5">
-      <nav className="d-flex justify-content-center mos-pagination">
+      <nav
+        className="d-flex justify-content-center mos-pagination"
+        dir={currentLang === "ar" ? "rtl" : "ltr"}
+      >
         <ul className="pagination">
           <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
             <button
@@ -27,7 +36,7 @@ function Pagination({
               disabled={currentPage === 1}
               aria-label="First Page"
             >
-              <span className="page-nav-text">First Page</span>
+              <span className="page-nav-text">{t("First Page")}</span>
               <span className="page-nav-icon">«</span>
             </button>
           </li>
@@ -38,7 +47,7 @@ function Pagination({
               disabled={currentPage === 1}
               aria-label="Previous"
             >
-              <span className="page-nav-text">Previous</span>
+              <span className="page-nav-text">{t("Previous Page")}</span>
               <span className="page-nav-icon">‹</span>
             </button>
           </li>
@@ -89,7 +98,7 @@ function Pagination({
               disabled={currentPage === totalPages}
               aria-label="Next"
             >
-              <span className="page-nav-text">Next</span>
+              <span className="page-nav-text">{t("Next Page")}</span>
               <span className="page-nav-icon">›</span>
             </button>
           </li>
@@ -104,7 +113,7 @@ function Pagination({
               disabled={currentPage === totalPages}
               aria-label="Last Page"
             >
-              <span className="page-nav-text">Last Page</span>
+              <span className="page-nav-text">{t("Last Page")}</span>
               <span className="page-nav-icon">»</span>
             </button>
           </li>

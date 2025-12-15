@@ -27,6 +27,11 @@
     left: 50%;
 }
 
+[dir="rtl"] .abd-ToggleLanguage.active::before {
+    left: 0;
+    right: 50%;
+}
+
 .language-option {
     padding: 0.5rem 1rem;
     transition: all 0.3s ease;

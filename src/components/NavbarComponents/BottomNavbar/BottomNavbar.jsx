@@ -8,11 +8,13 @@ import CartCount from "../../GlobalComponents/CartCount/CartCount";
 import { useSelector } from "react-redux";
 import { useContext } from "react";
 import IsLoginContext from "../../../context/IsLoginContext";
+import { useTranslation } from "react-i18next";
 
 function BottomNavbar() {
   const { compare } = useParams();
   const { user } = useSelector((state) => state.users);
   const { isLoggedIn } = useContext(IsLoginContext);
+  const { t } = useTranslation();
 
   const firstNameRaw = (user?.name || "").split(" ")[0] || "";
   const displayName = firstNameRaw
@@ -37,7 +39,7 @@ function BottomNavbar() {
           <div className="bottomNavIcon">
             <IoHome />
           </div>
-          <h4 className="fw-light fs-4">Home</h4>
+          <h4 className="fw-light fs-4">{t("Home")}</h4>
         </NavLink>
         {/* ---------------------- */}
         <NavLink
@@ -51,7 +53,7 @@ function BottomNavbar() {
           <div className="bottomNavIcon">
             <BiCategory />
           </div>
-          <h4 className="fw-light fs-4">Categories</h4>
+          <h4 className="fw-light fs-4">{t("Categories")}</h4>
         </NavLink>
         {/* ---------------------- */}
         <NavLink
@@ -68,7 +70,7 @@ function BottomNavbar() {
               <CartCount />
             </div>
           </div>
-          <h4 className="fw-light fs-4">Shopping Cart</h4>
+          <h4 className="fw-light fs-4">{t("Shopping Cart")}</h4>
         </NavLink>
         {/* ---------------------- */}
         <NavLink
@@ -81,9 +83,9 @@ function BottomNavbar() {
         >
           <div className="bottomNavIcon bottom-user-avatar">
             {isLoggedIn && profilePicture ? (
-              <img 
-                src={profilePicture} 
-                alt={displayName || "User"} 
+              <img
+                src={profilePicture}
+                alt={displayName || "User"}
                 className="bottom-nav-profile-img"
                 crossOrigin="anonymous"
                 referrerPolicy="no-referrer"
@@ -94,7 +96,7 @@ function BottomNavbar() {
               <UserIcon />
             )}
           </div>
-          <h4 className="fw-light fs-4">My Account</h4>
+          <h4 className="fw-light fs-4">{t("My Account")}</h4>
         </NavLink>
       </div>
     </div>

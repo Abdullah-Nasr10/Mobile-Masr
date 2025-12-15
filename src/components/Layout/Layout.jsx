@@ -10,17 +10,28 @@ import CompareContext from "../../context/CompareContext";
 import { ToastContainer } from "react-toastify";
 import IsLoginContext from "../../context/IsLoginContext";
 import checkAuth from "../../utilities/checkAuth";
+import { useTranslation } from "react-i18next";
+import { setLanguage } from "../../store/slices/languageSlice";
 // ============================================================
 function Layout() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const user = useSelector((state) => state.users?.user);
   const token = useSelector((state) => state.users?.token);
+  const { i18n } = useTranslation();
   const [compareItems, setCompareItems] = useState(
     () => JSON.parse(localStorage.getItem("compareItems")) || []
   );
   // ==============isLoggedInContext===============
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Initialize language from localStorage or set default to en
+  useEffect(() => {
+    const savedLang = localStorage.getItem("language") || "en";
+    dispatch(setLanguage(savedLang));
+    i18n.changeLanguage(savedLang);
+    // document.documentElement.lang = savedLang;
+  }, [dispatch, i18n]);
 
   // Fetch user profile on mount if token exists
   useEffect(() => {

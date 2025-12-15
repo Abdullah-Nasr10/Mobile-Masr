@@ -112,6 +112,11 @@
   font-size: 1.6rem;
 }
 
+[dir="rtl"] .password-toggle-icon {
+  right: auto;
+  left: 1rem;
+}
+
 .password-toggle-icon:hover {
   color: var(--orange-color, #fe5100);
 }

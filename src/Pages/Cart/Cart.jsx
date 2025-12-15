@@ -6,10 +6,11 @@ import PagePath from "../../components/GlobalComponents/PagePath/PagePath";
 import CartEmpty from "../../components/CartComponents/CartEmpty/CartEmpty";
 import { Outlet } from "react-router-dom";
 import CartNavbar from "../../components/CartComponents/CartNavbar/CartNavbar";
+import { useTranslation } from "react-i18next";
 
 const Cart = () => {
   const dispatch = useDispatch();
-
+  const { t } = useTranslation();
   const { items, totalPrice, loading, error } = useSelector(
     (state) => state.cart || {}
   );
@@ -25,7 +26,7 @@ const Cart = () => {
     return (
       <div className="abd-Cart-Page container my-4">
         <PagePath path="Cart" />
-        <p>Please login to view your cart</p>
+        <p>{t("Please login to view your cart")}</p>
       </div>
     );
   }
@@ -34,7 +35,7 @@ const Cart = () => {
     return (
       <div className="abd-Cart-Page container my-4">
         <PagePath path="Cart" />
-        <p>Loading cart...</p>
+        <p>{t("Loading cart...")}</p>
       </div>
     );
   }
@@ -59,7 +60,7 @@ const Cart = () => {
 
   return (
     <div className="abd-Cart-Page container my-4">
-      <PagePath path="Cart" />
+      <PagePath path={t("Cart")} />
       <CartNavbar />
       <Outlet context={{ items, totalPrice }} />
     </div>

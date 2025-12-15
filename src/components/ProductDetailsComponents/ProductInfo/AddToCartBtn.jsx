@@ -5,9 +5,11 @@ import { addToCart } from "../../../store/slices/cartSlice";
 import { logout } from "../../../store/slices/usersSlice";
 import { AiOutlineShoppingCart as Cart } from "react-icons/ai";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 // Pass the whole `product` to avoid extra lookups
 function AddToCartBtn({ product }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { loading, items } = useSelector(
     (state) => state.cart || { loading: false, items: [] }
@@ -16,7 +18,7 @@ function AddToCartBtn({ product }) {
   const handleAdd = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      toast.error("Please login first to add to cart");
+      toast.error(t("Please login first to add to cart"));
       return;
     }
     // Stock guard: current quantity in cart + 1 must not exceed product.stock
@@ -27,21 +29,21 @@ function AddToCartBtn({ product }) {
     const currentQty = existingItem?.quantity || 0;
     const availableStock = product?.stock;
     if (typeof availableStock === "number" && currentQty + 1 > availableStock) {
-      toast.error("Out of stock: quantity exceeds available stock");
+      toast.error(t("Out of stock: quantity exceeds available stock"));
       return;
     }
     try {
       await dispatch(addToCart({ productId, quantity: 1 })).unwrap();
-      toast.success("Added to cart successfully");
+      toast.success(t("Added to cart successfully"));
     } catch (err) {
       const msg = typeof err === "string" ? err : err?.message;
       if (msg?.toLowerCase().includes("not authorized")) {
         dispatch(logout());
         toast.error(
-          "Not authorized. You have been logged out. Please login again."
+          t("Not authorized. You have been logged out. Please login again.")
         );
       } else {
-        toast.error(msg || "Failed to add to cart");
+        toast.error(msg || t("Failed to add to cart"));
       }
     }
   };
@@ -52,7 +54,7 @@ function AddToCartBtn({ product }) {
       onClick={handleAdd}
       disabled={loading}
     >
-      <Cart size={20} /> {loading ? "Adding..." : "Add to Cart"}
+      <Cart size={20} /> {loading ? t("Adding...") : t("Add to Cart")}
     </button>
   );
 }

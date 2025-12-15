@@ -1,7 +1,9 @@
 import React from "react";
 import "./CartItemPrice.css";
+import { useTranslation } from "react-i18next";
 
 function CartItemPrice({ item }) {
+  const { t } = useTranslation();
   // Prefer product fields when available (populated product)
   const basePrice = item?.product?.price ?? item.price ?? 0;
   const discount = item?.product?.discount ?? 0; // backend must populate discount
@@ -26,18 +28,19 @@ function CartItemPrice({ item }) {
               : {}
           }
         >
-          {fmt(discountedPrice)} EGP
+          {fmt(discountedPrice)} {t("EGP")}
         </div>
         {/* =====================Product-Price-Original=================== */}
         {discount > 0 && (
           <div className="abd-CartPriceOriginal text-muted text-decoration-line-through">
-            {fmt(basePrice)} EGP
+            {fmt(basePrice)} {t("EGP")}
           </div>
         )}
       </div>
       {/* =====================Product-Subtotal=================== */}
       <div className="abd-CartPriceSubtotal">
-        Subtotal: {fmt(discountedPrice * (item.quantity || 1))} EGP
+        {t("Subtotal")}: {fmt(discountedPrice * (item.quantity || 1))}{" "}
+        {t("EGP")}
       </div>
     </div>
   );

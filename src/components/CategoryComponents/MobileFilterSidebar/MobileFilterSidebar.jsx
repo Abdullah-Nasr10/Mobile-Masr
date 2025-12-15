@@ -2,6 +2,7 @@ import React from "react";
 import FilterSidebar from "../../GlobalComponents/Filter/Filter";
 import MobileSortSection from "../MobileSortSection/MobileSortSection";
 import "./MobileFilterSidebar.css";
+import { useTranslation } from "react-i18next";
 
 function MobileFilterSidebar({
   show,
@@ -15,6 +16,7 @@ function MobileFilterSidebar({
   currentFilters,
   onClearAll,
 }) {
+  const { t } = useTranslation();
   if (!show) return null;
 
   const handleSortChange = (val) => {
@@ -41,7 +43,7 @@ function MobileFilterSidebar({
       <div className="mos-mobile-sidebar">
         {/* Header */}
         <div className="mos-mobile-sidebar-header">
-          <h3 className="mb-0">Filter & Sort</h3>
+          <h3 className="mb-0">{t("Filter & Sort")}</h3>
           <button className="mos-close-btn" onClick={onClose}>
             ×
           </button>

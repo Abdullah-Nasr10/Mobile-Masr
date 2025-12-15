@@ -5,14 +5,16 @@ import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../../../store/slices/cartSlice";
 import { logout } from "../../../../store/slices/usersSlice";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 function CartItemDelete({ productId }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleDelete = async () => {
     try {
       await dispatch(removeFromCart({ productId })).unwrap();
-      toast.success("Item removed from cart");
+      toast.success(t("Item removed from cart"));
     } catch (err) {
       const msg = typeof err === "string" ? err : err?.message;
       if (
@@ -22,10 +24,10 @@ function CartItemDelete({ productId }) {
       ) {
         dispatch(logout());
         toast.error(
-          "Unauthorized. You have been logged out. Please login again."
+          t("Unauthorized. You have been logged out. Please login again.")
         );
       } else {
-        toast.error(msg || "Failed to remove item");
+        toast.error(msg || t("Failed to remove item"));
       }
     }
   };

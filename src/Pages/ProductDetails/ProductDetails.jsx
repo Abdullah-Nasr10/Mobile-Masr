@@ -6,10 +6,12 @@ import Loader from "../../components/GlobalComponents/Loader/Loader";
 import ProductImages from "../../components/ProductDetailsComponents/ProductImages/ProductImages";
 import ProductInfo from "../../components/ProductDetailsComponents/ProductInfo/ProductInfo";
 import ProductAdditionalInfo from "../../components/ProductDetailsComponents/ProductAdditionalInfo/ProductAdditionalInfo";
+import { useSelector } from "react-redux";
 
 function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const currentLang = useSelector((state) => state.language.currentLang);
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ function ProductDetails() {
         const data = await response.json();
 
         if (!data.data || response.status === 404) {
-          navigate("/not-found");
+          navigate("/not-found-product");
           return;
         }
 
@@ -29,7 +31,7 @@ function ProductDetails() {
         console.log(data.data);
       } catch (error) {
         console.error("Error fetching product:", error);
-        navigate("/not-found");
+        navigate("/not-found-product");
       } finally {
         setLoading(false);
       }
@@ -43,7 +45,10 @@ function ProductDetails() {
   return (
     <div className="container mt-3">
       <PagePath path={`${product.name}`} />
-      <div className="abd-product-details-container mt-5 p-4 row">
+      <div
+        className="abd-product-details-container mt-5 p-4 row"
+        dir={currentLang === "ar" ? "rtl" : "ltr"}
+      >
         {/* ===============Product-Images-Start================ */}
         <section className="abd-product-images col-12 col-md-5 col-xl-4">
           <ProductImages product={product} />

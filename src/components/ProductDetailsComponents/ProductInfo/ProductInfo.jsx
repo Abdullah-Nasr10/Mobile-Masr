@@ -8,8 +8,10 @@ import { BsEarbuds } from "react-icons/bs";
 import { LiaPencilAltSolid } from "react-icons/lia";
 import VendorContainer from "../../GlobalComponents/VendorContainer/VendorContainer";
 import AddToCartBtn from "./AddToCartBtn";
+import { useTranslation } from "react-i18next";
 
 function ProductInfo({ product }) {
+  const { t } = useTranslation();
   return (
     <>
       {/* ===================Category-Name=================== */}
@@ -31,17 +33,18 @@ function ProductInfo({ product }) {
               : {}
           }
         >
-          {product.priceAfterDiscount} EGP
+          {product.priceAfterDiscount} {t("EGP")}
         </div>
         {product.discount > 0 && (
           <div className="abd-InfoOldPrice text-muted text-decoration-line-through">
-            {product.price} EGP
+            {product.price} {t("EGP")}
           </div>
         )}
       </div>
       {/* ===================SKU-Code=================== */}
       <div className="abd-InfoSKU mb-3">
-        <span className="fw-semibold me-3">SKU Code: </span> {product.skuCode}
+        <span className="fw-semibold me-3">{t("SKU Code")}: </span>{" "}
+        {product.skuCode}
       </div>
       {/* ===================Product-Description=================== */}
       <p className="text-muted fs-4">{product.description}</p>
@@ -49,14 +52,14 @@ function ProductInfo({ product }) {
       {product.condition == "used" && (
         <div className="abd-InfoVerified mt-4 fs-5 d-flex align-items-center">
           <FaCircleCheck className="me-2 text-success" />
-          Checked and Verified By MobileMasr
+          {t("Checked and Verified By MobileMasr")}
         </div>
       )}
       {/* ================Prod-Info-Details===================== */}
       <div className="abd-InfoDetails mt-4">
         <div className="abd-InfoDetailItem row mb-3">
           {/* ---------------condition-------------- */}
-          <div className="fw-semibold col-4">Condition:</div>
+          <div className="fw-semibold col-4">{t("Condition")}:</div>
           <div
             className={`col-8 fw-bold ${
               product.condition === "used" ? "text-primary" : "text-warning"
@@ -68,22 +71,22 @@ function ProductInfo({ product }) {
         {/* ---------------storage--------------- */}
         {product.storage && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">Storage:</div>
+            <div className="fw-semibold col-4">{t("Storage")}:</div>
             <div className="col-8">{product.storage}</div>
           </div>
         )}
         {/* ---------------ram--------------- */}
         {product.ram[0] && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">RAM:</div>
+            <div className="fw-semibold col-4">{t("RAM")}:</div>
             <div className="col-8">{product.ram[0]}</div>
           </div>
         )}
         {/* ---------------color--------------- */}
         {product.color && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">Color:</div>
-            <div className="col-8 d-flex align-items-center">
+            <div className="fw-semibold col-4">{t("Color")}:</div>
+            <div className="col-8 d-flex align-items-center gap-2">
               <span
                 className="colorBox p-3"
                 style={{ backgroundColor: product.color }}
@@ -95,35 +98,35 @@ function ProductInfo({ product }) {
         {/* -------------Battery Capacity--------------- */}
         {product.batteryCapacity && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">Battery Capacity:</div>
+            <div className="fw-semibold col-4">{t("Battery Capacity")}:</div>
             <div className="col-8">{product.batteryCapacity}</div>
           </div>
         )}
         {/* ---------------sim card--------------- */}
         {product.simCard && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">SIM Card:</div>
+            <div className="fw-semibold col-4">{t("SIM Card")}:</div>
             <div className="col-8">{product.simCard}</div>
           </div>
         )}
         {/* ---------------screen size--------------- */}
         {product.screenSize && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">Screen Size:</div>
+            <div className="fw-semibold col-4">{t("Screen Size")}:</div>
             <div className="col-8">{product.screenSize}</div>
           </div>
         )}
         {/* ---------------camera--------------- */}
         {product.camera && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">Camera:</div>
+            <div className="fw-semibold col-4">{t("Camera")}:</div>
             <div className="col-8">{product.camera}</div>
           </div>
         )}
         {/* ---------------weight--------------- */}
         {product.weight && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">Weight:</div>
+            <div className="fw-semibold col-4">{t("Weight")}:</div>
             <div className="col-8">{product.weight}</div>
           </div>
         )}
@@ -151,18 +154,21 @@ function ProductInfo({ product }) {
         {/* ---------------processor--------------- */}
         {product.processor && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">Processor:</div>
+            <div className="fw-semibold col-4">{t("Processor")}:</div>
             <div className="col-8">{product.processor}</div>
           </div>
         )}
         {/* ---------------accessories--------------- */}
         {product.accessories && (
           <div className="abd-InfoDetailItem row mb-3">
-            <div className="fw-semibold col-4">Accessories:</div>
-            <div className="col-8">
+            <div className="fw-semibold col-4">{t("Accessories")}:</div>
+            <div className="col-8 d-flex flex-wrap gap-2">
               {product.accessories.map((acc, index) => (
-                <span key={index} className="me-3 fs-5">
-                  <span className="me-2 d-inline-block">
+                <span
+                  key={index}
+                  className="fs-5 d-flex align-items-center gap-2"
+                >
+                  <span>
                     {acc.toLowerCase() == "earbuds" ? (
                       <BsEarbuds />
                     ) : acc.toLowerCase() == "charger" ? (
