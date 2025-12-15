@@ -6,6 +6,7 @@ import { FaShoppingBag, FaUserCog, FaSignOutAlt } from "react-icons/fa";
 import { CiUser } from "react-icons/ci";
 import "./UserMenu.css";
 import IsLoginContext from "../../../context/IsLoginContext";
+import { useTranslation } from "react-i18next";
 
 const UserMenu = () => {
   const { user } = useSelector((state) => state.users);
@@ -13,6 +14,7 @@ const UserMenu = () => {
   const { setIsLoggedIn } = useContext(IsLoginContext);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Reset image loading state when user changes
@@ -46,7 +48,7 @@ const UserMenu = () => {
         data-bs-toggle="dropdown"
       >
         <CiUser className="user-icon" />
-        <span className="user-label">Account</span>
+        <span className="user-label">{t("Account")}</span>
       </button>
 
       <ul className="dropdown-menu dropdown-menu-end dropdown-menu-custom">
@@ -68,7 +70,7 @@ const UserMenu = () => {
             )}
           </div>
           <div className="user-info-text">
-            <div className="user-display-name">{displayName || "User"}</div>
+            <div className="user-display-name">{displayName || t("User")}</div>
             <div className="user-email">{user.email}</div>
           </div>
         </li>
@@ -80,14 +82,14 @@ const UserMenu = () => {
         {/* My Purchases */}
         <li>
           <Link className="dropdown-item-custom" to="/profile/orders">
-            <FaShoppingBag className="dropdown-icon" /> My Purchases
+            <FaShoppingBag className="dropdown-icon" /> {t("My Purchases")}
           </Link>
         </li>
 
         {/* Account Settings */}
         <li>
           <Link className="dropdown-item-custom" to="/profile/account">
-            <FaUserCog className="dropdown-icon" /> Account Settings
+            <FaUserCog className="dropdown-icon" /> {t("Account Settings")}
           </Link>
         </li>
 
@@ -100,7 +102,7 @@ const UserMenu = () => {
               setIsLoggedIn(false);
             }}
           >
-            <FaSignOutAlt className="dropdown-icon" /> Log Out
+            <FaSignOutAlt className="dropdown-icon" /> {t("Log Out")}
           </Link>
         </li>
       </ul>

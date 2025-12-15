@@ -1,10 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/GlobalComponents/Button/Button";
-import "./NotFoundPage.css"; 
+import "./NotFoundPage.css";
+import { useTranslation } from "react-i18next";
 
 const NotFoundpage = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const goBack = () => {
     navigate(-1); // -1 يعني صفحة لورا
@@ -17,9 +19,13 @@ const NotFoundpage = () => {
         alt="Not Found"
         className="heb-notfound-image"
       />
-      <Button onClick={goBack} btnTitle={"Back"} className="heb-notfound-button" />
+      <Button
+        onClick={goBack}
+        btnTitle={t("Back")}
+        className="heb-notfound-button"
+      />
     </div>
   );
-}
+};
 
 export default NotFoundpage;

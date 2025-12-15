@@ -1,7 +1,9 @@
+import { useTranslation } from "react-i18next";
 import "./CategoryNavbar.css";
 import { NavLink, useParams } from "react-router-dom";
 function CategoryNavbar() {
   const { compare } = useParams();
+  const { t } = useTranslation();
   return (
     <div className="abd-CategoryNavbar">
       <ul className="d-none d-md-flex align-items-center justify-content-center gap-5 py-4">
@@ -10,7 +12,7 @@ function CategoryNavbar() {
             to={`/category/mobile/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Mobile
+            {t("Mobile")}
           </NavLink>
         </li>
         <li>
@@ -18,7 +20,7 @@ function CategoryNavbar() {
             to={`/category/tablet/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Tablet
+            {t("Tablet")}
           </NavLink>
         </li>
         <li>
@@ -26,7 +28,7 @@ function CategoryNavbar() {
             to={`/category/laptop/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Laptop
+            {t("Laptop")}
           </NavLink>
         </li>
         <li>
@@ -34,7 +36,7 @@ function CategoryNavbar() {
             to={`/category/smart-watches/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Smart Watches
+            {t("Smart Watches")}
           </NavLink>
         </li>
         <li>
@@ -42,7 +44,7 @@ function CategoryNavbar() {
             to={`/category/wireless-earbuds/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Wireless Earbuds
+            {t("Wireless Earbuds")}
           </NavLink>
         </li>
         <li>
@@ -50,7 +52,7 @@ function CategoryNavbar() {
             to={`/category/game-consoles/${compare ? compare : ""}`}
             className={({ isActive }) => (isActive ? "active-link" : "")}
           >
-            Game Consoles
+            {t("Game Consoles")}
           </NavLink>
         </li>
       </ul>

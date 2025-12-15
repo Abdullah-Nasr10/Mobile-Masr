@@ -4,15 +4,16 @@
     position: fixed;
     right: 2rem;
     bottom: 10rem;
-
     z-index: 1000;
 
     * {
         transition: all 0.3s ease;
     }
+}
 
-    /* position: relative; */
-
+[dir="rtl"].abd-compareList {
+    right: auto !important;
+    left: 2rem !important;
 }
 
 .abd-compareList .abd-compareListBtn {
@@ -60,6 +61,11 @@
     z-index: 1001;
 }
 
+[dir="rtl"].abd-compareList .abd-compareListItems {
+    right: auto;
+    left: 0;
+}
+
 .abd-compareList .abd-compareListItems::after {
     content: "";
     position: absolute;
@@ -75,6 +81,11 @@
     border-radius: 0;
     /* border-top: 1px solid rgba(0, 0, 0, 0.03); */
     /* border-left: 1px solid rgba(0, 0, 0, 0.03); */
+}
+
+[dir="rtl"].abd-compareList .abd-compareListItems::after {
+    right: auto;
+    left: 1rem;
 }
 
 .abd-compareList .abd-compareListItems.show {

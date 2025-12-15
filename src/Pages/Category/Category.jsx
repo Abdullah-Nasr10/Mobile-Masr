@@ -18,6 +18,7 @@ import CompareList from "../../components/CategoryComponents/CompareList/Compare
 import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
 
 import "./Category.css";
+import { useTranslation } from "react-i18next";
 
 function Category() {
   const { category, compare } = useParams();
@@ -35,7 +36,6 @@ function Category() {
   // AI canonical search
   const searchQuery = searchParams.get("search") || null;
 
- 
   const makeBreadcrumbPath = () => {
     const base = category?.replace(/-/g, " ") || "all";
 
@@ -55,15 +55,14 @@ function Category() {
 
     filterProductsByCategory,
     getFilteredAndSortedProducts,
-    
+
     buildUrlParams: buildUrlParamsForPage,
 
     handleBrandSelect,
     handleFilterApply,
     handleSortChange,
-    handleClearAll
+    handleClearAll,
   } = useCategoryFilters(allProducts, category, searchParams, setSearchParams);
-
 
   /* -----------------------------------------------------------
        Fetch brands on mount
@@ -71,7 +70,6 @@ function Category() {
   useEffect(() => {
     dispatch(fetchBrandsData());
   }, [dispatch]);
-
 
   /* -----------------------------------------------------------
        Pagination calculations
@@ -91,18 +89,19 @@ function Category() {
     setSearchParams(params);
   };
 
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
 
   /* -----------------------------------------------------------
       Loading
   ----------------------------------------------------------- */
   if (isLoading && allProducts.length === 0) return <Loader />;
 
-
   return (
     <div className="mos-category-page">
       <div className="container pt-4">
         {/* Breadcrumb */}
-        <PagePath path={makeBreadcrumbPath()} />
+        <PagePath path={t(makeBreadcrumbPath())} />
       </div>
 
       {/* Brand Carousel */}
@@ -113,7 +112,7 @@ function Category() {
       />
 
       <div className="container py-4">
-        <div className="row">
+        <div className="row" dir={currentLang === "ar" ? "rtl" : "ltr"}>
           {/* ---------------- Sidebar (Desktop) ---------------- */}
           <div className="col-lg-3 col-md-4 mb-4 d-none d-md-block">
             <FilterSidebar

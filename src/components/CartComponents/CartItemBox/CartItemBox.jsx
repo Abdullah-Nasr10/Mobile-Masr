@@ -6,11 +6,13 @@ import CartItemPrice from "./CartItemPrice/CartItemPrice";
 import CartItemAccessories from "./CartItemAccessories/CartItemAccessories";
 import CartItemDelete from "./CartItemDelete/CartItemDelete";
 import CartItemQuantity from "./CartItemQuantity/CartItemQuantity";
+import { useTranslation } from "react-i18next";
 function CartItemBox({ item }) {
+  const { t } = useTranslation();
   return (
-    <div className="abd-Cart-item my-3 p-3 border d-flex">
+    <div className="abd-Cart-item my-3 p-3 border d-flex gap-3">
       {/* ===============item image container start================= */}
-      <div className="abd-item-imageContainer me-3 py-5 center">
+      <div className="abd-item-imageContainer py-5 center">
         {/* ------------cart-item-image------------- */}
         <Link to={`/products/${item.product?._id}`}>
           <img
@@ -37,7 +39,9 @@ function CartItemBox({ item }) {
 
       {/* ===============item details start================= */}
       <div className="abd-item-details">
-        <h3 className="abd-cartItemName">{item.product?.name || "Product"}</h3>
+        <h3 className="abd-cartItemName">
+          {item.product?.name || t("Product")}
+        </h3>
         <CartItemPrice item={item} />
         {/* <p>Quantity: {item.quantity}</p> */}
         <CartItemAccessories accessories={item.product?.accessories || []} />

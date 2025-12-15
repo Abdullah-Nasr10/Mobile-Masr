@@ -4,9 +4,11 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { IoGitCompareOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import "./Card.css";
+import { useTranslation } from "react-i18next";
 function CardCompareBtn({ product }) {
   // ============compare context ============
   const { compareItems, setCompareItems } = useContext(CompareContext);
+  const { t } = useTranslation();
   //   const [isCompered, setIsCompered] = useState(false);
   //   console.log("compared items", compareItems);
   function handleCompareClick() {
@@ -16,13 +18,13 @@ function CardCompareBtn({ product }) {
         "compareItems",
         JSON.stringify(compareItems.filter((prod) => prod._id !== product._id))
       );
-      toast.info("Removed from compare");
+      toast.info(t("Removed from compare"));
     } else if (compareItems.length < 3) {
       if (
         compareItems.length > 0 &&
         compareItems[0].category._id !== product.category._id
       ) {
-        toast.error("You can only compare products from the same category");
+        toast.error(t("You can only compare products from the same category"));
         return;
       }
       setCompareItems([...compareItems, product]);
@@ -30,9 +32,9 @@ function CardCompareBtn({ product }) {
         "compareItems",
         JSON.stringify([...compareItems, product])
       );
-      toast.success("Added to compare");
+      toast.success(t("Added to compare"));
     } else {
-      toast.error("You can only compare up to 3 items");
+      toast.error(t("You can only compare up to 3 items"));
     }
   }
 
@@ -50,8 +52,8 @@ function CardCompareBtn({ product }) {
       )}
       <div className="abd-TextCompareBtn ms-2">
         {compareItems.some((prod) => prod._id === product._id)
-          ? "Remove"
-          : "Compare"}
+          ? t("remove")
+          : t("compare")}
       </div>
     </button>
   );

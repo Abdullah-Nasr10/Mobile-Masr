@@ -5,8 +5,10 @@ import { billingValidationRules } from "../../../../utilities/validationSchemas"
 import { useDispatch } from "react-redux";
 import { createOrder } from "../../../../store/slices/orderSlice";
 import { useNavigate } from "react-router-dom";
-
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 function BillingDetailsForm() {
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -49,7 +51,7 @@ function BillingDetailsForm() {
         if (result.url) {
           window.location.href = result.url; // Redirect to Stripe Checkout
         } else {
-          alert("Failed to create payment session");
+          toast.error(t("Failed to create payment session"));
           setIsSubmitting(false);
         }
       } else {
@@ -69,25 +71,25 @@ function BillingDetailsForm() {
         if (createOrder.fulfilled.match(resultAction)) {
           navigate("/cart/order-success");
         } else {
-          alert("Failed to create order");
+          toast.error(t("Failed to create order"));
         }
         setIsSubmitting(false);
       }
     } catch (error) {
       console.error("Error submitting order:", error);
-      alert("An error occurred while processing your order");
+      toast.error(t("An error occurred while processing your order"));
       setIsSubmitting(false);
     }
   };
 
   return (
     <form className="abd-checkout-form p-4" onSubmit={handleSubmit(onSubmit)}>
-      <h3 className="mb-4">Billing Details</h3>
+      <h3 className="mb-4">{t("Billing Details")}</h3>
 
       {/* ========================Full Name======================= */}
       <div className="mb-3">
         <label htmlFor="fullName" className="form-label">
-          Full Name
+          {t("Full Name")}
         </label>
         <input
           type="text"
@@ -103,7 +105,7 @@ function BillingDetailsForm() {
       {/* ========================Phone======================= */}
       <div className="mb-3">
         <label htmlFor="phone" className="form-label">
-          Phone
+          {t("Phone")}
         </label>
         <input
           type="tel"
@@ -119,7 +121,7 @@ function BillingDetailsForm() {
       {/* ========================Governorate======================= */}
       <div className="mb-3">
         <label htmlFor="governorate" className="form-label">
-          Governorate
+          {t("Governorate")}
         </label>
         <input
           type="text"
@@ -135,7 +137,7 @@ function BillingDetailsForm() {
       {/* ========================City======================= */}
       <div className="mb-3">
         <label htmlFor="city" className="form-label">
-          City
+          {t("City")}
         </label>
         <input
           type="text"
@@ -151,7 +153,7 @@ function BillingDetailsForm() {
       {/* ========================Street======================= */}
       <div className="mb-3">
         <label htmlFor="street" className="form-label">
-          Street
+          {t("Street")}
         </label>
         <input
           type="text"
@@ -167,7 +169,7 @@ function BillingDetailsForm() {
       {/* ========================Notes======================= */}
       <div className="mb-3">
         <label htmlFor="notes" className="form-label">
-          Notes (optional)
+          {t("Notes (optional)")}
         </label>
         <textarea
           className={`form-control ${errors.notes ? "is-invalid" : ""}`}
@@ -180,7 +182,7 @@ function BillingDetailsForm() {
       </div>
       {/* ====================choose payment method==================== */}
       <div className="mb-4">
-        <label className="form-label d-block mb-2">Payment Method</label>
+        <label className="form-label d-block mb-2">{t("Payment Method")}</label>
         <div className="form-check form-check-inline">
           <input
             className="form-check-input"
@@ -192,7 +194,7 @@ function BillingDetailsForm() {
             })}
           />
           <label className="form-check-label" htmlFor="paymentCash">
-            Cash on delivery
+            {t("Cash on delivery")}
           </label>
         </div>
         <div className="form-check form-check-inline">
@@ -206,7 +208,7 @@ function BillingDetailsForm() {
             })}
           />
           <label className="form-check-label" htmlFor="paymentOnline">
-            Card payment
+            {t("Card payment")}
           </label>
         </div>
         {errors.paymentMethod && (
@@ -218,7 +220,7 @@ function BillingDetailsForm() {
 
       {/* ========================Submit Button======================= */}
       <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-        {isSubmitting ? "Processing..." : "Place Order"}
+        {isSubmitting ? t("Processing...") : t("Place Order")}
       </button>
     </form>
   );

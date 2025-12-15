@@ -10,8 +10,10 @@ import CategorySlider from "../../components/HomeComponents/CategorySlider/Categ
 import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
 import BrandBanners from "../../components/HomeComponents/BrandBanner/BrandBanner.jsx";
 import ProductsBanners from "../../components/HomeComponents/ProductsBanner/ProductsBanner.jsx";
+import { useTranslation } from "react-i18next";
 
 function Home() {
+  const { t } = useTranslation();
   const allProducts = useSelector((store) => store.products.data);
   const isLoading = useSelector((store) => store.products.isLoading);
   if (isLoading && allProducts.length === 0) {
@@ -32,19 +34,19 @@ function Home() {
       {/*geh-Card*/}
       <div className="container mt-5">
         <ProductsSlider
-          title="All Products"
+          title={t("All Products")}
           products={allProducts}
           seeMoreLink="/category/all"
         />
         <BrandBanners />
         <ProductsSlider
-          title="New Products"
+          title={t("New Products")}
           products={newProducts}
           seeMoreLink="/category/all?type=new"
         />
         <ProductsBanners />
         <ProductsSlider
-          title="Used Products"
+          title={t("Used Products")}
           products={usedProducts}
           seeMoreLink="/category/all?type=used"
         />

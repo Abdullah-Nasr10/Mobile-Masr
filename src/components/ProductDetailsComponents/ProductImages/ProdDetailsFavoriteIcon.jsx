@@ -3,9 +3,11 @@ import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../../../store/slices/WishlistSlice";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 // import { useNavigate } from "react-router-dom";
 
 function ProdDetailsFavoriteIcon({ productId }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const wishlist = useSelector((state) => state.wishlist);
@@ -25,7 +27,7 @@ function ProdDetailsFavoriteIcon({ productId }) {
   const handleToggle = async () => {
     // Check if user is logged in
     if (!token) {
-      toast.error("Please login first to add to wishlist");
+      toast.error(t("Please login first to add to wishlist"));
       // navigate("/login");
       return;
     }
@@ -33,12 +35,12 @@ function ProdDetailsFavoriteIcon({ productId }) {
     try {
       const result = await dispatch(toggleWishlist(productId)).unwrap();
       if (result.action === "added") {
-        toast.success("Added to wishlist");
+        toast.success(t("Added to wishlist"));
       } else {
-        toast.info("Removed from wishlist");
+        toast.info(t("Removed from wishlist"));
       }
     } catch (error) {
-      toast.error(error || "Failed to update wishlist");
+      toast.error(error || t("Failed to update wishlist"));
     }
   };
 

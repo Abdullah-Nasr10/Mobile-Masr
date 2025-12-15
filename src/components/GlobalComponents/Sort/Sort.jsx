@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import "./Sort.css";
+import { useTranslation } from "react-i18next";
 
 const Sort = ({ sortBy, onSortChange }) => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -10,13 +11,15 @@ const Sort = ({ sortBy, onSortChange }) => {
     setShowDropdown(false);
   };
 
+  const { t } = useTranslation();
+
   return (
     <div className="position-relative">
       <button
         className="btn d-flex align-items-center gap-2 mos-sort-btn"
         onClick={() => setShowDropdown(!showDropdown)}
       >
-        <span>Sort by</span>
+        <span>{t("Sort by")}</span>
         <FaChevronDown
           className={`mos-sort-arrow ${showDropdown ? "rotate" : ""}`}
         />
@@ -28,7 +31,7 @@ const Sort = ({ sortBy, onSortChange }) => {
             className={`mos-sort-option ${sortBy === "newest" ? "active" : ""}`}
             onClick={() => handleSortSelect("newest")}
           >
-            Newest Arrival
+            {t("Newest Arrival")}
           </button>
           <button
             className={`mos-sort-option ${
@@ -36,7 +39,7 @@ const Sort = ({ sortBy, onSortChange }) => {
             }`}
             onClick={() => handleSortSelect("priceLowToHigh")}
           >
-            Price Low To High
+            {t("Price Low To High")}
           </button>
           <button
             className={`mos-sort-option ${
@@ -44,7 +47,7 @@ const Sort = ({ sortBy, onSortChange }) => {
             }`}
             onClick={() => handleSortSelect("priceHighToLow")}
           >
-            Price High To Low
+            {t("Price High To Low")}
           </button>
         </div>
       )}

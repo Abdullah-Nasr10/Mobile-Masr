@@ -9,12 +9,16 @@ import { NavLink, useParams } from "react-router-dom";
 import Button from "../Button/Button";
 import CardCompareBtn from "./CardCompareBtn";
 import CardFavoriteIcon from "./CardFavoriteIcon";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 function Card({ product }) {
   const [showShareOptions, setShowShareOptions] = useState(false);
   const simText = product.simCard || "";
   const simCount = /2[-\s]?sim/i.test(simText) ? "2" : "";
   const { compare } = useParams();
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
 
   // Generate share URL and text
   const productUrl = `${window.location.origin}/products/${product._id}`;
@@ -27,7 +31,10 @@ function Card({ product }) {
   )}`;
 
   return (
-    <div className="abd-Product-Card">
+    <div
+      className="abd-Product-Card"
+      dir={currentLang === "ar" ? "rtl" : "ltr"}
+    >
       {/* ===========Product-Condition=========== */}
       <div
         className={`abd-Product-Type ${
@@ -38,7 +45,7 @@ function Card({ product }) {
       </div>
 
       {/* =============Card-Icons-Start ============ */}
-      <div className="abd-Card-Icons d-flex fs-2">
+      <div className="abd-Card-Icons d-flex align-items-center fs-2">
         {/* ============Share-Icon =========== */}
         <div className="abd-Card-Icon position-relative ">
           <FaShareAlt
@@ -105,11 +112,11 @@ function Card({ product }) {
               product.discount > 0 ? "text-danger" : "text-success"
             }`}
           >
-            {product.priceAfterDiscount} EGP
+            {product.priceAfterDiscount} {t("EGP")}
           </div>
           {product.discount > 0 && (
             <div className="text-muted text-decoration-line-through">
-              {product.price} EGP
+              {product.price} {t("EGP")}
             </div>
           )}
         </div>
@@ -119,7 +126,7 @@ function Card({ product }) {
             to={`/products/${product._id}`}
             className="abd-View-Details d-block py-2"
           >
-            <Button btnTitle="View Details" style={{ width: "300px" }} />
+            <Button btnTitle={t("View Details")} style={{ width: "300px" }} />
           </NavLink>
           {/* -----------copmare-Btn------------ */}
           {compare === "compare" && <CardCompareBtn product={product} />}

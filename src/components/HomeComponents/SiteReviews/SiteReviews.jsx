@@ -7,9 +7,13 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import AddReview from "./AddReview/AddReview";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 export default function MobileReviewsStatic() {
   const [reviews, setReviews] = useState([]);
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -23,8 +27,11 @@ export default function MobileReviewsStatic() {
   }, []);
   return (
     <>
-      <div className="container mb-5 d-flex justify-content-between align-items-center">
-        <h2 className="fw-light site-reviews-title">Reviews</h2>
+      <div
+        className="container mb-5 d-flex justify-content-between align-items-center"
+        dir={currentLang === "ar" ? "rtl" : "ltr"}
+      >
+        <h2 className="fw-light site-reviews-title">{t("Reviews")}</h2>
         <AddReview />
       </div>
       <Swiper

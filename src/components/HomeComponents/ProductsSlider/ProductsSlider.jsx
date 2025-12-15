@@ -7,14 +7,29 @@ import Card from "../../GlobalComponents/Card/Card.jsx";
 import "./ProductsSlider.css";
 import { NavLink } from "react-router-dom";
 import { MdArrowForwardIos } from "react-icons/md";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const ProductsSlider = ({ title, products, seeMoreLink = "/products" }) => {
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
   return (
     <div className="mb-5">
-      <div className="d-flex justify-content-between align-content-center mb-5">
+      <div
+        className="d-flex justify-content-between align-content-center mb-5"
+        dir={currentLang === "ar" ? "rtl" : "ltr"}
+      >
         <h2 className="abd-ProductsSlider-title mb-3 fw-light">{title}</h2>
-        <NavLink to={seeMoreLink} className="abd-ProductsSlider-see-more center">
-          see more <MdArrowForwardIos />
+        <NavLink
+          to={seeMoreLink}
+          className="abd-ProductsSlider-see-more center gap-2"
+        >
+          {t("see more")}{" "}
+          {currentLang === "ar" ? (
+            <MdArrowForwardIos style={{ transform: "scaleX(-1)" }} />
+          ) : (
+            <MdArrowForwardIos />
+          )}
         </NavLink>
       </div>
       <Swiper

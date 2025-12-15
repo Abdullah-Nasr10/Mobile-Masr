@@ -1,12 +1,14 @@
 import React from "react";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 import { MIN_PRICE, MAX_PRICE } from "./FilterData";
+import { useTranslation } from "react-i18next";
 
 const PriceFilter = ({ price, isOpen, onToggleOpen, onPriceChange }) => {
   const handlePriceInput = (index, raw) => {
     const val = Math.max(MIN_PRICE, Math.min(MAX_PRICE, Number(raw)));
     const newPrice = [...price];
-    newPrice[index] = index === 0 ? Math.min(val, price[1]) : Math.max(val, price[0]);
+    newPrice[index] =
+      index === 0 ? Math.min(val, price[1]) : Math.max(val, price[0]);
     onPriceChange(newPrice);
   };
 
@@ -14,14 +16,16 @@ const PriceFilter = ({ price, isOpen, onToggleOpen, onPriceChange }) => {
     handlePriceInput(index, e.target.value);
   };
 
+  const { t } = useTranslation();
+
   return (
-    <div className="mos-filter-group">
+    <div className="mos-filter-group" dir="ltr">
       <button
         type="button"
         className="mos-filter-group__toggle"
         onClick={onToggleOpen}
       >
-        <span className="mos-filter-group__title">Price</span>
+        <span className="mos-filter-group__title">{t("Price")}</span>
         <span className="mos-filter-group__count">
           {price[0].toLocaleString()} - {price[1].toLocaleString()}
         </span>
@@ -50,10 +54,18 @@ const PriceFilter = ({ price, isOpen, onToggleOpen, onPriceChange }) => {
               style={{
                 background: `linear-gradient(
                   to right,
-                  #d1d5db ${((price[0] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%,
-                  #16a34a ${((price[0] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%,
-                  #16a34a ${((price[1] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%,
-                  #d1d5db ${((price[1] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%
+                  #d1d5db ${
+                    ((price[0] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100
+                  }%,
+                  #16a34a ${
+                    ((price[0] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100
+                  }%,
+                  #16a34a ${
+                    ((price[1] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100
+                  }%,
+                  #d1d5db ${
+                    ((price[1] - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100
+                  }%
                 )`,
               }}
             />

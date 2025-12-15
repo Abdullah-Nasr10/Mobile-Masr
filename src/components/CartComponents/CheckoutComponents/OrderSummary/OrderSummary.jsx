@@ -1,12 +1,13 @@
 import React from "react";
 import "./OrderSummary.css";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 function OrderSummary() {
   const { items, totalPrice } = useSelector((state) => state.cart);
   const shippingFees = 100;
   const finalTotal = totalPrice + shippingFees;
-
+  const { t } = useTranslation();
   // Format number with comma separator
   const formatPrice = (price) => {
     return price.toLocaleString("en-US", {
@@ -17,7 +18,7 @@ function OrderSummary() {
 
   return (
     <div className="abd-order-summary pt-4">
-      <h3 className="mb-4">Your Order</h3>
+      <h3 className="mb-4">{t("Your Order")}</h3>
 
       {/* =================Cart Items==================== */}
       <div className="abd-order-items mb-4">
@@ -33,33 +34,39 @@ function OrderSummary() {
                 <div className="abd-order-item-details">
                   <h6 className="abd-order-item-name">{item.product?.name}</h6>
                   <p className="abd-order-item-quantity">
-                    Quantity: {item.quantity}
+                    {t("Quantity")}: {item.quantity}
                   </p>
                 </div>
               </div>
               <div className="abd-order-item-price">
-                {formatPrice(item.price * item.quantity)} EGP
+                {formatPrice(item.price * item.quantity)} {t("EGP")}
               </div>
             </div>
           ))
         ) : (
-          <p className="text-muted">No items in cart</p>
+          <p className="text-muted">{t("No items in cart")}</p>
         )}
       </div>
 
       {/* ===================== Price Summary ==================== */}
       <div className="abd-order-summary-details">
         <div className="abd-summary-row">
-          <span>Subtotal:</span>
-          <span>{formatPrice(totalPrice || 0)} EGP</span>
+          <span>{t("Subtotal")}:</span>
+          <span>
+            {formatPrice(totalPrice || 0)} {t("EGP")}
+          </span>
         </div>
         <div className="abd-summary-row">
-          <span>Shipping Fees:</span>
-          <span>{formatPrice(shippingFees)} EGP</span>
+          <span>{t("Shipping Fees")}:</span>
+          <span>
+            {formatPrice(shippingFees)} {t("EGP")}
+          </span>
         </div>
         <div className="abd-summary-row abd-summary-total">
-          <span>Total:</span>
-          <span>{formatPrice(finalTotal)} EGP</span>
+          <span>{t("Total")}:</span>
+          <span>
+            {formatPrice(finalTotal)} {t("EGP")}
+          </span>
         </div>
       </div>
     </div>

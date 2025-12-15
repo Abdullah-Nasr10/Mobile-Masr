@@ -4,8 +4,12 @@ import { GiCharging } from "react-icons/gi";
 import { BsBoxSeam, BsUsbPlug, BsEarbuds } from "react-icons/bs";
 import { PiDeviceMobileSpeakerLight as MobileCover } from "react-icons/pi";
 import { LiaPencilAltSolid } from "react-icons/lia";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 function TableComparison({ compareItems }) {
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
   const renderAccessory = (acc) => {
     if (!acc) return acc;
     const a = acc.toLowerCase();
@@ -106,11 +110,14 @@ function TableComparison({ compareItems }) {
 
   const visibleRows = rows.filter(rowHasData);
   return (
-    <div className="table-responsive">
+    <div
+      className="table-responsive"
+      dir={currentLang === "ar" ? "rtl" : "ltr"}
+    >
       <table className="table table-bordered table-hover table-striped align-middle abd-comparison-table">
         <thead>
           <tr>
-            <th>Details</th>
+            <th>{t("Details")}</th>
             {compareItems.map((item) => (
               <th key={item._id} className="text-center">
                 <img
@@ -125,7 +132,7 @@ function TableComparison({ compareItems }) {
         <tbody>
           {visibleRows.map((row) => (
             <tr key={row.label}>
-              <td className="fw-semibold">{row.label}</td>
+              <td className="fw-semibold">{t(row.label)}</td>
               {compareItems.map((item) => (
                 <td key={item._id + row.label}>{row.cell(item)}</td>
               ))}

@@ -1,10 +1,12 @@
 import React from "react";
 import "./MobileSortSection.css";
+import { useTranslation } from "react-i18next";
 
 function MobileSortSection({ sortBy, onSortChange }) {
+  const { t } = useTranslation();
   return (
     <div className="mos-mobile-sort-section">
-      <h4 className="mos-mobile-section-title">Sort By</h4>
+      <h4 className="mos-mobile-section-title">{t("Sort by")}</h4>
       <div className="mos-sort-options">
         <div className="mos-sort-option-item">
           <input
@@ -15,7 +17,7 @@ function MobileSortSection({ sortBy, onSortChange }) {
             checked={sortBy === "newest"}
             onChange={() => onSortChange("newest")}
           />
-          <label htmlFor="sort-newest">Newest Arrival</label>
+          <label htmlFor="sort-newest">{t("Newest Arrival")}</label>
         </div>
         <div className="mos-sort-option-item">
           <input
@@ -26,7 +28,7 @@ function MobileSortSection({ sortBy, onSortChange }) {
             checked={sortBy === "priceLowToHigh"}
             onChange={() => onSortChange("priceLowToHigh")}
           />
-          <label htmlFor="sort-low">Price Low to High</label>
+          <label htmlFor="sort-low">{t("Price Low To High")}</label>
         </div>
         <div className="mos-sort-option-item">
           <input
@@ -37,7 +39,7 @@ function MobileSortSection({ sortBy, onSortChange }) {
             checked={sortBy === "priceHighToLow"}
             onChange={() => onSortChange("priceHighToLow")}
           />
-          <label htmlFor="sort-high">Price High to Low</label>
+          <label htmlFor="sort-high">{t("Price High To Low")}</label>
         </div>
       </div>
     </div>

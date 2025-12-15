@@ -2,6 +2,7 @@ import "./ProductAdditionalInfo.css";
 import { GoShieldCheck } from "react-icons/go";
 import { BiLike } from "react-icons/bi";
 import { BsClipboard2Pulse } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
 
 function AdditionalInfoItem({ icon, title, description }) {
   return (
@@ -24,25 +25,26 @@ function AdditionalInfoItem({ icon, title, description }) {
 }
 
 function ProductAdditionalInfo({ product }) {
+  const { t } = useTranslation();
   return (
     <>
       <AdditionalInfoItem
         icon={<GoShieldCheck size={40} />}
-        title={"Guaranteed Sellers & Buyers"}
-        description={"Secure Platform for your info and cards"}
+        title={t("Guaranteed Sellers & Buyers")}
+        description={t("Secure Platform for your info and cards")}
       />
       {product.condition.toLowerCase() == "used" && (
         <>
           <AdditionalInfoItem
             icon={<BiLike size={40} />}
-            title={product?.guarantee || "Warranty"}
-            description={"Buy with warranty from Verified Stores"}
+            title={product?.guarantee || t("Warranty")}
+            description={t("Buy with warranty from Verified Stores")}
           />
 
           <AdditionalInfoItem
             icon={<BsClipboard2Pulse size={40} />}
-            title={"Diagnostic Tool Report"}
-            description={"Generate a diagnostic report for your device"}
+            title={t("Diagnostic Tool Report")}
+            description={t("Generate a diagnostic report for your device")}
           />
         </>
       )}

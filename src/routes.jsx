@@ -12,7 +12,6 @@ import Category from "./Pages/Category/Category";
 import ProductDetails from "./Pages/ProductDetails/ProductDetails";
 // -----------------------------------------
 
-import Search from "./Pages/Search/Search";
 // -----------------------------------------
 
 import Login from "./Pages/Auth/Login/Login";
@@ -39,6 +38,7 @@ import OrderSuccess from "./Pages/Cart/OrderSuccess/OrderSuccess";
 // -----------------------------------------
 
 import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
+import NotFoundProduct from "./Pages/NotFoundProduct/NotFoundProduct";
 import Categories from "./Pages/Categories/Categories";
 import Vendor from "./Pages/Vendor/Vendor";
 import Comparison from "./Pages/Comparison/Comparison";
@@ -63,10 +63,10 @@ const router = createBrowserRouter([
       { path: "/vendor/:id", element: <Vendor /> },
       { path: "/comparison", element: <Comparison /> },
 
-      { path: "/search", element: <Search /> },
-
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
+
+      { path: "/not-found-product", element: <NotFoundProduct /> },
 
       // ===== Protected routes group =====
       {

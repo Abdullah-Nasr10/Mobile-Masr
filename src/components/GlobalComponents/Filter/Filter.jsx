@@ -7,6 +7,7 @@ import PriceFilter from "./PriceFilter";
 import FilterActions from "./FilterActions";
 
 import "./Filter.css";
+import { useTranslation } from "react-i18next";
 
 const FilterSidebar = ({
   onApply,
@@ -15,9 +16,8 @@ const FilterSidebar = ({
   selectedBrandFromCarousel = null,
   currentFilters = {},
   onClearAll,
-  searchQuery = null,   // AI canonical search now supported
+  searchQuery = null, // AI canonical search now supported
 }) => {
-
   const [openKeys, setOpenKeys] = useState(() => new Set());
   const [selected, setSelected] = useState(() => ({}));
   const [price, setPrice] = useState([MIN_PRICE, MAX_PRICE]);
@@ -29,13 +29,15 @@ const FilterSidebar = ({
     setOpenKeys(new Set());
   }, [category]);
 
-
   /* -----------------------------------------------------------
       Sync brand from carousel
   ----------------------------------------------------------- */
   useEffect(() => {
     if (selectedBrandFromCarousel) {
-      const brandName = findBrandNameById(availableProducts, selectedBrandFromCarousel);
+      const brandName = findBrandNameById(
+        availableProducts,
+        selectedBrandFromCarousel
+      );
       if (brandName) {
         setSelected((prev) => ({ ...prev, Brands: [brandName] }));
       }
@@ -48,19 +50,22 @@ const FilterSidebar = ({
     }
   }, [selectedBrandFromCarousel, availableProducts, currentFilters.brands]);
 
-
   /* -----------------------------------------------------------
       Sync all filters from URL (including searchQuery from AI)
   ----------------------------------------------------------- */
   useEffect(() => {
     const newSelected = {};
 
-    if (currentFilters.brands?.length > 0) newSelected.Brands = currentFilters.brands;
+    if (currentFilters.brands?.length > 0)
+      newSelected.Brands = currentFilters.brands;
     if (currentFilters.ram?.length > 0) newSelected.Ram = currentFilters.ram;
-    if (currentFilters.storage?.length > 0) newSelected.Storage = currentFilters.storage;
+    if (currentFilters.storage?.length > 0)
+      newSelected.Storage = currentFilters.storage;
     if (currentFilters.ssd?.length > 0) newSelected.SSD = currentFilters.ssd;
-    if (currentFilters.color?.length > 0) newSelected.Color = currentFilters.color;
-    if (currentFilters.simCard?.length > 0) newSelected["Sim Card"] = currentFilters.simCard;
+    if (currentFilters.color?.length > 0)
+      newSelected.Color = currentFilters.color;
+    if (currentFilters.simCard?.length > 0)
+      newSelected["Sim Card"] = currentFilters.simCard;
 
     if (currentFilters.condition) {
       const capitalized =
@@ -83,12 +88,10 @@ const FilterSidebar = ({
     }
   }, [currentFilters]);
 
-
   /* -----------------------------------------------------------
       Available filters based on products
   ----------------------------------------------------------- */
   const availableFilters = getFilterGroups(category, availableProducts);
-
 
   /* -----------------------------------------------------------
       Toggle accordion
@@ -100,7 +103,6 @@ const FilterSidebar = ({
       return next;
     });
   };
-
 
   /* -----------------------------------------------------------
       Toggle filter values
@@ -115,7 +117,6 @@ const FilterSidebar = ({
     });
   };
 
-
   /* -----------------------------------------------------------
       Clear All Filters
   ----------------------------------------------------------- */
@@ -127,7 +128,6 @@ const FilterSidebar = ({
     else if (onApply) onApply({ filters: {}, price: [MIN_PRICE, MAX_PRICE] });
   };
 
-
   /* -----------------------------------------------------------
       Apply filters
   ----------------------------------------------------------- */
@@ -136,12 +136,13 @@ const FilterSidebar = ({
     if (onApply) onApply(payload);
   }, [selected, price, onApply]);
 
+  const { t } = useTranslation();
 
   return (
     <aside className="mos-filter-panel">
       <div className="mos-filter-panel__header">
         <FiSliders className="mos-filter-panel__icon" />
-        <span>Filter</span>
+        <span>{t("Filter")}</span>
       </div>
 
       {/* -----------------------------------------------------------
@@ -151,7 +152,9 @@ const FilterSidebar = ({
         <div className="mos-filter-search-badge">
           <div className="mos-search-badge-label">
             <span className="mos-badge-icon">🔍</span>
-            <span className="mos-badge-text">Search : "{searchQuery}"</span>
+            <span className="mos-badge-text">
+              {t("Search")}: "{searchQuery}"
+            </span>
           </div>
         </div>
       )}

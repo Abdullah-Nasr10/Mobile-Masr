@@ -5,17 +5,19 @@ import { useDispatch } from "react-redux";
 import { updateCartQuantity } from "../../../../store/slices/cartSlice";
 import { toast } from "react-toastify";
 import { logout } from "../../../../store/slices/usersSlice";
+import { useTranslation } from "react-i18next";
 
 function CartItemQuantity({ quantity, productId, stock }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleUpdate = async (newQty) => {
     if (newQty < 1) {
-      toast.error("Quantity cannot be less than 1");
+      toast.error(t("Quantity cannot be less than 1"));
       return;
     }
     if (stock && newQty > stock) {
-      toast.error("Out of stock: quantity exceeds available stock");
+      toast.error(t("Out of stock: quantity exceeds available stock"));
       return;
     }
     try {
@@ -31,10 +33,10 @@ function CartItemQuantity({ quantity, productId, stock }) {
       ) {
         dispatch(logout());
         toast.error(
-          "Unauthorized. You have been logged out. Please login again."
+          t("Unauthorized. You have been logged out. Please login again.")
         );
       } else {
-        toast.error(msg || "Failed to update quantity");
+        toast.error(msg || t("Failed to update quantity"));
       }
     }
   };

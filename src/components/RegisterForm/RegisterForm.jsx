@@ -10,9 +10,12 @@ import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 export default function Register() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
   const { loading, error, user, success } = useSelector((s) => s.users);
   const [showPassword, setShowPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -21,19 +24,25 @@ export default function Register() {
     onSuccess: async (tokenResponse) => {
       try {
         setGoogleLoading(true);
-        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` }
-        });
-        
+        const res = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+          }
+        );
+
         const { sub: googleId, email, name, picture } = res.data;
-        dispatch(googleLogin({ googleId, email, name, profilePicture: picture }));
+        dispatch(
+          googleLogin({ googleId, email, name, profilePicture: picture })
+        );
       } catch (err) {
-        toast.error("Google registration failed");
+        console.error(err);
+        toast.error(t("Google registration failed"));
       } finally {
         setGoogleLoading(false);
       }
     },
-    onError: () => toast.error("Google registration failed")
+    onError: () => toast.error(t("Google registration failed")),
   });
 
   const {
@@ -53,18 +62,18 @@ export default function Register() {
 
   useEffect(() => {
     if (error) {
-      const msg = typeof error === "string" ? error : "Registration failed";
+      const msg = typeof error === "string" ? error : t("Registration failed");
       toast.error(msg);
     }
-  }, [error]);
+  }, [error, t]);
 
   useEffect(() => {
     if (success) {
       const msg =
-        typeof success === "string" ? success : "Registration successful";
+        typeof success === "string" ? success : t("Registration successful");
       toast.success(msg);
     }
-  }, [success]);
+  }, [success, t]);
 
   const onSubmit = async (data) => {
     const payload = {
@@ -78,29 +87,31 @@ export default function Register() {
   };
 
   return (
-    <div className="login-center">
+    <div className="login-center" dir={currentLang === "ar" ? "rtl" : "ltr"}>
       <div className="register-card">
         <div className="text-center mb-5">
-          <h2 className="mb-3">Sign Up</h2>
+          <h2 className="mb-3">{t("Sign Up")}</h2>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <div className="row g-4">
             <div className="col-6">
               <div className="mb-3 position-relative">
                 {/* ======firstName===== */}
-                <label className="form-label">First Name</label>
+                <label className="form-label">{t("First Name")}</label>
                 <input
                   className={`form-control geh-form-control ps-4 ${
                     errors.firstName ? "is-invalid" : ""
                   }`}
-                  placeholder="First name"
+                  placeholder={t("First Name")}
                   {...register("firstName", {
-                    required: "First name required",
-                    minLength: { value: 3, message: "Min 3 chars" },
-                    maxLength: { value: 10, message: "Max 10 characters" },
-                    pattern: { value: /^\S+$/, message: "No spaces allowed" },
+                    required: t("First name required"),
+                    minLength: { value: 3, message: t("Min 3 chars") },
+                    maxLength: { value: 10, message: t("Max 10 characters") },
+                    pattern: {
+                      value: /^\S+$/,
+                      message: t("No spaces allowed"),
+                    },
                   })}
                 />
                 {errors.firstName && (
@@ -114,17 +125,20 @@ export default function Register() {
             <div className="col-6">
               <div className="mb-3 position-relative">
                 {/* ======lastName===== */}
-                <label className="form-label">Last Name</label>
+                <label className="form-label">{t("Last Name")}</label>
                 <input
                   className={`form-control geh-form-control ps-4 ${
                     errors.lastName ? "is-invalid" : ""
                   }`}
-                  placeholder="Last name"
+                  placeholder={t("Last Name")}
                   {...register("lastName", {
-                      required: "Last name required",
-                      minLength: { value: 3, message: "Min 3 chars" },
-                      maxLength: { value: 10, message: "Max 10 characters" },
-                      pattern: { value: /^\S+$/, message: "No spaces allowed" },
+                    required: t("Last name required"),
+                    minLength: { value: 3, message: t("Min 3 chars") },
+                    maxLength: { value: 10, message: t("Max 10 characters") },
+                    pattern: {
+                      value: /^\S+$/,
+                      message: t("No spaces allowed"),
+                    },
                   })}
                 />
                 {errors.lastName && (
@@ -138,7 +152,7 @@ export default function Register() {
 
           <div className="mb-4">
             {/* ======email===== */}
-            <label className="form-label">Email</label>
+            <label className="form-label">{t("Email")}</label>
             <input
               type="email"
               className={`form-control geh-form-control ps-4 ${
@@ -146,10 +160,10 @@ export default function Register() {
               }`}
               placeholder="you@example.com"
               {...register("email", {
-                required: "Email required",
+                required: t("Email required"),
                 pattern: {
                   value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                  message: "Invalid email",
+                  message: t("Invalid email"),
                 },
               })}
             />
@@ -159,62 +173,59 @@ export default function Register() {
           </div>
 
           <div className="row g-4">
-                      <div className="mb-4 position-relative col-6">
-            <label className="form-label">Password</label>
-            <input
-              type={showPassword ? "text" : "password"}
-              className={`form-control geh-form-control ps-4 pe-5 ${
-                errors.password ? "is-invalid" : ""
-              }`}
-              placeholder="Create a password"
-              {...register("password", {
-                required: "Password required",
-                minLength: { value: 6, message: "Min 6 chars or numbers" },
-              })}
-            />
+            <div className="mb-4 position-relative col-6">
+              <label className="form-label">{t("Password")}</label>
+              <input
+                type={showPassword ? "text" : "password"}
+                className={`form-control geh-form-control ps-4 pe-5 ${
+                  errors.password ? "is-invalid" : ""
+                }`}
+                placeholder={t("Create a password")}
+                {...register("password", {
+                  required: t("Password required"),
+                  minLength: { value: 6, message: t("Min 6 chars or numbers") },
+                })}
+              />
 
-            {/* Eye button */}
-            <span
-              className="gehR-password-toggle-icon"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+              {/* Eye button */}
+              <span
+                className="gehR-password-toggle-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
 
-            {errors.password && (
-              <small className="text-danger">{errors.password.message}</small>
-            )}
+              {errors.password && (
+                <small className="text-danger">{errors.password.message}</small>
+              )}
+            </div>
+
+            <div className="mb-4 col-6">
+              {/* ======confirmPassword===== */}
+              <label className="form-label">{t("Confirm Password")}</label>
+              <input
+                type="password"
+                className={`form-control geh-form-control ps-4 ${
+                  errors.confirmPassword ? "is-invalid" : ""
+                }`}
+                placeholder={t("Confirm your password")}
+                {...register("confirmPassword", {
+                  required: t("Confirm password required"),
+                  validate: (v) =>
+                    v === watch("password") || t("Passwords do not match"),
+                })}
+              />
+              {errors.confirmPassword && (
+                <small className="text-danger">
+                  {errors.confirmPassword.message}
+                </small>
+              )}
+            </div>
           </div>
-
-          <div className="mb-4 col-6">
-            {/* ======confirmPassword===== */}
-            <label className="form-label">Confirm Password</label>
-            <input
-              type="password"
-              className={`form-control geh-form-control ps-4 ${
-                errors.confirmPassword ? "is-invalid" : ""
-              }`}
-              placeholder="Confirm your password"
-              {...register("confirmPassword", {
-                required: "Confirm required",
-                validate: (v) =>
-                  v === watch("password") || "Passwords do not match",
-              })}
-            />
-            {errors.confirmPassword && (
-              <small className="text-danger">
-                {errors.confirmPassword.message}
-              </small>
-            )}
-          </div>
-
-          </div>
-
-
 
           <div className="mb-3">
             {/* ======phone===== */}
-            <label className="form-label">Phone (optional)</label>
+            <label className="form-label">{t("Phone (optional)")}</label>
             <input
               type="tel"
               className={`form-control geh-form-control ps-4 ${
@@ -224,7 +235,7 @@ export default function Register() {
               {...register("phone", {
                 pattern: {
                   value: /^01[0-2,5]{1}[0-9]{8}$/,
-                  message: "Phone must be valid",
+                  message: t("Phone must be valid"),
                 },
               })}
             />
@@ -235,7 +246,11 @@ export default function Register() {
           {/* ===== Terms & Newsletter ===== */}
           <div className="mb-3">
             {/* Terms (Required) */}
-            <div className="form-check mb-2">
+            <div
+              className={`form-check mb-2 ${
+                currentLang === "ar" ? "form-check-reverse" : ""
+              }`}
+            >
               <input
                 type="checkbox"
                 className={`form-check-input ${
@@ -248,8 +263,9 @@ export default function Register() {
               />
               <label className="form-check-label" htmlFor="terms">
                 <small>
-                  I agree to the <strong>Terms & Conditions</strong> and the{" "}
-                  <strong>Privacy Notice</strong> of MobileMasr.
+                  {t("I agree to the")}{" "}
+                  <strong>{t("Terms & Conditions")}</strong> {t("and the")}{" "}
+                  <strong>{t("Privacy Notice")}</strong> {t("of MobileMasr")}.
                 </small>
               </label>
             </div>
@@ -259,7 +275,11 @@ export default function Register() {
             )}
 
             {/* Newsletter (Optional) */}
-            <div className="form-check mt-3">
+            <div
+              className={`form-check mt-3 ${
+                currentLang === "ar" ? "form-check-reverse" : ""
+              }`}
+            >
               <input
                 type="checkbox"
                 className="form-check-input"
@@ -268,7 +288,9 @@ export default function Register() {
               />
               <label className="form-check-label" htmlFor="newsletter">
                 <small>
-                  I want to receive MobileMasr newsletter and best offers.
+                  {t(
+                    "I want to receive MobileMasr newsletter and best offers."
+                  )}
                 </small>
               </label>
             </div>
@@ -283,32 +305,32 @@ export default function Register() {
               aria-disabled={isSubmitting || loading || !isValid}
             >
               {loading
-                ? "Registering..."
+                ? t("Registering...")
                 : isSubmitting
-                ? "Submitting..."
-                : "Register"}
+                ? t("Submitting...")
+                : t("Register")}
             </button>
           </div>
         </form>
         <div className="text-center">
-          <span className="text-muted">Or</span>
+          <span className="text-muted">{t("Or")}</span>
         </div>
 
-        <button 
+        <button
           type="button"
-          className="btn btn-google-custom w-100" 
+          className="btn btn-google-custom w-100"
           onClick={handleGoogleRegister}
           disabled={googleLoading}
         >
           <FcGoogle className="google-icon" />
-          {googleLoading ? "Signing up..." : "Sign up with Google"}
+          {googleLoading ? t("Signing up...") : t("Sign up with Google")}
         </button>
 
         <div className="text-center mt-4">
           <p className="text-muted">
-            Already have an account?
+            {t("Already have an account?")}
             <Link to="/login" className=" geh-link text-decoration-none p-2">
-              Sign In
+              {t("Sign In")}
             </Link>
           </p>
         </div>

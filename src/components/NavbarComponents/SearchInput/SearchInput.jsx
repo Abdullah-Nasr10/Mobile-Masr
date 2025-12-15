@@ -11,12 +11,14 @@ import {
 } from "../../../services/aiSearchService";
 
 import "./SearchInput.css";
+import { useTranslation } from "react-i18next";
 
 function SearchInput() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const allProducts = useSelector((state) => state?.products?.data || []);
@@ -51,7 +53,7 @@ function SearchInput() {
     e.preventDefault();
 
     if (!query.trim()) {
-      toast.warning("Please enter a search term");
+      toast.warning(t("Please enter a search term"));
       return;
     }
 
@@ -59,11 +61,13 @@ function SearchInput() {
     setShowSuggestions(false);
 
     try {
-      const { matchedProducts, ai, categorySlug } =
-        await searchProductsWithAI(query, allProducts);
+      const { matchedProducts, ai, categorySlug } = await searchProductsWithAI(
+        query,
+        allProducts
+      );
 
       if (!matchedProducts || matchedProducts.length === 0) {
-        toast.info("No products found. Try different keywords.");
+        toast.info(t("No products found. Try different keywords."));
         setIsSearching(false);
         return;
       }
@@ -71,7 +75,7 @@ function SearchInput() {
       // منتج واحد → روح لصفحة المنتج
       if (matchedProducts.length === 1 && matchedProducts[0]?._id) {
         navigate(`/products/${matchedProducts[0]._id}`);
-        toast.success("Showing selected product");
+        toast.success(t("Showing selected product"));
         setIsSearching(false);
         return;
       }
@@ -95,10 +99,10 @@ function SearchInput() {
 
       navigate(`/category/${catPath}?${params.toString()}`);
 
-      toast.success(`Showing results for "${searchValue}"`);
+      toast.success(t("Showing results for") + ` "${searchValue}"`);
     } catch (err) {
       console.error("AI Search error:", err);
-      toast.error("Search failed. Please try again.");
+      toast.error(t("Search failed. Please try again."));
     } finally {
       setIsSearching(false);
     }
@@ -121,7 +125,7 @@ function SearchInput() {
         <input
           type="search"
           name="search"
-          placeholder="What are you looking for today?"
+          placeholder={t("What are you looking for today?")}
           className="abd-NavInputSerach w-100 p-3"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -149,16 +153,14 @@ function SearchInput() {
                 className="mos-search-suggestion-image"
               />
               <div className="mos-search-suggestion-details">
-                <div className="mos-search-suggestion-name">
-                  {product.name}
-                </div>
+                <div className="mos-search-suggestion-name">{product.name}</div>
                 <div className="mos-search-suggestion-brand">
                   {typeof product.brand === "object"
                     ? product.brand.name
                     : product.brand}
                 </div>
                 <div className="mos-search-suggestion-price">
-                  {product.priceAfterDiscount || product.price} EGP
+                  {product.priceAfterDiscount || product.price} {t("EGP")}
                 </div>
               </div>
             </div>

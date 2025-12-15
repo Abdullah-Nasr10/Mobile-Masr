@@ -4,12 +4,13 @@ import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import api from "../../../../services/api";
 import "./ChangePassword.css";
+import { useTranslation } from "react-i18next";
 
 const ChangePassword = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { t } = useTranslation();
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     const oldPassword = e.target.oldPassword.value;
@@ -17,22 +18,24 @@ const ChangePassword = () => {
     const confirmPassword = e.target.confirmPassword.value;
 
     if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match");
+      toast.error(t("Passwords do not match"));
       return;
     }
 
     if (newPassword.length < 6) {
-      toast.error("Password must be at least 6 characters");
+      toast.error(t("Password must be at least 6 characters"));
       return;
     }
 
     try {
       setLoading(true);
       await api.put("/change-password", { oldPassword, newPassword });
-      toast.success("Password changed successfully!");
+      toast.success(t("Password changed successfully!"));
       navigate("/profile/account");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to change password");
+      toast.error(
+        error.response?.data?.message || t("Failed to change password")
+      );
     } finally {
       setLoading(false);
     }
@@ -40,12 +43,12 @@ const ChangePassword = () => {
 
   return (
     <div className="account-info-container">
-      <h2 className="account-info-title">Change Password</h2>
+      <h2 className="account-info-title">{t("Change Password")}</h2>
 
       <div className="account-edit-form-card">
         <form onSubmit={handlePasswordChange}>
           <div className="form-group position-relative">
-            <label>Current Password</label>
+            <label>{t("Current Password")}</label>
             <input
               type={showPassword ? "text" : "password"}
               className="form-control"
@@ -55,7 +58,7 @@ const ChangePassword = () => {
           </div>
 
           <div className="form-group position-relative">
-            <label>New Password</label>
+            <label>{t("New Password")}</label>
             <input
               type={showPassword ? "text" : "password"}
               className="form-control"
@@ -66,7 +69,7 @@ const ChangePassword = () => {
           </div>
 
           <div className="form-group position-relative">
-            <label>Confirm New Password</label>
+            <label>{t("Confirm New Password")}</label>
             <input
               type={showPassword ? "text" : "password"}
               className="form-control"
@@ -83,14 +86,14 @@ const ChangePassword = () => {
 
           <div className="form-actions">
             <button type="submit" className="btn btn-geh" disabled={loading}>
-              {loading ? "Changing..." : "Change Password"}
+              {loading ? t("Changing...") : t("Change Password")}
             </button>
             <button
               type="button"
               className="btn btn-outline-geh"
               onClick={() => navigate("/profile/account")}
             >
-              Cancel
+              {t("Cancel")}
             </button>
           </div>
         </form>

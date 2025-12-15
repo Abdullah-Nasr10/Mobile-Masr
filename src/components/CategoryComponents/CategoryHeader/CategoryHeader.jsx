@@ -2,6 +2,7 @@ import React from "react";
 import Sort from "../../GlobalComponents/Sort/Sort";
 import { FiSliders } from "react-icons/fi";
 import "./CategoryHeader.css";
+import { useTranslation } from "react-i18next";
 
 function CategoryHeader({
   category,
@@ -9,12 +10,13 @@ function CategoryHeader({
   onSortChange,
   onMobileFilterClick,
 }) {
+  const { t } = useTranslation();
   return (
     <>
       {/* Mobile Filter Button */}
       <div className="d-md-none mb-3">
         <button className="mos-mobile-filter-btn" onClick={onMobileFilterClick}>
-          <FiSliders size={18} /> Filter & Sort
+          <FiSliders size={18} /> {t("Filter & Sort")}
         </button>
       </div>
 

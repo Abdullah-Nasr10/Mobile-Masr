@@ -6,19 +6,27 @@ import "./CompareList.css";
 import CompareContext from "../../../context/CompareContext";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 function CompareList() {
   const [showCompareList, setShowCompareList] = React.useState(false);
   const { compareItems, setCompareItems } = useContext(CompareContext);
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
+
   return (
     <>
-      <div className="abd-compareList">
+      <div
+        className="abd-compareList"
+        dir={currentLang === "ar" ? "rtl" : "ltr"}
+      >
         <div
           className="abd-compareListBtn d-flex align-items-center gap-2 "
           onClick={() => setShowCompareList(!showCompareList)}
         >
           <IoGitCompareOutline />
-          <div>compare</div>
+          <div>{t("compare")}</div>
           <div className="abd-numOfCompared center">{compareItems.length}</div>
         </div>
         {/* ===============compare-list-items=============== */}
@@ -29,17 +37,19 @@ function CompareList() {
         >
           {compareItems.length === 0 ? (
             <div className="abd-emptyCompareList p-3 text-center fs-5">
-              No items to compare
+              {t("No items to compare")}
             </div>
           ) : (
             <>
               <div className="abd-compareListHeader p-3 fw-semibold d-flex justify-content-between align-items-center">
-                <div className="fs-4">Comparison List</div>
+                <div className="fs-4">{t("Comparison List")}</div>
                 <Link
                   to={compareItems.length < 2 ? "#" : "/comparison"}
                   onClick={() => {
                     if (compareItems.length < 2) {
-                      toast.error("Please add at least two items to compare.");
+                      toast.error(
+                        t("Please add at least two items to compare.")
+                      );
                     }
                   }}
                   className="abd-goToCompareBtn"
@@ -48,7 +58,15 @@ function CompareList() {
                     textDecoration: "underline",
                   }}
                 >
-                  Go To Compare <MdArrowForwardIos />
+                  {t("Go To Compare")}{" "}
+                  <MdArrowForwardIos
+                    style={{
+                      transform:
+                        currentLang === "ar"
+                          ? "rotate(180deg)"
+                          : "rotate(0deg)",
+                    }}
+                  />
                 </Link>
               </div>
 
