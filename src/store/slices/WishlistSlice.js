@@ -24,7 +24,7 @@ wishlistApi.interceptors.request.use((config) => {
 ============================ */
 export const fetchWishlist = createAsyncThunk(
   "wishlist/fetchWishlist",
-  async (_, { rejectWithValue }) => {
+  async (lang = "en", { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -32,7 +32,7 @@ export const fetchWishlist = createAsyncThunk(
         return rejectWithValue("User not logged in");
       }
 
-      const response = await wishlistApi.get("/");
+      const response = await wishlistApi.get(`/?lang=${lang}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -47,7 +47,7 @@ export const fetchWishlist = createAsyncThunk(
 ============================ */
 export const addToWishlist = createAsyncThunk(
   "wishlist/addToWishlist",
-  async (productId, { rejectWithValue }) => {
+  async ({ productId, lang = "en" }, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -55,7 +55,7 @@ export const addToWishlist = createAsyncThunk(
         return rejectWithValue("User not logged in");
       }
 
-      const response = await wishlistApi.post("/", { productId });
+      const response = await wishlistApi.post(`/?lang=${lang}`, { productId });
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -70,7 +70,7 @@ export const addToWishlist = createAsyncThunk(
 ============================ */
 export const removeFromWishlist = createAsyncThunk(
   "wishlist/removeFromWishlist",
-  async (productId, { rejectWithValue }) => {
+  async ({ productId, lang = "en" }, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -78,7 +78,7 @@ export const removeFromWishlist = createAsyncThunk(
         return rejectWithValue("User not logged in");
       }
 
-      const response = await wishlistApi.delete("/remove", {
+      const response = await wishlistApi.delete(`/remove?lang=${lang}`, {
         data: { productId },
       });
 
@@ -96,7 +96,7 @@ export const removeFromWishlist = createAsyncThunk(
 ============================ */
 export const toggleWishlist = createAsyncThunk(
   "wishlist/toggleWishlist",
-  async (productId, { getState, rejectWithValue }) => {
+  async ({ productId, lang = "en" }, { getState, rejectWithValue }) => {
     try {
       const { wishlist } = getState();
       const token = localStorage.getItem("token");
@@ -110,12 +110,12 @@ export const toggleWishlist = createAsyncThunk(
       );
 
       if (isInWishlist) {
-        const response = await wishlistApi.delete("/remove", {
+        const response = await wishlistApi.delete(`/remove?lang=${lang}`, {
           data: { productId },
         });
         return { action: "removed", productId, data: response.data };
       } else {
-        const response = await wishlistApi.post("/", { productId });
+        const response = await wishlistApi.post(`/?lang=${lang}`, { productId });
         return { action: "added", data: response.data };
       }
     } catch (error) {

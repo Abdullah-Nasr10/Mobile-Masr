@@ -1,8 +1,8 @@
 import React from "react";
 import "./CartItemDelete.css";
 import { MdDeleteOutline } from "react-icons/md";
-import { useDispatch } from "react-redux";
-import { removeFromCart } from "../../../../store/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart, fetchCart } from "../../../../store/slices/cartSlice";
 import { logout } from "../../../../store/slices/usersSlice";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
@@ -10,10 +10,12 @@ import { useTranslation } from "react-i18next";
 function CartItemDelete({ productId }) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
 
   const handleDelete = async () => {
     try {
       await dispatch(removeFromCart({ productId })).unwrap();
+      await dispatch(fetchCart(currentLang));
       toast.success(t("Item removed from cart"));
     } catch (err) {
       const msg = typeof err === "string" ? err : err?.message;

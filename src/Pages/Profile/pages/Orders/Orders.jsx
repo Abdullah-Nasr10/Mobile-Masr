@@ -7,11 +7,12 @@ import { useTranslation } from "react-i18next";
 const Orders = () => {
   const dispatch = useDispatch();
   const { orders, loading, error } = useSelector((state) => state.order);
+  const currentLang = useSelector((state) => state.language.currentLang);
 
   const { t } = useTranslation();
   useEffect(() => {
-    dispatch(fetchOrders());
-  }, [dispatch]);
+    dispatch(fetchOrders(currentLang));
+  }, [dispatch, currentLang]);
 
   const formatPrice = (price) => {
     return price.toLocaleString("en-US", {

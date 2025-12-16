@@ -2,9 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 // http://localhost:3000/products
 
-const fetchData = async () => {
+const fetchData = async (lang = "en") => {
     try {
-        const data = await fetch(`http://localhost:3000/products?`);
+        const data = await fetch(`http://localhost:3000/products?lang=${lang}`);
         const result = await data.json();
         return result.data;
     } catch (error) {

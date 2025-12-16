@@ -38,7 +38,9 @@ function Card({ product }) {
       {/* ===========Product-Condition=========== */}
       <div
         className={`abd-Product-Type ${
-          product.condition == "new" ? "bg-warning" : "bg-primary"
+          product.condition == "new" || product.condition == "جديد"
+            ? "bg-warning"
+            : "bg-primary"
         }`}
       >
         {product.condition}

@@ -20,8 +20,12 @@ function Home() {
     return <Loader />;
   }
   // const products = allProducts.filter((p) => p.category?.name != "Laptop");
-  const newProducts = allProducts.filter((p) => p.condition == "new");
-  const usedProducts = allProducts.filter((p) => p.condition == "used");
+  const newProducts = allProducts.filter(
+    (p) => p.condition == "new" || p.condition == "جديد"
+  );
+  const usedProducts = allProducts.filter(
+    (p) => p.condition == "used" || p.condition == "مستعمل"
+  );
   // console.log("Products from Redux Store:", allProducts);
   return (
     <>

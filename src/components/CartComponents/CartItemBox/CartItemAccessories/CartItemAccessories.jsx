@@ -11,12 +11,12 @@ function CartItemAccessories({ accessories }) {
   const renderAccessory = (acc) => {
     if (!acc) return acc;
     const a = acc.toLowerCase();
-    if (a === "earbuds") return <BsEarbuds />;
-    if (a === "charger") return <GiCharging />;
-    if (a === "original box") return <BsBoxSeam />;
-    if (a === "usb") return <BsUsbPlug />;
-    if (a === "mobile cover") return <MobileCover />;
-    if (a === "pen") return <LiaPencilAltSolid />;
+    if (a === "earbuds" || a === "سماعات أذن") return <BsEarbuds />;
+    if (a === "charger" || a === "شاحن") return <GiCharging />;
+    if (a === "original box" || a === "العلبة الأصلية") return <BsBoxSeam />;
+    if (a === "usb" || a === "كابل usb") return <BsUsbPlug />;
+    if (a === "cover" || a === "غطاء") return <MobileCover />;
+    if (a === "pen" || a === "قلم") return <LiaPencilAltSolid />;
     return acc;
   };
 
