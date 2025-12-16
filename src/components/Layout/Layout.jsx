@@ -59,19 +59,21 @@ function Layout() {
     return () => controller.abort();
   }, [pathname, dispatch]);
 
+  const currentLang = useSelector((state) => state.language.currentLang);
+
   // Fetch wishlist when user logs in (check both user and token)
   useEffect(() => {
     if (user && token) {
-      dispatch(fetchWishlist());
+      dispatch(fetchWishlist(currentLang));
     }
-  }, [user, token, dispatch]);
+  }, [user, token, dispatch, currentLang]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setTimeout(() => {
-      dispatch(fetchProductsData());
+      dispatch(fetchProductsData(currentLang));
     }, 1000);
-  }, [dispatch, pathname]);
+  }, [dispatch, pathname, currentLang]);
 
   useEffect(() => {
     console.log("compareItems updated: ", compareItems);

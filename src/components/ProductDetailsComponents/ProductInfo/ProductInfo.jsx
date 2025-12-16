@@ -163,31 +163,34 @@ function ProductInfo({ product }) {
           <div className="abd-InfoDetailItem row mb-3">
             <div className="fw-semibold col-4">{t("Accessories")}:</div>
             <div className="col-8 d-flex flex-wrap gap-2">
-              {product.accessories.map((acc, index) => (
-                <span
-                  key={index}
-                  className="fs-5 d-flex align-items-center gap-2"
-                >
-                  <span>
-                    {acc.toLowerCase() == "earbuds" ? (
-                      <BsEarbuds />
-                    ) : acc.toLowerCase() == "charger" ? (
-                      <GiCharging />
-                    ) : acc.toLowerCase() == "original box" ? (
-                      <BsBoxSeam />
-                    ) : acc.toLowerCase() == "usb" ? (
-                      <BsUsbPlug />
-                    ) : acc.toLowerCase() == "mobile cover" ? (
-                      <MobileCover />
-                    ) : acc.toLowerCase() == "pen" ? (
-                      <LiaPencilAltSolid />
-                    ) : (
-                      acc
-                    )}
+              {product.accessories.map((acc, index) => {
+                const a = acc.toLowerCase();
+                let icon = acc;
+
+                if (a === "earbuds" || a === "سماعات أذن") {
+                  icon = <BsEarbuds />;
+                } else if (a === "charger" || a === "شاحن") {
+                  icon = <GiCharging />;
+                } else if (a === "original box" || a === "العلبة الأصلية") {
+                  icon = <BsBoxSeam />;
+                } else if (a === "usb" || a === "كابل usb") {
+                  icon = <BsUsbPlug />;
+                } else if (a === "cover" || a === "غطاء") {
+                  icon = <MobileCover />;
+                } else if (a === "pen" || a === "قلم") {
+                  icon = <LiaPencilAltSolid />;
+                }
+
+                return (
+                  <span
+                    key={index}
+                    className="fs-5 d-flex align-items-center gap-2"
+                  >
+                    <span>{icon}</span>
+                    {acc}
                   </span>
-                  {acc}
-                </span>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

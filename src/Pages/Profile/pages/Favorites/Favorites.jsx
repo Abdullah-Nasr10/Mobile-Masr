@@ -16,6 +16,7 @@ const Favorites = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const currentLang = useSelector((state) => state.language.currentLang);
 
   const { items: wishlistItems, isLoading } = useSelector(
     (state) => state.wishlist || {}
@@ -23,11 +24,11 @@ const Favorites = () => {
 
   useEffect(() => {
     if (token) {
-      dispatch(fetchWishlist());
+      dispatch(fetchWishlist(currentLang));
     } else {
       navigate("/login");
     }
-  }, [dispatch, token, navigate]);
+  }, [dispatch, token, navigate, currentLang]);
 
   const handleClearAllWishlist = () => {
     if (!wishlistItems.length) return;

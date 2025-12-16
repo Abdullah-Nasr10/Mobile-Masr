@@ -9,8 +9,8 @@ const authHeaders = () => {
     return headers;
 };
 
-export const fetchCart = createAsyncThunk("cart/fetchCart", async () => {
-    const res = await fetch(`${BASE_URL}/`, { headers: authHeaders() });
+export const fetchCart = createAsyncThunk("cart/fetchCart", async (lang = "en") => {
+    const res = await fetch(`${BASE_URL}/?lang=${lang}`, { headers: authHeaders() });
     const data = await res.json();
     if (!res.ok) throw new Error(data?.message || "Failed to fetch cart");
     return data;

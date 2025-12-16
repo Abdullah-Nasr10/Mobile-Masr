@@ -9,6 +9,8 @@ import CartItemQuantity from "./CartItemQuantity/CartItemQuantity";
 import { useTranslation } from "react-i18next";
 function CartItemBox({ item }) {
   const { t } = useTranslation();
+  console.log("cart item", item);
+
   return (
     <div className="abd-Cart-item my-3 p-3 border d-flex gap-3">
       {/* ===============item image container start================= */}

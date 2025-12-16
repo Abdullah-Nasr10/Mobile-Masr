@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { setLanguage } from "../../../store/slices/languageSlice";
+import { fetchProductsData } from "../../../store/slices/ProductSlice";
 import "./ToggleLanguage.css";
 
 function ToggleLanguage() {
@@ -12,6 +13,7 @@ function ToggleLanguage() {
     const newLang = currentLang === "ar" ? "en" : "ar";
     dispatch(setLanguage(newLang));
     i18n.changeLanguage(newLang);
+    dispatch(fetchProductsData(newLang));
     // document.documentElement.lang = newLang;
   };
 

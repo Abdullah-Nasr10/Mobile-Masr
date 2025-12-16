@@ -25,8 +25,8 @@ export const createOrder = createAsyncThunk(
 );
 
 // Get all orders for the user
-export const fetchOrders = createAsyncThunk("order/fetchOrders", async () => {
-    const res = await fetch(`${BASE_URL}/user`, { headers: authHeaders() });
+export const fetchOrders = createAsyncThunk("order/fetchOrders", async (lang = "en") => {
+    const res = await fetch(`${BASE_URL}/user?lang=${lang}`, { headers: authHeaders() });
     const data = await res.json();
     if (!res.ok) throw new Error(data?.message || "Failed to fetch orders");
     return data;
@@ -35,8 +35,8 @@ export const fetchOrders = createAsyncThunk("order/fetchOrders", async () => {
 // Get a single order by ID
 export const fetchOrderById = createAsyncThunk(
     "order/fetchOrderById",
-    async (orderId) => {
-        const res = await fetch(`${BASE_URL}/${orderId}`, {
+    async ({ orderId, lang = "en" }) => {
+        const res = await fetch(`${BASE_URL}/${orderId}?lang=${lang}`, {
             headers: authHeaders(),
         });
         const data = await res.json();

@@ -14,13 +14,14 @@ const Cart = () => {
   const { items, totalPrice, loading, error } = useSelector(
     (state) => state.cart || {}
   );
+  const currentLang = useSelector((state) => state.language.currentLang);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (token) {
-      dispatch(fetchCart());
+      dispatch(fetchCart(currentLang));
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, currentLang]);
 
   if (!token) {
     return (

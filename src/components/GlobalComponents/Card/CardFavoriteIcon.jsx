@@ -10,6 +10,7 @@ function CardFavoriteIcon({ productId, className = "" }) {
   // const navigate = useNavigate();
   const wishlist = useSelector((state) => state.wishlist);
   const token = useSelector((state) => state.users?.token);
+  const currentLang = useSelector((state) => state.language.currentLang);
   const [isFav, setIsFav] = useState(false);
 
   // Check if product is in wishlist
@@ -35,7 +36,9 @@ function CardFavoriteIcon({ productId, className = "" }) {
     setIsFav((prev) => !prev);
 
     try {
-      const result = await dispatch(toggleWishlist(productId)).unwrap();
+      const result = await dispatch(
+        toggleWishlist({ productId, lang: currentLang })
+      ).unwrap();
 
       if (result.action === "added") {
         toast.success("Added to Favorites");

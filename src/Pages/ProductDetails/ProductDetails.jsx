@@ -19,7 +19,9 @@ function ProductDetails() {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/products/${id}`);
+        const response = await fetch(
+          `http://localhost:3000/products/${id}?lang=${currentLang}`
+        );
         const data = await response.json();
 
         if (!data.data || response.status === 404) {
@@ -37,7 +39,7 @@ function ProductDetails() {
       }
     };
     fetchProductDetails();
-  }, [id, navigate]);
+  }, [id, navigate, currentLang]);
 
   if (loading) {
     return <Loader />;

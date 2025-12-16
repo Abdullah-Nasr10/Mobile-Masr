@@ -1,7 +1,7 @@
 import React from "react";
 import "./ProductInfo.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../../store/slices/cartSlice";
+import { addToCart, fetchCart } from "../../../store/slices/cartSlice";
 import { logout } from "../../../store/slices/usersSlice";
 import { AiOutlineShoppingCart as Cart } from "react-icons/ai";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ function AddToCartBtn({ product }) {
   const { loading, items } = useSelector(
     (state) => state.cart || { loading: false, items: [] }
   );
+  const currentLang = useSelector((state) => state.language.currentLang);
 
   const handleAdd = async () => {
     const token = localStorage.getItem("token");
@@ -34,6 +35,7 @@ function AddToCartBtn({ product }) {
     }
     try {
       await dispatch(addToCart({ productId, quantity: 1 })).unwrap();
+      await dispatch(fetchCart(currentLang));
       toast.success(t("Added to cart successfully"));
     } catch (err) {
       const msg = typeof err === "string" ? err : err?.message;

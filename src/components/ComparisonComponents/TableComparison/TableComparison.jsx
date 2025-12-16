@@ -13,12 +13,21 @@ function TableComparison({ compareItems }) {
   const renderAccessory = (acc) => {
     if (!acc) return acc;
     const a = acc.toLowerCase();
-    if (a.toLowerCase() === "earbuds") return <BsEarbuds />;
-    if (a.toLowerCase() === "charger") return <GiCharging />;
-    if (a.toLowerCase() === "original box") return <BsBoxSeam />;
-    if (a.toLowerCase() === "usb") return <BsUsbPlug />;
-    if (a.toLowerCase() === "mobile cover") return <MobileCover />;
-    if (a.toLowerCase() === "pen") return <LiaPencilAltSolid />;
+    if (a.toLowerCase() === "earbuds" || a.toLowerCase() === "سماعات أذن")
+      return <BsEarbuds />;
+    if (a.toLowerCase() === "charger" || a.toLowerCase() === "شاحن")
+      return <GiCharging />;
+    if (
+      a.toLowerCase() === "original box" ||
+      a.toLowerCase() === "العلبة الأصلية"
+    )
+      return <BsBoxSeam />;
+    if (a.toLowerCase() === "usb" || a.toLowerCase() === "كابل usb")
+      return <BsUsbPlug />;
+    if (a.toLowerCase() === "cover" || a.toLowerCase() === "غطاء")
+      return <MobileCover />;
+    if (a.toLowerCase() === "pen" || a.toLowerCase() === "قلم")
+      return <LiaPencilAltSolid />;
     return acc;
   };
 
