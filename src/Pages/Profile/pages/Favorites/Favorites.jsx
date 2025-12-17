@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,6 +17,7 @@ const Favorites = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const currentLang = useSelector((state) => state.language.currentLang);
+  const [showModal, setShowModal] = useState(false);
 
   const { items: wishlistItems, isLoading } = useSelector(
     (state) => state.wishlist || {}
@@ -32,17 +33,20 @@ const Favorites = () => {
 
   const handleClearAllWishlist = () => {
     if (!wishlistItems.length) return;
+    setShowModal(true);
+  };
 
-    const confirmed = window.confirm(
-      t("Are you sure you want to delete all items from your Favorites?")
-    );
-
-    if (confirmed) {
-      dispatch(clearAllWishlist())
-        .unwrap()
-        .then(() => toast.success(t("Favorites cleared successfully")))
-        .catch((error) => toast.error(error || t("Failed to clear Favorites")));
-    }
+  const confirmClearAll = () => {
+    dispatch(clearAllWishlist())
+      .unwrap()
+      .then(() => {
+        toast.success(t("Favorites cleared successfully"));
+        setShowModal(false);
+      })
+      .catch((error) => {
+        toast.error(error || t("Failed to clear Favorites"));
+        setShowModal(false);
+      });
   };
 
   // EMPTY UI (MobileMasr style)
@@ -94,6 +98,41 @@ const Favorites = () => {
           </div>
         ))}
       </div>
+
+      {/* Confirmation Modal */}
+      {showModal && (
+        <div className="mos-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="mos-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mos-modal-header">
+              <h5 className="mos-modal-title">{t("Confirm Delete")}</h5>
+              <button
+                className="mos-modal-close"
+                onClick={() => setShowModal(false)}
+              >
+                &times;
+              </button>
+            </div>
+            <div className="mos-modal-body">
+              <p>{t("Are you sure you want to delete all items from your Favorites?")}</p>
+            </div>
+            <div className="mos-modal-footer">
+              <button
+                className="mos-modal-btn mos-modal-btn-cancel"
+                onClick={() => setShowModal(false)}
+              >
+                {t("Cancel")}
+              </button>
+              <button
+                className="mos-modal-btn mos-modal-btn-confirm"
+                onClick={confirmClearAll}
+                disabled={isLoading}
+              >
+                {isLoading ? t("Clearing...") : t("Delete All")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

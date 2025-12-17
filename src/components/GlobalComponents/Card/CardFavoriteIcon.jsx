@@ -3,9 +3,11 @@ import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlist } from "../../../store/slices/WishlistSlice";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 // import { useNavigate } from "react-router-dom";
 
 function CardFavoriteIcon({ productId, className = "" }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const wishlist = useSelector((state) => state.wishlist);
@@ -28,7 +30,7 @@ function CardFavoriteIcon({ productId, className = "" }) {
     e.stopPropagation();
 
     if (!token) {
-      toast.error("Please login first to add to Favorites");
+      toast.error(t("Please login first to add to Favorites"));
       return;
     }
 
@@ -41,14 +43,14 @@ function CardFavoriteIcon({ productId, className = "" }) {
       ).unwrap();
 
       if (result.action === "added") {
-        toast.success("Added to Favorites");
+        toast.success(t("Added to Favorites"));
       } else {
-        toast.info("Removed from Favorites");
+        toast.info(t("Removed from Favorites"));
       }
     } catch (error) {
       // رجّع القيمة الأصلية لو حصل خطأ
       setIsFav((prev) => !prev);
-      toast.error(error || "Failed to update Favorites");
+      toast.error(error || t("Failed to update Favorites"));
     }
   };
 

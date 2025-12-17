@@ -2,8 +2,12 @@ import React from "react";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 import { MIN_PRICE, MAX_PRICE } from "./FilterData";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 const PriceFilter = ({ price, isOpen, onToggleOpen, onPriceChange }) => {
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
+
   const handlePriceInput = (index, raw) => {
     const val = Math.max(MIN_PRICE, Math.min(MAX_PRICE, Number(raw)));
     const newPrice = [...price];
@@ -16,21 +20,20 @@ const PriceFilter = ({ price, isOpen, onToggleOpen, onPriceChange }) => {
     handlePriceInput(index, e.target.value);
   };
 
-  const { t } = useTranslation();
-
   return (
-    <div className="mos-filter-group" dir="ltr">
+    <div className="mos-filter-group">
       <button
         type="button"
         className="mos-filter-group__toggle"
         onClick={onToggleOpen}
+        style={{ flexDirection: 'row' }}
       >
+        <span className="mos-filter-group__arrow" style={{ transform: currentLang === "ar" ? 'scaleX(-1)' : 'none' }}>
+          {isOpen ? <FiChevronDown /> : <FiChevronRight />}
+        </span>
         <span className="mos-filter-group__title">{t("Price")}</span>
         <span className="mos-filter-group__count">
           {price[0].toLocaleString()} - {price[1].toLocaleString()}
-        </span>
-        <span className="mos-filter-group__arrow">
-          {isOpen ? <FiChevronDown /> : <FiChevronRight />}
         </span>
       </button>
       {isOpen && (

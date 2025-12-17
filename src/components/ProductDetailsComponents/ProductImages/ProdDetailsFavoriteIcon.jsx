@@ -28,7 +28,7 @@ function ProdDetailsFavoriteIcon({ productId }) {
   const handleToggle = async () => {
     // Check if user is logged in
     if (!token) {
-      toast.error(t("Please login first to add to wishlist"));
+      toast.error(t("Please login first to add to Favorites"));
       // navigate("/login");
       return;
     }
@@ -38,12 +38,12 @@ function ProdDetailsFavoriteIcon({ productId }) {
         toggleWishlist({ productId, lang: currentLang })
       ).unwrap();
       if (result.action === "added") {
-        toast.success(t("Added to wishlist"));
+        toast.success(t("Added to Favorites"));
       } else {
-        toast.info(t("Removed from wishlist"));
+        toast.info(t("Removed from Favorites"));
       }
     } catch (error) {
-      toast.error(error || t("Failed to update wishlist"));
+      toast.error(error || t("Failed to update Favorites"));
     }
   };
 

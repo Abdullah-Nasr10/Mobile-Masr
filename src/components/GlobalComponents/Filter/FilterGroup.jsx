@@ -1,16 +1,21 @@
 import React from "react";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 import { colorMap } from "./FilterData";
 
 const FilterGroup = ({ group, options, isOpen, selected, onToggleOpen, onToggleValue }) => {
+  const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
+  
   return (
-    <div className="mos-filter-group">
+    <div className="mos-filter-group" dir={currentLang === "ar" ? "rtl" : "ltr"}>
       <button
         type="button"
         className="mos-filter-group__toggle"
         onClick={onToggleOpen}
       >
-        <span className="mos-filter-group__title">{group}</span>
+        <span className="mos-filter-group__title">{t(group)}</span>
         {selected?.length ? (
           <span className="mos-filter-group__count">{selected.length}</span>
         ) : null}
@@ -57,7 +62,7 @@ const FilterGroup = ({ group, options, isOpen, selected, onToggleOpen, onToggleV
                     }}
                   />
                 )}
-                <span>{opt}</span>
+                <span>{t(opt)}</span>
               </label>
             );
           })}

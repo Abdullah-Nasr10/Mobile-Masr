@@ -87,11 +87,13 @@
   font-weight: 600;
   color: var(--black-color);
   gap: 12px;
+  direction: inherit;
+  flex-direction: row-reverse;
 }
 
 .mos-filter-group__title {
   flex: 1;
-  text-align: left;
+  text-align: start;
 }
 
 .mos-filter-group__arrow {
@@ -99,6 +101,12 @@
   align-items: center;
   justify-content: center;
   width: 22px;
+  flex-shrink: 0;
+}
+
+/* Flip arrow in RTL */
+[dir="rtl"] .mos-filter-group__arrow {
+  transform: scaleX(-1);
 }
 
 .mos-filter-group__toggle:hover {
@@ -107,12 +115,13 @@
 }
 
 .mos-filter-group__count {
-  margin-left: 8px;
+  margin-inline-start: 8px;
   font-size: 12px;
   background: var(--green-color-light);
   color: var(--green-color);
   border-radius: 999px;
   padding: 2px 8px;
+  flex-shrink: 0;
 }
 
 .mos-filter-group__body {

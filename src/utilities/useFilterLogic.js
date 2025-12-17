@@ -105,9 +105,23 @@ export const applyFilters = (products, filters, selectedBrand) => {
 
   // Apply condition filter
   if (filters.condition) {
+    // Map English filter values to Arabic database values
+    const conditionMap = {
+      'new': ['new', 'جديد', 'New'],
+      'used': ['used', 'مستعمل', 'Used']
+    };
+    
     filteredProducts = filteredProducts.filter((p) => {
-      const cond = normalizeText(readAttr(p, ["condition", "type"]));
-      return cond === normalizeText(filters.condition);
+      const condDirect = norm(p.condition || p.type || p.status).toLowerCase().trim();
+      const filterCond = filters.condition.toLowerCase().trim();
+      
+      // Get all possible values for this filter
+      const possibleValues = conditionMap[filterCond] || [filterCond];
+      
+      // Check if product condition matches any possible value
+      return possibleValues.some(val => 
+        condDirect === val.toLowerCase() || condDirect === norm(val).toLowerCase()
+      );
     });
   }
 

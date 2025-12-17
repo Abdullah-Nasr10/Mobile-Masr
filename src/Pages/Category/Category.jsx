@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
 function Category() {
   const { category, compare } = useParams();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const allProducts = useSelector((state) => state?.products?.data || []);
@@ -37,7 +38,11 @@ function Category() {
   const searchQuery = searchParams.get("search") || null;
 
   const makeBreadcrumbPath = () => {
-    const base = category?.replace(/-/g, " ") || "all";
+    const categoryName = category
+      ?.split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ") || "all";
+    const base = t(categoryName);
 
     if (searchQuery) {
       return `${base} > ${searchQuery}`;
@@ -89,7 +94,6 @@ function Category() {
     setSearchParams(params);
   };
 
-  const { t } = useTranslation();
   const currentLang = useSelector((state) => state.language.currentLang);
 
   /* -----------------------------------------------------------
@@ -101,7 +105,7 @@ function Category() {
     <div className="mos-category-page">
       <div className="container pt-4">
         {/* Breadcrumb */}
-        <PagePath path={t(makeBreadcrumbPath())} />
+        <PagePath path={makeBreadcrumbPath()} />
       </div>
 
       {/* Brand Carousel */}
