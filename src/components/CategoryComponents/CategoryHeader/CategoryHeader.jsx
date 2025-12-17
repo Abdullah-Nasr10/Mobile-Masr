@@ -3,6 +3,7 @@ import Sort from "../../GlobalComponents/Sort/Sort";
 import { FiSliders } from "react-icons/fi";
 import "./CategoryHeader.css";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 function CategoryHeader({
   category,
@@ -11,6 +12,8 @@ function CategoryHeader({
   onMobileFilterClick,
 }) {
   const { t } = useTranslation();
+  const currentLang = useSelector((state) => state.language.currentLang);
+  
   return (
     <>
       {/* Mobile Filter Button */}
@@ -21,16 +24,21 @@ function CategoryHeader({
       </div>
 
       {/* Category Header with Sort - Hide title on mobile */}
-      <div className="mos-category-header mb-4">
-        <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
-          <div className="d-none d-md-block">
-            <h2 className="mos-category-title text-capitalize mb-0">
-              {category?.replace(/-/g, " ")}
+      <div className="mos-category-header mb-4" dir={currentLang === "ar" ? "rtl" : "ltr"}>
+        <div className="d-flex justify-content-between align-items-center gap-3">
+          <div className="d-none d-md-block grow">
+            <h2 className="mos-category-title mb-0">
+              {t(
+                category
+                  ?.split("-")
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(" ") || ""
+              )}
             </h2>
           </div>
 
           {/* Sort Dropdown - Desktop Only */}
-          <div className="d-none d-md-block ms-auto">
+          <div className="d-none d-md-block shrink-0">
             <Sort sortBy={sortBy} onSortChange={onSortChange} />
           </div>
         </div>
