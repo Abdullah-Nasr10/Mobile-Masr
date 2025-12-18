@@ -375,5 +375,25 @@
   "No Results Found!": "No Results Found!",
   "You must be logged in to access this page.": "You must be logged in to access this page.",
   "You are unauthorized. Please login.": "You are unauthorized. Please login.",
-  "Showing results for \"{{searchValue}}\"": "Showing results for \"{{searchValue}}\""
+  "Showing results for \"{{searchValue}}\"": "Showing results for \"{{searchValue}}\"",
+  "Footer Brand Desc": "Buy and sell electronics safely with trusted vendors and real warranties.",
+  "Shop": "Shop",
+  "Account": "Account",
+  "Support": "Support",
+  "Company": "Company",
+  "Stay Updated": "Stay Updated",
+  "Newsletter Desc": "Subscribe to receive exclusive offers and updates",
+  "Your email": "Your email",
+  "All rights reserved": "All rights reserved",
+  "About Us": "About Us",
+  "Contact Us": "Contact Us",
+  "FAQs": "FAQs",
+  "Return Policy": "Return Policy",
+  "Privacy Policy": "Privacy Policy",
+  "Terms & Conditions": "Terms & Conditions",
+  "Secure Shopping": "Secure Shopping",
+  "Fast Delivery": "Fast Delivery",
+  "Verified Sellers": "Verified Sellers",
+  "MobileMasr": "MobileMasr"
+
 }
