@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { CiSearch } from "react-icons/ci";
+import { IoClose } from "react-icons/io5";
 
 import {
   searchProductsWithAI,
@@ -18,12 +20,21 @@ function SearchInput() {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
   const { t } = useTranslation();
 
   const navigate = useNavigate();
   const allProducts = useSelector((state) => state?.products?.data || []);
 
   const dropdownRef = useRef(null);
+  const mobileInputRef = useRef(null);
+
+  // ---------- Focus mobile input when opened ---------- //
+  useEffect(() => {
+    if (showMobileSearch && mobileInputRef.current) {
+      mobileInputRef.current.focus();
+    }
+  }, [showMobileSearch]);
 
   // ---------- LIVE suggestions ---------- //
   useEffect(() => {
@@ -117,11 +128,9 @@ function SearchInput() {
   };
 
   return (
-    <div
-      className="d-inline-flex align-items-center abd-SearchBox"
-      ref={dropdownRef}
-    >
-      <form onSubmit={handleSearch} className="w-100">
+    <div className="abd-SearchBox" ref={dropdownRef}>
+      {/* Desktop Search - Hide on small screens */}
+      <form onSubmit={handleSearch} className="w-100 abd-desktop-search">
         <input
           type="search"
           name="search"
@@ -138,6 +147,33 @@ function SearchInput() {
           </div>
         )}
       </form>
+
+      {/* Mobile Search Icon */}
+      <button
+        className="abd-mobile-search-icon"
+        onClick={() => setShowMobileSearch(!showMobileSearch)}
+        type="button"
+        aria-label="Search"
+      >
+        {showMobileSearch ? <IoClose size={24} /> : <CiSearch size={24} />}
+      </button>
+
+      {/* Mobile Search Bar */}
+      {showMobileSearch && (
+        <form onSubmit={handleSearch} className="abd-mobile-search-form">
+          <input
+            ref={mobileInputRef}
+            type="search"
+            name="search"
+            placeholder={t("What are you looking for today?")}
+            className="abd-mobile-search-input"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            disabled={isSearching}
+            autoComplete="off"
+          />
+        </form>
+      )}
 
       {showSuggestions && suggestions.length > 0 && (
         <div className="mos-search-suggestions-dropdown">
