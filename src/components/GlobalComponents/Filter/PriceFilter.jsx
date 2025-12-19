@@ -26,9 +26,12 @@ const PriceFilter = ({ price, isOpen, onToggleOpen, onPriceChange }) => {
         type="button"
         className="mos-filter-group__toggle"
         onClick={onToggleOpen}
-        style={{ flexDirection: 'row' }}
+        style={{ flexDirection: "row" }}
       >
-        <span className="mos-filter-group__arrow" style={{ transform: currentLang === "ar" ? 'scaleX(-1)' : 'none' }}>
+        <span
+          className="mos-filter-group__arrow"
+          style={{ transform: currentLang === "ar" ? "scaleX(-1)" : "none" }}
+        >
           {isOpen ? <FiChevronDown /> : <FiChevronRight />}
         </span>
         <span className="mos-filter-group__title">{t("Price")}</span>
@@ -37,7 +40,7 @@ const PriceFilter = ({ price, isOpen, onToggleOpen, onPriceChange }) => {
         </span>
       </button>
       {isOpen && (
-        <div className="mos-filter-group__body no-scroll">
+        <div className="mos-filter-group__body no-scroll" dir="ltr">
           <div className="mos-price-inputs">
             <input
               type="number"

@@ -38,8 +38,8 @@ const Categories = () => {
             .replace(/\s+/g, "-")}/${compare ? compare : ""}`;
           return (
             <Link to={slug} key={cat._id} className="heb-category-card">
-              <img src={cat.image} alt={cat.name} />
-              <h3>{cat.name}</h3>
+              <img src={cat.image} alt={t(cat.name)} />
+              <h3>{t(cat.name)}</h3>
             </Link>
           );
         })}

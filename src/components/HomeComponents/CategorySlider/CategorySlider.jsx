@@ -5,10 +5,11 @@ import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import axios from "axios";
 import "./CategorySlider.css";
+import { useTranslation } from "react-i18next";
 
 const CategorySlider = () => {
   const [categories, setCategories] = useState([]);
-
+  const { t } = useTranslation();
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -58,9 +59,9 @@ const CategorySlider = () => {
             <SwiperSlide key={cat._id}>
               <Link to={slug} className="geh-category-card">
                 <div className="geh-image-box">
-                  <img src={cat.image} alt={cat.name} />
+                  <img src={cat.image} alt={t(cat.name)} />
                 </div>
-                <span className="geh-title">{cat.name}</span>
+                <span className="geh-title">{t(cat.name)}</span>
               </Link>
             </SwiperSlide>
           );
