@@ -50,13 +50,19 @@ function AddToCartBtn({ product }) {
     }
   };
 
+  const isOutOfStock = typeof product?.stock === "number" && product.stock <= 0;
   return (
     <button
       className="abd-InfoAddToCartBtn w-100 center gap-3 "
       onClick={handleAdd}
-      disabled={loading}
+      disabled={loading || isOutOfStock}
     >
-      <Cart size={20} /> {loading ? t("Adding...") : t("Add to Cart")}
+      <Cart size={20} />{" "}
+      {isOutOfStock
+        ? t("Out of Stock")
+        : loading
+        ? t("Adding...")
+        : t("Add to Cart")}
     </button>
   );
 }
