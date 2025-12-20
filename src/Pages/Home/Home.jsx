@@ -11,8 +11,13 @@ import Loader from "../../components/GlobalComponents/Loader/Loader.jsx";
 import BrandBanners from "../../components/HomeComponents/BrandBanner/BrandBanner.jsx";
 import ProductsBanners from "../../components/HomeComponents/ProductsBanner/ProductsBanner.jsx";
 import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
+import axios from "axios";
 
 function Home() {
+   useEffect(() => {
+    axios.post("http://localhost:3000/track").catch(() => {});
+  }, []);
   const { t } = useTranslation();
   const allProducts = useSelector((store) => store.products.data);
   const isLoading = useSelector((store) => store.products.isLoading);
