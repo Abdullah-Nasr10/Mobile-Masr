@@ -41,7 +41,7 @@ const PriceFilter = ({ price, isOpen, onToggleOpen, onPriceChange }) => {
       </button>
       {isOpen && (
         <div className="mos-filter-group__body no-scroll" dir="ltr">
-          <div className="mos-price-inputs" style={{ flexDirection: currentLang === "ar" ? "row-reverse" : "row" }}>
+          <div className="mos-price-inputs">
             <input
               type="number"
               value={price[0]}
