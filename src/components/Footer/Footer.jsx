@@ -64,14 +64,27 @@ function Footer() {
             <p className="mos-footer-small">
               {t("Newsletter Desc")}
             </p>
-            <div className="input-group">
-              <input
-                type="email"
-                className="form-control"
-                placeholder={t("Your email")}
-              />
-              <button className="btn btn-dark">{currentLang === "ar" ? "←" : "→"}</button>
-            </div>
+            {currentLang === "ar" ? (
+              <div className="input-group" >
+                <input 
+                  type="email"
+                  className="form-control py-2"
+                  placeholder={t("Your email")}
+                  style={{ borderRadius: "0 8px 8px 0" , borderLeft: "none"}}
+                />
+                <button className="btn btn-dark" style={{ borderRadius: "8px 0 0 8px" }}>←</button>
+              </div>
+            ) : (
+              <div className="input-group">
+                <input
+                  type="email"
+                  className="form-control py-2"
+                  placeholder={t("Your email")}
+                  style={{ borderRadius: "8px 0 0 8px" }}
+                />
+                <button className="btn btn-dark" style={{ borderRadius: "0 8px 8px 0" }}>→</button>
+              </div>
+            )}
           </div>
 
         </div>
@@ -81,10 +94,10 @@ function Footer() {
       <div className="mos-footer-bottom">
         <div className="container">
           <div className="row align-items-center gy-3">
-            <div className="col-md-6 text-center text-md-start">
+            <div className={`col-md-6 text-center ${currentLang === "ar" ? "text-md-end" : "text-md-start"}`}>
               © {new Date().getFullYear()} {t("MobileMasr")} {t("All rights reserved")}
             </div>
-            <div className="col-md-6 text-center text-md-end">
+            <div className={`col-md-6 text-center ${currentLang === "ar" ? "text-md-start" : "text-md-end"}`}>
               <Link to="/privacy">{t("Privacy Policy")}</Link> ·{" "}
               <Link to="/terms">{t("Terms & Conditions")}</Link>
             </div>

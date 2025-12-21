@@ -2,7 +2,7 @@ const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 // Normalize helper (للمقارنة فقط)
 const normalizeText = (str = "") =>
-  str.toLowerCase().trim().replace(/[^\w\s]/g, "").replace(/\s+/g, " ");
+    str.toLowerCase().trim().replace(/\s+/g, " ");
 
 // check Arabic chars
 const hasArabic = (str = "") => /[\u0600-\u06FF]/.test(str);
@@ -144,8 +144,10 @@ const fallbackSearch = (query, productsArray) => {
   const q = normalizeText(query);
 
   const results = productsArray.filter((p) => {
+    const brandName = typeof p.brand === "object" ? (p.brand?.name || "") : (p.brand || "");
+    const categoryName = p.category?.name || p.category || "";
     const text = normalizeText(
-      `${p.name} ${p.brand?.name || p.brand} ${p.category?.name || p.category}`
+      `${p.name || ""} ${brandName} ${categoryName}`
     );
     return text.includes(q);
   });
@@ -198,7 +200,7 @@ export async function searchProductsWithAI(query, productsArray) {
   // ----- 3) فلترة بالبراند من الـ AI (لو واضح) -----
   if (brand) {
     const afterBrand = products.filter((p) => {
-      const b = typeof p.brand === "object" ? p.brand.name : p.brand;
+      const b = p.brand ? (typeof p.brand === "object" ? p.brand.name : p.brand) : null;
       return b && normalizeText(b) === normalizeText(brand);
     });
     if (afterBrand.length > 0) {
@@ -217,10 +219,10 @@ export async function searchProductsWithAI(query, productsArray) {
       const beforeQueryProducts = [...products];
 
       products = products.filter((p) => {
+        const brandName = typeof p.brand === "object" ? (p.brand?.name || "") : (p.brand || "");
+        const categoryName = p.category?.name || p.category || "";
         const text = normalizeText(
-          `${p.name} ${
-            typeof p.brand === "object" ? p.brand.name : p.brand
-          } ${p.category?.name || p.category}`
+          `${p.name || ""} ${brandName} ${categoryName}`
         );
 
         // نخلي على الأقل معظم الكلمات تبان في النص
@@ -259,6 +261,6 @@ export const getLiveSuggestions = (query, productsArray, limit = 5) => {
   const q = normalizeText(query);
 
   return productsArray
-    .filter((p) => normalizeText(p.name).includes(q))
+    .filter((p) => p?.name && normalizeText(p.name).includes(q))
     .slice(0, limit);
 };
