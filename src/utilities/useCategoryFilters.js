@@ -81,9 +81,12 @@ export const useCategoryFilters = (
 
     const afterSearch = searchQuery
       ? categoryProducts.filter((p) => {
-          const text = `${p.name || ""} ${
-            typeof p.brand === "object" ? p.brand.name : p.brand || ""
-          } ${p.category?.name || ""}`.toLowerCase();
+          const brandName = p?.brand
+            ? (typeof p.brand === "object" ? (p.brand?.name || "") : (p.brand || ""))
+            : "";
+          const categoryName = p?.category?.name || p?.category || "";
+          const nameSafe = p?.name || "";
+          const text = `${nameSafe} ${brandName} ${categoryName}`.toLowerCase();
           return text.includes(searchQuery);
         })
       : categoryProducts;

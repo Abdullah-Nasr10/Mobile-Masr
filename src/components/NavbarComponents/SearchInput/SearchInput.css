@@ -41,7 +41,7 @@
 
 /* Mobile Search Form */
 .abd-mobile-search-form {
-    position: fixed;
+    position: absolute; /* anchor to navbar, not viewport */
     top: 60px;
     left: 50%;
     transform: translateX(-50%);
@@ -132,12 +132,13 @@
 
 @media (max-width: 399px) {
     .mos-search-suggestions-dropdown {
-        position: fixed;
-        top: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90vw;
-        max-width: 400px;
+        position: absolute; /* keep attached to input, not viewport */
+        top: 100%;
+        left: 0;
+        right: 0;
+        transform: none;
+        width: auto;
+        max-width: none;
         margin-top: 10px;
     }
 }

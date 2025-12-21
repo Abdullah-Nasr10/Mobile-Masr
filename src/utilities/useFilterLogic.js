@@ -77,8 +77,9 @@ export const applyFilters = (products, filters, selectedBrand) => {
   // Apply selected brand from carousel
   if (selectedBrand) {
     filteredProducts = filteredProducts.filter((p) => {
-      const brandName = norm(typeof p.brand === "object" ? p.brand.name : p.brand);
-      const brandId = typeof p.brand === "object" ? p.brand._id : null;
+      const brandObj = p && typeof p.brand === "object" ? p.brand : null;
+      const brandName = norm(brandObj ? brandObj.name : p?.brand);
+      const brandId = brandObj ? brandObj._id : null;
       return brandName === selectedBrand || brandId === selectedBrand;
     });
   }
@@ -86,9 +87,8 @@ export const applyFilters = (products, filters, selectedBrand) => {
   // Apply brand filter from sidebar
   if (filters.brands.length > 0) {
     filteredProducts = filteredProducts.filter((p) => {
-      const brandName = norm(
-        typeof p.brand === "object" ? p.brand.name : p.brand
-      ).toLowerCase();
+      const brandObj = p && typeof p.brand === "object" ? p.brand : null;
+      const brandName = norm(brandObj ? brandObj.name : p?.brand).toLowerCase();
       return filters.brands
         .map(norm)
         .map((s) => s.toLowerCase())
