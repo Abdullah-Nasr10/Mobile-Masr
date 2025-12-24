@@ -22,10 +22,11 @@ function Layout() {
   const [compareItems, setCompareItems] = useState(
     () => JSON.parse(localStorage.getItem("compareItems")) || []
   );
-  // ==============isLoggedInContext===============
+
+  //============ isLoggedInContext =========================
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Initialize language from localStorage or set default to en
+  //============ Initialize language from localStorage or set default to en =========================
   useEffect(() => {
     const savedLang = localStorage.getItem("language") || "en";
     dispatch(setLanguage(savedLang));
@@ -33,7 +34,8 @@ function Layout() {
     // document.documentElement.lang = savedLang;
   }, [dispatch, i18n]);
 
-  // Fetch user profile on mount if token exists
+  const currentLang = useSelector((state) => state.language.currentLang);
+  //============ Fetch user profile on mount if token exists =========================
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && !user) {
@@ -41,6 +43,7 @@ function Layout() {
     }
   }, [dispatch, user]);
 
+  //============ Check authentication status on mount and pathname change ============
   useEffect(() => {
     const controller = new AbortController();
     const verify = async () => {
@@ -59,15 +62,14 @@ function Layout() {
     return () => controller.abort();
   }, [pathname, dispatch]);
 
-  const currentLang = useSelector((state) => state.language.currentLang);
-
-  // Fetch wishlist when user logs in (check both user and token)
+  // ========== Fetch wishlist when user logs in (check both user and token) ==========
   useEffect(() => {
     if (user && token) {
       dispatch(fetchWishlist(currentLang));
     }
   }, [user, token, dispatch, currentLang]);
 
+  //============ Fetch products data on mount and pathname change ====================
   useEffect(() => {
     window.scrollTo(0, 0);
     setTimeout(() => {
@@ -75,6 +77,7 @@ function Layout() {
     }, 1000);
   }, [dispatch, pathname, currentLang]);
 
+  //============ Sync compareItems with localStorage ================================
   useEffect(() => {
     console.log("compareItems updated: ", compareItems);
   }, [compareItems]);
