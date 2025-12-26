@@ -1,128 +1,119 @@
 import React, { useState } from "react";
 import { SiOpenai } from "react-icons/si";
+import { BsStars } from "react-icons/bs";
 import "./AskAiRecommendation.css";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { askAiAboutBestItem } from "./askAiAboutBestItem";
+import { useForm } from "react-hook-form";
+import { CATEGORY_CRITERIA } from "./categoryCriteria";
+import BestItemResponse from "./BestItemResponse/BestItemResponse";
+import AiLoader from "./AiLoader/AiLoader";
 function AskAiRecommendation({ compareItems }) {
   const [aiRecommendation, setAiRecommendation] = useState(null);
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const currentLang = useSelector((state) => state.language.currentLang);
-  const askAiAboutBestItem = async (items) => {
+  const [loading, setLoading] = useState(false);
+  const [selectedCriteria, setSelectedCriteria] = useState("");
+
+  // ============CATEGORY_CRITERIA=================
+  const categoryName = compareItems?.[0]?.category?.name;
+  const criteriaList = CATEGORY_CRITERIA[categoryName] || [];
+  // ========form submission handler========
+  const { register, handleSubmit } = useForm();
+  const onSubmit = async (data) => {
+    setLoading(true);
     try {
-      const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
-          },
-          body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [
-              {
-                role: "system",
-                content: `You are an expert product analyst.
-                    Your task is to evaluate a list of products and pick the BEST one based on a strict value-for-money analysis.
-                    Your evaluation criteria:
-                    - Price (lower is better if specs are similar)
-                    - Discounts (prefer products that currently have discounts)
-                    - Warranty duration (longer warranty is better)
-                    - Specifications and features
-                    - Price-to-spec ratio (the most important factor)
-                    - Performance compared to the price
-                    - Overall value for money
-                    Important rules:
-                    - The best product is NOT always the most expensive one.
-                    - Choose the product that offers the strongest specifications for the lowest possible price.
-                    Your response MUST be a valid JSON object with the following structure only:
-                    {
-                    "name": "best product name",
-                    "message": "short explanation in English why this product is the best"
-                    }
-                    Do NOT include any text outside this JSON.`,
-              },
-              {
-                role: "user",
-                content: `Here are the products to compare: ${JSON.stringify(
-                  items
-                )}. Please identify the best product among them and explain why.`,
-              },
-            ],
-          }),
-        }
+      const response = await askAiAboutBestItem(
+        compareItems,
+        data.criteria,
+        categoryName
       );
-      const data = await response.json();
-      const parsedContent = JSON.parse(data.choices[0].message.content);
-      return parsedContent;
+      setAiRecommendation(response);
     } catch (error) {
-      console.error("Error asking AI:", error);
-      return null;
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
-
-  console.log("AI response data:", aiRecommendation);
-
-  const [loading, setLoading] = useState(false);
 
   return (
     <div
       className="abd-askAiBestItem mt-5"
       dir={currentLang === "ar" ? "rtl" : "ltr"}
     >
-      <button
-        className="abd-askAiBtn d-flex align-items-center gap-2"
-        onClick={() => {
-          setLoading(true);
-          setAiRecommendation(null);
-          askAiAboutBestItem(compareItems)
-            .then((recommendation) => {
-              setAiRecommendation(recommendation);
-            })
-            .catch((err) => {
-              console.error(err);
-              setAiRecommendation(null);
-            })
-            .finally(() => setLoading(false));
-        }}
-        disabled={loading}
-      >
-        <SiOpenai size={25} />
-        {loading ? t("Please wait...") : t("Ask AI for Recommendation")}
-      </button>
+      {/* ======================header============================== */}
+      <div className="abd-askAiBestItem-header center flex-column">
+        <div className="abd-askAiBestItem-header-title">
+          <BsStars className="abd-askAiBestItem-header-icon" />
+          <h3>AI analysis</h3>
+        </div>
+        {/* ---------------------------------------------------- */}
+        <h2>Let us find the best for you</h2>
+        {/* ------------------------------------------------------  */}
+        <p>
+          What is the most important criterion for you? Choose one of the
+          criteria and the smart assistant will analyze the devices and suggest
+          the best option.
+        </p>
+        {/* ---------------------checkbox-form---------------------------------  */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="abd-askAiBestItem-form"
+        >
+          <div className="abd-askAiBestItem-form-criteria center flex-wrap gap-2">
+            {criteriaList.map((item) => (
+              <React.Fragment key={item.key}>
+                <label
+                  htmlFor={item.key}
+                  className={`abd-form-label${
+                    selectedCriteria === item.key ? " selected" : ""
+                  }`}
+                  onClick={() => setSelectedCriteria(item.key)}
+                >
+                  {item.label}
+                </label>
 
-      <div className="abd-AiResponseContainer">
-        {!loading && !aiRecommendation && (
-          <div>
-            {t(
-              "Please Click the button above to get the best product recommendation."
-            )}
+                <input
+                  type="radio"
+                  id={item.key}
+                  {...register("criteria")}
+                  value={item.key}
+                  hidden
+                />
+              </React.Fragment>
+            ))}
           </div>
-        )}
+          {/* ------------------submit-------------- */}
+          <button
+            type="submit"
+            disabled={loading || !selectedCriteria}
+            className="abd-ai-form-submit mx-auto"
+            title="Please select once of criteria"
+          >
+            <SiOpenai className="abd-askAiBestItem-form-icon" />
+
+            {!selectedCriteria
+              ? "Please select a criterion"
+              : loading
+              ? "Analyzing..."
+              : "Find the best"}
+          </button>
+        </form>
+      </div>
+      {/* ======================body============================== */}
+      <div className="abd-askAiBestItem-body">
         {loading ? (
-          <div className="d-flex align-items-center gap-2">
-            <div className="spinner-border" role="status"></div>{" "}
-            <span>{t("loading...")}</span>
-          </div>
+          <AiLoader />
+        ) : aiRecommendation ? (
+          <BestItemResponse aiRecommendation={aiRecommendation} />
         ) : (
-          aiRecommendation && (
-            <>
-              <div className="abd-AiResponse">
-                <div className="abd-AiResponseLabel">
-                  {t("The best product is:")}
-                </div>
-                <div className="abd-AiResponseContent">
-                  {aiRecommendation.name}
-                </div>
-              </div>
-              <div className="abd-AiResponse">
-                <div className="abd-AiResponseLabel">{t("Because:")}</div>
-                <div className="abd-AiResponseContent">
-                  {aiRecommendation.message}
-                </div>
-              </div>
-            </>
-          )
+          <p className="text-center text-muted fs-5 mt-4">
+            No recommendation found yet.
+            <br />
+            Please select your most important criterion and click "Find the
+            best" to get a smart suggestion!
+          </p>
         )}
       </div>
     </div>
