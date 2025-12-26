@@ -9,15 +9,15 @@ import "./HeroSlider.css";
 const slides = [
   {
     imageUrl:
-      "https://res.cloudinary.com/dfigu6nnn/image/upload/v1762698938/1_ux2qjk.webp",
+      "https://res.cloudinary.com/dj1omur11/image/upload/v1766781700/HeroSlider1_njn5af.jpg",
   },
   {
     imageUrl:
-      "https://res.cloudinary.com/dj1omur11/image/upload/v1766769540/ChatGPT_Image_Dec_26_2025_06_46_07_PM_2_dkn6yh.png",
+      "https://res.cloudinary.com/dj1omur11/image/upload/v1766777928/HeroSlider2.1_iarmdz.png",
   },
   {
     imageUrl:
-      "https://res.cloudinary.com/dfigu6nnn/image/upload/v1762698938/2_qve5cv.webp",
+      "https://res.cloudinary.com/dj1omur11/image/upload/v1766780241/HeroSlider3.1_knaqm9.jpg",
   },
   {
     imageUrl:
