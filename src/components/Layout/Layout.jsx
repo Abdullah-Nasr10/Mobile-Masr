@@ -2,6 +2,7 @@ import Navbar from "../NavbarComponents/Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import { Outlet, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import ChatFeature from "../ChatFeature/ChatFeature";
 import { useEffect, useState } from "react";
 import { fetchProductsData } from "../../store/slices/ProductSlice";
 import { fetchWishlist } from "../../store/slices/WishlistSlice";
@@ -12,6 +13,7 @@ import IsLoginContext from "../../context/IsLoginContext";
 import checkAuth from "../../utilities/checkAuth";
 import { useTranslation } from "react-i18next";
 import { setLanguage } from "../../store/slices/languageSlice";
+import { AiProvider } from "../../context/AiContext";
 // ============================================================
 function Layout() {
   const dispatch = useDispatch();
@@ -84,6 +86,7 @@ function Layout() {
 
   return (
     <>
+    <AiProvider>
       <IsLoginContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
         <Navbar />
         <CompareContext.Provider value={{ compareItems, setCompareItems }}>
@@ -99,8 +102,11 @@ function Layout() {
             pauseOnHover
           />
         </CompareContext.Provider>
+        {pathname !== "/comparison" && <ChatFeature />}
         <Footer />
       </IsLoginContext.Provider>
+    </AiProvider>
+
     </>
   );
 }
