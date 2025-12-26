@@ -67,6 +67,8 @@ const usersSlice = createSlice({
       state.user = null;
       state.token = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.dispatchEvent(new CustomEvent("userChanged", { detail: null }));
     },
     setCredentials: (state, action) => {
       state.user = action.payload.user;
@@ -82,6 +84,10 @@ const usersSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
+      if (action.payload.user) {
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        window.dispatchEvent(new CustomEvent("userChanged", { detail: action.payload.user }));
+      }
     });
     builder.addCase(registerUser.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
 
@@ -92,6 +98,10 @@ const usersSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
+      if (action.payload.user) {
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        window.dispatchEvent(new CustomEvent("userChanged", { detail: action.payload.user }));
+      }
     });
     builder.addCase(loginUser.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
 
@@ -102,6 +112,10 @@ const usersSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       if (action.payload.token) localStorage.setItem("token", action.payload.token);
+      if (action.payload.user) {
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        window.dispatchEvent(new CustomEvent("userChanged", { detail: action.payload.user }));
+      }
     });
     builder.addCase(googleLogin.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
 
@@ -110,6 +124,10 @@ const usersSlice = createSlice({
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
       state.loading = false;
       state.user = action.payload.user || action.payload;
+      if (state.user) {
+        localStorage.setItem("user", JSON.stringify(state.user));
+        window.dispatchEvent(new CustomEvent("userChanged", { detail: state.user }));
+      }
     });
     builder.addCase(fetchUserProfile.rejected, (state, action) => { state.loading = false; state.error = action.payload?.message; });
   },
