@@ -93,15 +93,18 @@ export const getFilterGroups = (category, availableProducts) => {
 // Find brand name from product by ID
 export const findBrandNameById = (availableProducts, brandId) => {
   const product = availableProducts.find((p) => {
-    const id = typeof p.brand === "object" ? p.brand._id : null;
-    return id === brandId;
+    if (!p || !p.brand) return false;
+    if (typeof p.brand === "object" && p.brand !== null && "_id" in p.brand) {
+      return p.brand._id === brandId;
+    }
+    return false;
   });
-  
-  if (product) {
+
+  if (product && product.brand) {
     return typeof product.brand === "object"
       ? product.brand.name
       : product.brand;
   }
-  
+
   return null;
 };
