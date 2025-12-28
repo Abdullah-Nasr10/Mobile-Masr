@@ -11,16 +11,16 @@ function ReviewCard({ name, comment, rating }) {
         {Array.from({ length: 5 }).map((_, i) => (
           <FaStar
             key={i}
-            size={18}
+            size={16}
             color={i < rating ? "var(--orange-color)" : "var(--border-color)"}
           />
         ))}
       </div>
       <div className="userIcon">
-        <FaUser size={32} />
+        <FaUser size={30} />
       </div>
       <div className="quoteIcon">
-        <RiDoubleQuotesL size={35} />
+        <RiDoubleQuotesL size={30} />
       </div>
     </div>
   );

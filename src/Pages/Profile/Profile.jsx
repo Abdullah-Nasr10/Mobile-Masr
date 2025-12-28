@@ -67,7 +67,7 @@ function Profile() {
                 <span>{t("My Purchases")}</span>
               </NavLink>
 
-              <NavLink
+              {/* <NavLink
                 to="/profile/refunds"
                 className={({ isActive }) =>
                   isActive ? "profile-nav-link active" : "profile-nav-link"
@@ -105,7 +105,7 @@ function Profile() {
               >
                 <FaBell className="profile-nav-icon" />
                 <span>{t("Notifications")}</span>
-              </NavLink>
+              </NavLink> */}
 
               <button
                 onClick={handleLogout}
