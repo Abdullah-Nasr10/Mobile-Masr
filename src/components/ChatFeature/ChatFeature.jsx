@@ -26,7 +26,9 @@ export default function ChatFeature() {
   // إضافة تحية داخل الشات عند فتحه
   useEffect(() => {
     if (isOpen) {
-      const lastGreetingAt = Number(localStorage.getItem("lastGreetingAt") || 0);
+      const lastGreetingAt = userInfo?._id
+        ? Number(sessionStorage.getItem(`lastGreetingAt:${userInfo._id}`) || 0)
+        : 0; // لا نحفظ للضيوف
       const justOpened = Date.now() - lastGreetingAt > 60000; // دقيقة على الأقل بين التحيات
       const needsGreeting = messages.length === 0 || justOpened;
       if (needsGreeting) {
@@ -104,8 +106,8 @@ export default function ChatFeature() {
         <div className="chat-window bg-white d-flex flex-column overflow-hidden">
           {/* Header */}
           <div className="chat-header text-white p-3 d-flex justify-content-between align-items-start gap-3">
-            <div className="chat-header-content grow">
-              <h3 className="fs-5 fw-bold mb-1">AI Assistant</h3>
+            <div className="chat-header-content ">
+              <h3 className="fs-5 fw-bold"><span>🤖</span> AI Assistant</h3>
               <p className="mb-0" style={{fontSize: '1.1rem', opacity: 0.95}}>Your helper in choosing the best products 🛍️</p>
             </div>
             <div className="chat-header-actions d-flex gap-2">
@@ -218,7 +220,7 @@ export default function ChatFeature() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Type your question here... (Ctrl+Enter to send)"
+              placeholder="Type your question here... "
               disabled={loading}
               rows="2"
               style={{resize: 'none', maxHeight: '70px'}}
@@ -230,9 +232,9 @@ export default function ChatFeature() {
               title="Send message"
             >
               {loading ? "⏳" : (
-                <svg className="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path d="M2 21l21-9L2 3v7l15 2-15 2v7z" />
-                </svg>
+                <a className="button-footer">
+                  ➤
+                </a>
               )}
             </button>
           </div>

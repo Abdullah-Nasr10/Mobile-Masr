@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useRef } from "react";
 import { askAI } from "../services/aiApi";
 
 export const AiContext = createContext();
@@ -8,8 +8,50 @@ export const AiProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [productsUsed, setProductsUsed] = useState(0);
   const [userInfo, setUserInfo] = useState(null);
+  const sessionUserKeyRef = useRef("guest");
 
-  // الترحيب عند التحميل
+  // Helpers for session-scoped storage
+  const getSessionKey = (user) => `chatMessages:${user?._id || "guest"}`;
+  const getLastGreetingKey = (user) => `lastGreetingAt:${user?._id || "guest"}`;
+  const loadChatFromSession = (user) => {
+    try {
+      const raw = sessionStorage.getItem(getSessionKey(user));
+      if (!raw) return [];
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+      console.log("Error loading chat from session");
+      return [];
+    }
+  };
+  const saveChatToSession = (user, msgs) => {
+    try {
+      const toSave = Array.isArray(msgs) ? msgs.slice(-50) : [];
+      sessionStorage.setItem(getSessionKey(user), JSON.stringify(toSave));
+    } catch (e) {
+      console.log("Error saving chat to session");
+    }
+  };
+  const clearChatFromSession = (user) => {
+    try {
+      sessionStorage.removeItem(getSessionKey(user));
+    } catch (e) {
+      console.log("Error clearing chat from session");
+    }
+  };
+  const clearAllChatSessions = () => {
+    try {
+      const keys = Object.keys(sessionStorage);
+      keys.forEach((k) => {
+        if (k.startsWith("chatMessages:")) sessionStorage.removeItem(k);
+        if (k.startsWith("lastGreetingAt:")) sessionStorage.removeItem(k);
+      });
+    } catch (e) {
+      console.log("Error clearing all chat sessions");
+    }
+  };
+
+  // Initialize on load: set user and load chat from session
   useEffect(() => {
     const initializeAI = async () => {
       const userData = localStorage.getItem("user");
@@ -23,54 +65,66 @@ export const AiProvider = ({ children }) => {
           console.log("Error reading user data");
         }
       }
-
-      // تحميل الرسائل القديمة إن وجدت
-      const savedMessages = localStorage.getItem("chatMessages");
-      if (savedMessages) {
-        try {
-          const oldMessages = JSON.parse(savedMessages);
-          
-          // التأكد من أن الرسائل صالحة
-          if (Array.isArray(oldMessages) && oldMessages.length > 0) {
-            setMessages(oldMessages);
-            return;
-          }
-        } catch (e) {
-          console.log("Error loading old messages");
-        }
+      // Only load persisted chat if logged-in
+      if (parsedUser && parsedUser._id) {
+        sessionUserKeyRef.current = parsedUser._id;
+        const existing = loadChatFromSession(parsedUser);
+        setMessages(existing || []);
+      } else {
+        sessionUserKeyRef.current = "guest";
+        setMessages([]);
       }
-
-      // إذا لم يكن هناك رسائل محفوظة، ابدأ بقائمة فارغة
-      setMessages([]);
     };
 
     initializeAI();
   }, []);
 
-  // مراقبة تغيير بيانات المستخدم في localStorage
+  // Listen to user changes and manage session linkage
   useEffect(() => {
     const handleUserChange = (event) => {
       const userData = event.detail || localStorage.getItem("user");
       if (userData && typeof userData === 'string') {
         try {
           const parsedUser = JSON.parse(userData);
+          const prevKey = sessionUserKeyRef.current;
+          const nextKey = parsedUser?._id || "guest";
+          // If user changed (login or switch), keep current messages and migrate to new session key
+          if (prevKey !== nextKey) {
+            saveChatToSession(parsedUser, messages);
+            sessionUserKeyRef.current = nextKey;
+          }
           setUserInfo(parsedUser);
-          // عند اللوجين: مسح المحادثة القديمة
-          setMessages([]);
-          localStorage.removeItem("chatMessages");
+          // Load any existing chat for this user
+          const existing = loadChatFromSession(parsedUser);
+          if (existing && existing.length > 0) {
+            setMessages(existing);
+          } else {
+            // keep current messages if present, otherwise start empty
+            setMessages((curr) => curr);
+          }
         } catch (e) {
           console.log("Error parsing user data");
         }
       } else if (userData && typeof userData === 'object') {
+        const prevKey = sessionUserKeyRef.current;
+        const nextKey = userData?._id || "guest";
+        if (prevKey !== nextKey) {
+          saveChatToSession(userData, messages);
+          sessionUserKeyRef.current = nextKey;
+        }
         setUserInfo(userData);
-        // عند اللوجين: مسح المحادثة القديمة
-        setMessages([]);
-        localStorage.removeItem("chatMessages");
+        const existing = loadChatFromSession(userData);
+        if (existing && existing.length > 0) {
+          setMessages(existing);
+        } else {
+          setMessages((curr) => curr);
+        }
       } else {
-        // عند اللوج أوت: مسح كل شيء
+        // Logout: clear messages and all session keys
         setUserInfo(null);
         setMessages([]);
-        localStorage.removeItem("chatMessages");
+        clearAllChatSessions();
+        sessionUserKeyRef.current = "guest";
       }
     };
 
@@ -135,14 +189,15 @@ export const AiProvider = ({ children }) => {
 
   const clearMessages = () => {
     setMessages([]);
-    localStorage.removeItem("chatMessages");
+    if (userInfo && userInfo._id) {
+      clearChatFromSession(userInfo);
+    }
   };
 
   const saveMessages = () => {
+    if (!userInfo || !userInfo._id) return; // do not persist for guests
     if (messages.length > 0) {
-      // حفظ فقط آخر 10 رسالة لتجنب ملء الذاكرة
-      const messagesToSave = messages.slice(-10);
-      localStorage.setItem("chatMessages", JSON.stringify(messagesToSave));
+      saveChatToSession(userInfo, messages);
     }
   };
 
@@ -158,8 +213,10 @@ export const AiProvider = ({ children }) => {
     };
     setMessages((prev) => {
       const next = [...prev, msg];
-      localStorage.setItem("chatMessages", JSON.stringify(next.slice(-30)));
-      localStorage.setItem("lastGreetingAt", Date.now().toString());
+      if (userInfo && userInfo._id) {
+        saveChatToSession(userInfo, next);
+        sessionStorage.setItem(getLastGreetingKey(userInfo), Date.now().toString());
+      }
       return next;
     });
   };
