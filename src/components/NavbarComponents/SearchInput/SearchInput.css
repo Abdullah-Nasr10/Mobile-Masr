@@ -126,7 +126,7 @@
     margin-top: 0.5rem;
     max-height: 320px;
     overflow-y: auto;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px #0000001a;
     z-index: 1000;
 }
 

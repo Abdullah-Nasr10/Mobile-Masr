@@ -10,19 +10,21 @@ const BrandsCarousel = ({ category, onBrandClick, selectedBrand }) => {
   const allProducts = useSelector((state) => state?.products?.data || []);
 
   useEffect(() => {
-    if (!allProducts.length || !category) return;
+    if (!allProducts.length) return;
 
-    // Normalize category name
-    const normalizedCategory = category.toLowerCase().replace(/-/g, " ").trim();
+    // Normalize category name; treat "all" (or missing) as no category filter
+    const normalizedCategory = (category || "").toLowerCase().replace(/-/g, " ").trim();
 
-    // Filter products by category
-    const categoryProducts = allProducts.filter((product) => {
-      const productCategory = product?.category?.name?.toLowerCase() || "";
-      return (
-        productCategory.includes(normalizedCategory) ||
-        normalizedCategory.includes(productCategory)
-      );
-    });
+    const categoryProducts =
+      !normalizedCategory || normalizedCategory === "all"
+        ? allProducts
+        : allProducts.filter((product) => {
+            const productCategory = product?.category?.name?.toLowerCase() || "";
+            return (
+              productCategory.includes(normalizedCategory) ||
+              normalizedCategory.includes(productCategory)
+            );
+          });
 
     // Extract unique brands
     const uniqueBrands = [];
@@ -64,7 +66,7 @@ const BrandsCarousel = ({ category, onBrandClick, selectedBrand }) => {
             <SwiperSlide key={brand._id}>
               <div
                 className={`mos-brand-card ${
-                  selectedBrand === brand._id ? "active" : ""
+                  String(selectedBrand) === String(brand._id) ? "active" : ""
                 }`}
                 onClick={() => onBrandClick(brand._id)}
               >
