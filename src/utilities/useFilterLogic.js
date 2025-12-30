@@ -74,25 +74,46 @@ export const applyFilters = (products, filters, selectedBrand) => {
   let filteredProducts = [...products];
   const { norm, readAttr, normalizeText, normalizeCapacity, getValues } = filterHelpers;
 
-  // Apply selected brand from carousel
-  if (selectedBrand) {
+  // Normalize helpers to avoid case / id mismatches between carousel + sidebar filters
+  const normalizeBrandName = (val) => normalizeText(norm(val));
+  const normalizeBrandId = (val) => String(val ?? "").toLowerCase().trim();
+
+  const hasSidebarBrands = filters.brands.length > 0;
+  const sidebarBrands = hasSidebarBrands
+    ? filters.brands.map((value) => ({
+        name: normalizeBrandName(value),
+        id: normalizeBrandId(value),
+      }))
+    : [];
+
+  // Apply selected brand from carousel (only when sidebar brands are not set)
+  if (selectedBrand && !hasSidebarBrands) {
+    const selectedName = normalizeBrandName(selectedBrand);
+    const selectedId = normalizeBrandId(selectedBrand);
+
     filteredProducts = filteredProducts.filter((p) => {
       const brandObj = p && typeof p.brand === "object" ? p.brand : null;
-      const brandName = norm(brandObj ? brandObj.name : p?.brand);
-      const brandId = brandObj ? brandObj._id : null;
-      return brandName === selectedBrand || brandId === selectedBrand;
+      const brandName = normalizeBrandName(brandObj ? brandObj.name : p?.brand);
+      const brandId = normalizeBrandId(brandObj ? brandObj._id : null);
+      return (
+        (selectedName && brandName === selectedName) ||
+        (selectedId && brandId === selectedId)
+      );
     });
   }
 
-  // Apply brand filter from sidebar
-  if (filters.brands.length > 0) {
+  // Apply brand filter from sidebar (supports brand name or id values)
+  if (hasSidebarBrands) {
     filteredProducts = filteredProducts.filter((p) => {
       const brandObj = p && typeof p.brand === "object" ? p.brand : null;
-      const brandName = norm(brandObj ? brandObj.name : p?.brand).toLowerCase();
-      return filters.brands
-        .map(norm)
-        .map((s) => s.toLowerCase())
-        .includes(brandName);
+      const brandName = normalizeBrandName(brandObj ? brandObj.name : p?.brand);
+      const brandId = normalizeBrandId(brandObj ? brandObj._id : null);
+
+      return sidebarBrands.some(
+        (b) =>
+          (b.name && brandName === b.name) ||
+          (b.id && brandId === b.id)
+      );
     });
   }
 

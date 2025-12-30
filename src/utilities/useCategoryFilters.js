@@ -63,7 +63,8 @@ export const useCategoryFilters = (
           }
         }
       }
-      setSelectedBrand(foundBrandId || brandsParam);
+      const normalized = foundBrandId ? String(foundBrandId) : String(brandsParam);
+      setSelectedBrand(normalized);
     } else if (brandsParam && brandsParam.includes(",")) {
       setSelectedBrand(null);
     }
@@ -102,7 +103,7 @@ export const useCategoryFilters = (
   // Brand select from carousel
   const handleBrandSelect = useCallback(
     (brandId) => {
-      setSelectedBrand(brandId);
+      setSelectedBrand(String(brandId));
 
       let brandNameForUrl = null;
       const categoryProducts = filterProductsByCategory(allProducts, category);
@@ -156,6 +157,11 @@ export const useCategoryFilters = (
 
       setFilters(newFilters);
 
+      // If user chose brands from sidebar, drop carousel brand to avoid overriding URL with id
+      if (newFilters.brands.length > 0) {
+        setSelectedBrand(null);
+      }
+
       let brandValueForUrl = null;
       if (newFilters.brands.length === 0 && selectedBrand) {
         const categoryProducts = filterProductsByCategory(allProducts, category);
@@ -175,7 +181,7 @@ export const useCategoryFilters = (
       const params = buildUrlParams(
         newFilters,
         sortBy,
-        brandValueForUrl,
+        newFilters.brands.length > 0 ? null : brandValueForUrl,
         1,
         searchQuery
       );

@@ -18,9 +18,11 @@ export const buildUrlParams = (
   /* -----------------------------------------------------------
        BRAND HANDLING (carousel OR sidebar)
   ----------------------------------------------------------- */
-  if (selectedBrand || (filters.brands && filters.brands.length > 0)) {
-    params.brands =
-      selectedBrand || filters.brands.join(",");
+  // Prefer sidebar brands (names) if present; otherwise fall back to carousel selection
+  if (filters.brands && filters.brands.length > 0) {
+    params.brands = filters.brands.join(",");
+  } else if (selectedBrand) {
+    params.brands = selectedBrand;
   }
 
   /* -----------------------------------------------------------
