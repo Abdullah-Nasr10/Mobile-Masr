@@ -9,8 +9,8 @@ import { useSelector } from "react-redux";
 
 const slides = [
   {
-    en: "https://res.cloudinary.com/dj1omur11/image/upload/v1766781700/HeroSlider1_njn5af.jpg",
-    ar: "https://res.cloudinary.com/dj1omur11/image/upload/v1766781700/HeroSlider1_njn5af.jpg", // عدل هذا لاحقًا
+    en: "https://res.cloudinary.com/dj1omur11/image/upload/v1767216162/HeroSlider1_1_iu5w8w.jpg",
+    ar: "https://res.cloudinary.com/dj1omur11/image/upload/v1767216165/HeroSlider1.2_1_gcly98.png", // عدل هذا لاحقًا
   },
   {
     en: "https://res.cloudinary.com/dj1omur11/image/upload/v1766777928/HeroSlider2.1_iarmdz.png",
@@ -18,7 +18,7 @@ const slides = [
   },
   {
     en: "https://res.cloudinary.com/dj1omur11/image/upload/v1766780241/HeroSlider3.1_knaqm9.jpg",
-    ar: "https://res.cloudinary.com/dj1omur11/image/upload/v1766780241/HeroSlider3.1_knaqm9.jpg", // عدل هذا لاحقًا
+    ar: "https://res.cloudinary.com/dj1omur11/image/upload/v1767215698/HeroSlider3.2_1_eihpr8.png", // عدل هذا لاحقًا
   },
   {
     en: "https://res.cloudinary.com/dfigu6nnn/image/upload/v1762698939/5_xfim4d.webp",
