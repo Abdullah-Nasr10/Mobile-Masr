@@ -29,7 +29,7 @@ const productSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(fetchProductsData.fulfilled, (state, action) => {
-                state.data = action.payload;
+                state.data = Array.isArray(action.payload) ? action.payload : [];
                 state.isLoading = false;
                 state.error = null;
             })

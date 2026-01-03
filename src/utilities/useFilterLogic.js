@@ -48,7 +48,7 @@ export const filterHelpers = {
 
 // Filter products by category
 export const filterProductsByCategory = (allProducts, category) => {
-  if (!allProducts.length) return [];
+  if (!Array.isArray(allProducts) || !allProducts.length) return [];
 
   const normalizedCategory = category?.toLowerCase().replace(/-/g, " ").trim();
 
@@ -71,6 +71,7 @@ export const filterProductsByCategory = (allProducts, category) => {
 
 // Apply all filters to products
 export const applyFilters = (products, filters, selectedBrand) => {
+  if (!Array.isArray(products)) return [];
   let filteredProducts = [...products];
   const { norm, readAttr, normalizeText, normalizeCapacity, getValues } = filterHelpers;
 
@@ -81,9 +82,9 @@ export const applyFilters = (products, filters, selectedBrand) => {
   const hasSidebarBrands = filters.brands.length > 0;
   const sidebarBrands = hasSidebarBrands
     ? filters.brands.map((value) => ({
-        name: normalizeBrandName(value),
-        id: normalizeBrandId(value),
-      }))
+      name: normalizeBrandName(value),
+      id: normalizeBrandId(value),
+    }))
     : [];
 
   // Apply selected brand from carousel (only when sidebar brands are not set)
@@ -131,16 +132,16 @@ export const applyFilters = (products, filters, selectedBrand) => {
       'new': ['new', 'جديد', 'New'],
       'used': ['used', 'مستعمل', 'Used']
     };
-    
+
     filteredProducts = filteredProducts.filter((p) => {
       const condDirect = norm(p.condition || p.type || p.status).toLowerCase().trim();
       const filterCond = filters.condition.toLowerCase().trim();
-      
+
       // Get all possible values for this filter
       const possibleValues = conditionMap[filterCond] || [filterCond];
-      
+
       // Check if product condition matches any possible value
-      return possibleValues.some(val => 
+      return possibleValues.some(val =>
         condDirect === val.toLowerCase() || condDirect === norm(val).toLowerCase()
       );
     });
@@ -181,7 +182,7 @@ export const applyFilters = (products, filters, selectedBrand) => {
     filteredProducts = filteredProducts.filter((p) => {
       const ssdValues = getValues(
         p.ssd ||
-          (p.category?.name?.toLowerCase().includes("laptop") ? p.storage : null)
+        (p.category?.name?.toLowerCase().includes("laptop") ? p.storage : null)
       );
       const normalizedSsd = ssdValues.filter(Boolean).map(normalizeCapacity);
       const selectedSsd = filters.ssd.map(normalizeCapacity);

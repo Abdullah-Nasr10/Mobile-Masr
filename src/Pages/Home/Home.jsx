@@ -15,11 +15,11 @@ import { useEffect } from "react";
 import axios from "axios";
 
 function Home() {
-   useEffect(() => {
+  useEffect(() => {
     axios.post("http://localhost:3000/track").catch(() => {});
   }, []);
   const { t } = useTranslation();
-  const allProducts = useSelector((store) => store.products.data);
+  const allProducts = useSelector((store) => store.products.data) || [];
   const isLoading = useSelector((store) => store.products.isLoading);
   if (isLoading && allProducts.length === 0) {
     return <Loader />;

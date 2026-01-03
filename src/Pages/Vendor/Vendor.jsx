@@ -18,7 +18,7 @@ function Vendor() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const allProducts = useSelector((store) => store.products.data);
+  const allProducts = useSelector((store) => store.products.data) || [];
   const vendor = useSelector((store) => store.vendors.data);
   const currentLang = useSelector((state) => state.language.currentLang);
 
