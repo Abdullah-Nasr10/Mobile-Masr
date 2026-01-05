@@ -5,6 +5,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function OrderSuccess() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ function OrderSuccess() {
   const verifyStripePayment = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/stripe/verify-session?session_id=${sessionId}`,
+        `${API_URL}/stripe/verify-session?session_id=${sessionId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

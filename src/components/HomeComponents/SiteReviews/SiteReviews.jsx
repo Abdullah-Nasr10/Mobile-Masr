@@ -10,6 +10,8 @@ import AddReview from "./AddReview/AddReview";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function MobileReviewsStatic() {
   const [reviews, setReviews] = useState([]);
   const { t } = useTranslation();
@@ -17,7 +19,7 @@ export default function MobileReviewsStatic() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/reviews");
+        const res = await axios.get(`${API_URL}/reviews`);
         setReviews(res.data);
       } catch (err) {
         console.log(err);

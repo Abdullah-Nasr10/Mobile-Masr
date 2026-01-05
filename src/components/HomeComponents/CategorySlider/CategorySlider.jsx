@@ -7,13 +7,15 @@ import axios from "axios";
 import "./CategorySlider.css";
 import { useTranslation } from "react-i18next";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CategorySlider = () => {
   const [categories, setCategories] = useState([]);
   const { t } = useTranslation();
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/categories");
+        const res = await axios.get(`${API_URL}/categories`);
         setCategories(res.data);
       } catch (err) {
         console.error("Error fetching categories:", err);

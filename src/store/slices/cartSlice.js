@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const BASE_URL = "http://localhost:3000/cart";
+const API_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = `${API_URL}/cart`;
 
 const authHeaders = () => {
     const token = localStorage.getItem("token");

@@ -7,6 +7,9 @@ import { createOrder } from "../../../../store/slices/orderSlice";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 function BillingDetailsForm() {
   const { t } = useTranslation();
   const {
@@ -25,26 +28,23 @@ function BillingDetailsForm() {
     try {
       // If payment method is online (Stripe)
       if (data.paymentMethod === "online") {
-        const res = await fetch(
-          "http://localhost:3000/stripe/create-checkout-session",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+        const res = await fetch(`${API_URL}/stripe/create-checkout-session`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            shippingAddress: {
+              fullName: data.fullName,
+              phone: data.phone,
+              governorate: data.governorate,
+              city: data.city,
+              street: data.street,
+              notes: data.notes || "",
             },
-            body: JSON.stringify({
-              shippingAddress: {
-                fullName: data.fullName,
-                phone: data.phone,
-                governorate: data.governorate,
-                city: data.city,
-                street: data.street,
-                notes: data.notes || "",
-              },
-            }),
-          }
-        );
+          }),
+        });
 
         const result = await res.json();
 

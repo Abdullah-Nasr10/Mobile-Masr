@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function ReviewModal({ show, handleClose }) {
   const [rating, setRating] = useState(4);
   const [comment, setComment] = useState("");
@@ -20,7 +22,7 @@ export default function ReviewModal({ show, handleClose }) {
       return;
     }
 
-    const res = await fetch("http://localhost:3000/reviews", {
+    const res = await fetch(`${API_URL}/reviews`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

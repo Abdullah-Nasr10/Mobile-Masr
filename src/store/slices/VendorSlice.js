@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-// http://localhost:3000/vendors/:id
+const API_URL = import.meta.env.VITE_API_URL;
+
 const fetchData = async (id) => {
   try {
-    const response = await fetch(`http://localhost:3000/vendors/${id}`);
+    const response = await fetch(`${API_URL}/vendors/${id}`);
     const result = await response.json();
     // لو الـ API رجع object مفرد، حوّله array
     return result
