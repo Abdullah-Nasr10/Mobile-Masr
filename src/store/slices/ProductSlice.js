@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-// http://localhost:3000/products
+const API_URL = import.meta.env.VITE_API_URL;
 
 const fetchData = async (lang = "en") => {
     try {
-        const data = await fetch(`http://localhost:3000/products?lang=${lang}`);
+        const data = await fetch(`${API_URL}/products?lang=${lang}`);
         const result = await data.json();
         return result.data;
     } catch (error) {

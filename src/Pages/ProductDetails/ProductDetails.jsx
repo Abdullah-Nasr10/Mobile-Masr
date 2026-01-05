@@ -8,6 +8,8 @@ import ProductInfo from "../../components/ProductDetailsComponents/ProductInfo/P
 import ProductAdditionalInfo from "../../components/ProductDetailsComponents/ProductAdditionalInfo/ProductAdditionalInfo";
 import { useSelector } from "react-redux";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ function ProductDetails() {
     const fetchProductDetails = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/products/${id}?lang=${currentLang}`
+          `${API_URL}/products/${id}?lang=${currentLang}`
         );
         const data = await response.json();
 

@@ -1,7 +1,9 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 const checkAuth = async (token, signal) => {
     if (!token) return false;
     try {
-        const res = await fetch("http://localhost:3000/auth/check", {
+        const res = await fetch(`${API_URL}/auth/check`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +31,7 @@ export default checkAuth;
 // import { toast } from "react-toastify";
 // const checkAuth = async () => {
 //     try {
-//         const res = await fetch(`http://localhost:3000/auth/check`, {
+//         const res = await fetch(`https://backend-mobile-masr.vercel.app/auth/check`, {
 //             method: "GET",
 //             headers: {
 //                 "Content-Type": "application/json",

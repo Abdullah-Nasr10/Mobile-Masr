@@ -14,9 +14,11 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Home() {
   useEffect(() => {
-    axios.post("http://localhost:3000/track").catch(() => {});
+    axios.post(`${API_URL}/track`).catch(() => {});
   }, []);
   const { t } = useTranslation();
   const allProducts = useSelector((store) => store.products.data) || [];
